@@ -1,0 +1,16 @@
+.chats::-webkit-scrollbar {
+  width: 12px;
+}
+
+.chats::-webkit-scrollbar-track {
+  
+}
+
+.chats::-webkit-scrollbar-thumb {
+	/*border-right:2px solid #0B0C10; */
+	background-color: rgba(73, 73, 73, 0.2);
+}
+
+.chats::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
