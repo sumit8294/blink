@@ -1,5 +1,5 @@
 import ReelPostItems from './ReelPostItems';
-import {useRef} from 'react';
+import {useRef, useEffect} from 'react';
 
 
 
@@ -9,10 +9,16 @@ const reels = [
 	{name:"badshah",videoUrl:"./assets/videos/video4.mp4",imageUrl:"./assets/images/users/badshah.jpg"},
 	{name:"harry",videoUrl:"./assets/videos/video5.mp4",imageUrl:"./assets/images/users/harry.jpg"},
 	{name:"louis",videoUrl:"./assets/videos/video6.mp4",imageUrl:"./assets/images/users/louis.jpg"},
-
 ]
 
-const ReelPosts = ({scrollableDivRef,pre}) =>{
+const ReelPosts = ({scrollableDivRef,pre,setReelsLength}) =>{
+
+	useEffect(()=>{
+
+		setReelsLength(reels.length);
+
+	},[reels]);
+	
 
 	return (
 

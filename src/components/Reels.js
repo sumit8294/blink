@@ -16,10 +16,11 @@ const Reels = () =>{
 
 	const [scrollPosition, setScrollPosition] = useState(0);
 	const [commentsVisibility, setCommentsVisibility] = useState(false);
-  	const [pre,setPre] = useState("0");
+	const [reelsLength,setReelsLength] = useState(0);
 	
   	const scrollableDivRef = useRef(null);
 
+  	const [pre,setPre] = useState("0");
 
 	useEffect(() => {
 
@@ -37,11 +38,18 @@ const Reels = () =>{
 
 		if(nextReelExists) { 
 
+			if(pre < reelsLength-1) {
+
 			nextReelExists.pause();
 
 			setScrollPosition(scrollableDivRef.current.scrollTop+480);
 
 			setPre(parseInt(pre)+1+'');
+
+			}
+			else{
+				setPre(reelsLength-1+'');
+			}
 
 		}
 
@@ -90,9 +98,9 @@ const Reels = () =>{
 
 						</div>
 
-						<CommentsContext.Provider value={{commentsVisibility, setCommentsVisibility}}>
+						<CommentsContext.Provider value={{commentsVisibility, setCommentsVisibility, }}>
 
-							<ReelPosts pre={pre} scrollableDivRef={scrollableDivRef} />
+							<ReelPosts pre={pre} setReelsLength={setReelsLength} scrollableDivRef={scrollableDivRef} />
 
 						</CommentsContext.Provider >
 

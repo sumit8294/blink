@@ -22,7 +22,7 @@ const ReelPostItems = ({reel,reelId,pre}) => {
 			.then(success => {})
 			.catch(error => {})
 		}
-		console.log(pre);
+		
 	}
 
 	return (

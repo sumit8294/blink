@@ -4,9 +4,7 @@ import {useEffect} from 'react';
 const ChatItems = ({user,handleActive,active}) => {
 
 	let activeUserChatBoxCss = `cursor-pointer relative flex px-4 py-2 ${ active === user.name ? 'border-y border-blink-black-2' : ''} `;
-	useEffect(()=>{
-		console.log("compo called")
-	})
+	
 	return (
 		<>
 
