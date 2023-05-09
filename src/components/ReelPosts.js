@@ -3,17 +3,17 @@ import {useRef} from 'react';
 
 
 
-const users = [
-	{name:"Niall",videoUrl:"https://www.youtube.com/embed/z4fJ9i2yNEQ",imageUrl:"./assets/images/users/niall.jpg"},
-	{name:"Karan Aujla",videoUrl:"https://youtube.com/embed/Ecl2OJRXTog",imageUrl:"./assets/images/users/karanaujla.jpg"},
-	{name:"Sidhu moosewala",videoUrl:"https://youtube.com/embed/WslpJ01UARY",imageUrl:"./assets/images/users/sidhumoosewala.jpg"},
-	{name:"badshah",videoUrl:"https://youtube.com/embed/IfA_5Xoa4qo",imageUrl:"./assets/images/users/badshah.jpg"},
-	{name:"harry",videoUrl:"https://youtube.com/embed/CMYc8q7rqoM",imageUrl:"./assets/images/users/harry.jpg"},
-	{name:"louis",videoUrl:"https://youtube.com/embed/8kggT2ej-lo",imageUrl:"./assets/images/users/louis.jpg"},
+const reels = [
+	{name:"Niall",videoUrl:"./assets/videos/video1.mp4",imageUrl:"./assets/images/users/niall.jpg"},
+	{name:"KaranAujla",videoUrl:"./assets/videos/video2.mp4",imageUrl:"./assets/images/users/karanaujla.jpg"},
+	{name:"Sidhumoosewala",videoUrl:"./assets/videos/video3.mp4",imageUrl:"./assets/images/users/sidhumoosewala.jpg"},
+	{name:"badshah",videoUrl:"./assets/videos/video4.mp4",imageUrl:"./assets/images/users/badshah.jpg"},
+	{name:"harry",videoUrl:"./assets/videos/video5.mp4",imageUrl:"./assets/images/users/harry.jpg"},
+	{name:"louis",videoUrl:"./assets/videos/video6.mp4",imageUrl:"./assets/images/users/louis.jpg"},
 
 ]
 
-const ReelPosts = ({scrollableDivRef}) =>{
+const ReelPosts = ({scrollableDivRef,pre}) =>{
 
 	return (
 
@@ -25,9 +25,9 @@ const ReelPosts = ({scrollableDivRef}) =>{
 
 					<div  ref={scrollableDivRef} className=" duration-700 reel-posts posts-container py-10 px-2 mx-auto mb-10 h-screen snap-y snap-mandatory overflow-y-auto" >
 
-						{users.map((user,i)=>{
+						{reels.map((reel,index)=>{
 
-							return <ReelPostItems key={i} user={user}/>
+							return <ReelPostItems pre={pre} reelId={index+''} key={index} reel={reel}/>
 
 						})}
 					

@@ -5,8 +5,15 @@
 /.pnp
 .pnp.js
 
+#assets
+/public/assets/videos
+
+#temporary test component
+/src/components/Test.js
+
 # testing
 /coverage
+
 
 # production
 /build
