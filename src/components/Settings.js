@@ -25,7 +25,7 @@ const Feed = () =>{
 								<div className="flex pb-4">
 
 									<div className="rounded-full w-16 h-16 overflow-hidden ">
-										<img src="./assets/images/users/sumit.jpg" alt="profile"/>
+										<img src="./assets/images/users/zyan.jpg" alt="profile"/>
 									</div>			
 
 									<label className="text-blink-blue-1 my-auto px-3 cursor-pointer" htmlFor="profile-input">Change Profile</label>

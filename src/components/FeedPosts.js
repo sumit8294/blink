@@ -3,7 +3,6 @@ import UserSuggestions from './UserSuggestions';
 
 const users = [
 	{name:"divine",imageUrl:"./assets/images/users/divine.jpg"},
-	{name:"sidhu moosewala",imageUrl:"./assets/images/users/sidhumoosewala.jpg"},
 	{name:"karan aujla",imageUrl:"./assets/images/users/karanaujla.jpg"},
 	{name:"badshah",imageUrl:"./assets/images/users/badshah.jpg"},
 	{name:"harry",imageUrl:"./assets/images/users/harry.jpg"},

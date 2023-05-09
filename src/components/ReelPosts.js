@@ -6,7 +6,6 @@ import {useRef} from 'react';
 const reels = [
 	{name:"Niall",videoUrl:"./assets/videos/video1.mp4",imageUrl:"./assets/images/users/niall.jpg"},
 	{name:"KaranAujla",videoUrl:"./assets/videos/video2.mp4",imageUrl:"./assets/images/users/karanaujla.jpg"},
-	{name:"Sidhumoosewala",videoUrl:"./assets/videos/video3.mp4",imageUrl:"./assets/images/users/sidhumoosewala.jpg"},
 	{name:"badshah",videoUrl:"./assets/videos/video4.mp4",imageUrl:"./assets/images/users/badshah.jpg"},
 	{name:"harry",videoUrl:"./assets/videos/video5.mp4",imageUrl:"./assets/images/users/harry.jpg"},
 	{name:"louis",videoUrl:"./assets/videos/video6.mp4",imageUrl:"./assets/images/users/louis.jpg"},

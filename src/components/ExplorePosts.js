@@ -3,7 +3,6 @@ import ExplorePostItems from './ExplorePostItems'
 
 const users = [
 	{name:"divine",imageUrl:"./assets/images/users/divine.jpg"},
-	{name:"sidhu moosewala",imageUrl:"./assets/images/users/sidhumoosewala.jpg"},
 	{name:"karan aujla",imageUrl:"./assets/images/users/karanaujla.jpg"},
 	{name:"badshah",imageUrl:"./assets/images/users/badshah.jpg"},
 	{name:"harry",imageUrl:"./assets/images/users/harry.jpg"},
@@ -13,7 +12,6 @@ const users = [
 	{name:"zyan",imageUrl:"./assets/images/users/zyan.jpg"},
 	{name:"ronaldo",imageUrl:"./assets/images/users/ronaldo.jpg"},
 	{name:"divine",imageUrl:"./assets/images/users/divine.jpg"},
-	{name:"sidhu moosewala",imageUrl:"./assets/images/users/sidhumoosewala.jpg"},
 	{name:"karan aujla",imageUrl:"./assets/images/users/karanaujla.jpg"},
 	{name:"badshah",imageUrl:"./assets/images/users/badshah.jpg"},
 	{name:"harry",imageUrl:"./assets/images/users/harry.jpg"},
@@ -21,8 +19,8 @@ const users = [
 	{name:"niall",imageUrl:"./assets/images/users/niall.jpg"},
 	{name:"paradox",imageUrl:"./assets/images/users/para.jpg"},
 	{name:"zyan",imageUrl:"./assets/images/users/zyan.jpg"},
-	{name:"ronaldo",imageUrl:"./assets/images/users/ronaldo.jpg"},{name:"divine",imageUrl:"./assets/images/users/divine.jpg"},
-	{name:"sidhu moosewala",imageUrl:"./assets/images/users/sidhumoosewala.jpg"},
+	{name:"ronaldo",imageUrl:"./assets/images/users/ronaldo.jpg"},
+	{name:"divine",imageUrl:"./assets/images/users/divine.jpg"},
 	{name:"karan aujla",imageUrl:"./assets/images/users/karanaujla.jpg"},
 	{name:"badshah",imageUrl:"./assets/images/users/badshah.jpg"},
 	{name:"harry",imageUrl:"./assets/images/users/harry.jpg"},
