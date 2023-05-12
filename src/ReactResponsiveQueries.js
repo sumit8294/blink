@@ -1,0 +1,1 @@
+export const mobileMediaQuery = { query: '(max-width: 768px)' };

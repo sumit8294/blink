@@ -3,9 +3,9 @@ import UserImage from './UserImage';
 const HeaderProfile = () =>{
 	return (
 		<>
-			<div className="flex">
+			<div className="flex"  >
 				<UserInbox />
-				<UserImage />
+				{/*<UserImage />*/}
 			</div>
 		</>
 	)

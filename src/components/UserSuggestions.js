@@ -1,6 +1,8 @@
 import FeedPostItems from './FeedPostItems';
 import SuggestionItem from './SuggestionItem';
 
+
+import './usersuggesstion.css'
 const users = [
 	{name:"harry",imageUrl:"./assets/images/users/harry.jpg"},
 	{name:"louis",imageUrl:"./assets/images/users/louis.jpg"},
@@ -12,13 +14,13 @@ const users = [
 const UserSuggestions = () =>{
 	return (
 		<>
-			<div className=" px-2 py-4">
+			<div className=" mr-2 ml-1 my-2 bg-blink-black-2 rounded-2xl">
 
-				<div className="suggestion-head py-2 text-sm flex justify-between">
+				<div className="suggestion-head py-3 px-3 text-sm flex justify-between">
 
-					<h3 className="poppins text-blink-gray-1 font-semibold py-2">Suggested for you</h3>
+					<h3 className="poppins text-blink-gray-1 font-semibold mt-2">Suggested for you</h3>
 
-					<button className="text-blink-blue-1" >See All</button>
+					<button className="text-blink-blue-1" >see all</button>
 
 				</div>
 

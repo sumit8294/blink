@@ -29,6 +29,15 @@ module.exports = {
 			
     	},
     },
+    screens: {
+      'mobile-md': '320px',
+      'mobile-lg': '375px',
+      'tablet-sm': '540px',
+      'tablet-md': '640px',
+      'laptop-sm': '768px',
+      'laptop-lg':'1024px',
+      'laptop-xl':'1200px',
+    }
   },
   plugins: [],
 }

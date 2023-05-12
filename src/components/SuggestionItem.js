@@ -2,21 +2,21 @@
 const SuggestionItem = ({user}) =>{
 	return (
 		<>
-			<div className="flex px-2 py-2">
+			<div className="flex py-2 px-3 justify-between border-b last:border-none border-blink-black-3">
 
-				<div className="post-image h-12 my-auto w-12 rounded-full text-center overflow-hidden" >
+				<div className="flex">
 
-					<img className="w-full"  src={user.imageUrl} alt="images" />
+					<div className="post-image shrink-0 h-12 my-auto w-12 rounded-full text-center overflow-hidden" >
 
-				</div>
+						<img className="w-full"  src={user.imageUrl} alt="images" />
 
-				<div className="">
+					</div>
 
-					<div className="px-2 py-2 ">
+					<div className="px-2 py-1">
 						
-						<span className="block"> 
+						<span className="block text-[1em] tracking-wide font-normal text-white"> 
 							
-							<b className=" tracking-wide font-normal text-white"> {user.name} </b>
+							{user.name} 
 
 						</span>
 
@@ -25,8 +25,6 @@ const SuggestionItem = ({user}) =>{
 							<span className="tracking-wide"> Followed by </span>
 
 							<span className="text-white"> harry, </span>
-
-							<span className="text-white"> divine and </span>
 							
 							<span className="text-white"> karan... </span>
 
@@ -36,7 +34,7 @@ const SuggestionItem = ({user}) =>{
 				
 				</div>
 
-				<div className="text-[12px] text-blink-blue-1 flex content-center">
+				<div className="text-[12px]  text-blink-blue-1 flex justify-end content-center">
 
 					<button>Follow</button>
 				

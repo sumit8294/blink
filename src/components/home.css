@@ -1,6 +1,11 @@
-@media (max-width: 800px){
+@media (max-width: 1040px){
 	.sidebar{
 		display:none;
 	}
+	.main-container{
+		margin:0 auto;
+		width: 90%;
+	}
 	
 }
+

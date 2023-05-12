@@ -1,18 +1,40 @@
 import HeaderProfile from '../components/HeaderProfile';
+
+import { useMediaQuery } from 'react-responsive';
+import {mobileMediaQuery} from '../ReactResponsiveQueries';
+
 const Header = () =>{
+
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
 	return (
 		<>
-			<div className="px-10 w-full h-16 bg-blink-black-2 shadow-lg flex justify-between text-white">
-				<div>
-					{/*<img src="" alt="blink">*/}
-					<h3 className="poppins py-4 text-3xl font-bold font-Poppins ">BLINK</h3>
-				</div>
-				
-					
-				<HeaderProfile/>
-					
-				
-			</div>
+			{isMobileOrTablet
+				?
+				<>
+					<div className="px-2 py-3 mobile-md:px-4 tablet-sm:py-4 w-full bg-blink-black-1 shadow-lg flex justify-between text-white">
+						<div className="">
+							{/*<img src="" alt="blink">*/}
+							<span className="poppins my-auto text-2xl font-bold font-Poppins ">BLINK</span>
+						</div>
+							
+						<HeaderProfile/>		
+						
+					</div>
+				</>
+				:
+				<>
+					<div className="px-6 py-3 w-full bg-blink-black-1 shadow-lg flex justify-between text-white laptop-lg:hidden laptop-xl:flex">
+						<div className="">
+							{/*<img src="" alt="blink">*/}
+							<span className="poppins my-auto text-2xl font-bold font-Poppins ">BLINK</span>
+						</div>
+							
+						<HeaderProfile/>		
+						
+					</div>
+				</>
+			}
 		</>
 	)
 }

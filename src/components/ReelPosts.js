@@ -17,7 +17,7 @@ const ReelPosts = ({scrollableDivRef,pre,setReelsLength}) =>{
 
 		setReelsLength(reels.length);
 
-	},[reels]);
+	},[]);
 	
 
 	return (

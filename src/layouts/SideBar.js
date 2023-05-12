@@ -14,7 +14,7 @@ const SideBar = () =>{
 		<>
 			<NotificationContext.Provider value={{notifyBarVisibility,setNotifyBarVisibility}}>
 
-				<div className=" sidebar h-full w-3/12 fixed overflow-y-auto">
+				<div className="hidden laptop-lg:block h-full w-[19.5rem] shrink-0 overflow-y-auto">
 
 					<div className="ml-2 my-2 py-10 bg-blink-black-2 drop-shadow-2xl rounded-2xl">
 

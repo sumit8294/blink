@@ -9,6 +9,10 @@ const users = [
 	{name:"paradox",imageUrl:"./assets/images/users/para.jpg"},
 	{name:"zyan",imageUrl:"./assets/images/users/zyan.jpg"},
 	{name:"ronaldo",imageUrl:"./assets/images/users/ronaldo.jpg"},
+	{name:"divine",imageUrl:"./assets/images/users/divine.jpg"},
+	{name:"karan aujla",imageUrl:"./assets/images/users/karanaujla.jpg"},
+	{name:"badshah",imageUrl:"./assets/images/users/badshah.jpg"},
+	{name:"harry",imageUrl:"./assets/images/users/harry.jpg"},
 
 ]
 const OtherStory = () =>{
@@ -16,9 +20,9 @@ const OtherStory = () =>{
 		<>
 			{users.map((user,index)=>{
 				return(
-				<div key={index} className="flex">
-					<StoryItems user={user}/>
-				</div>
+				
+					<StoryItems key={index} user={user}/>
+				
 				)
 			})}
 		</>

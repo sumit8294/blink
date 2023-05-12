@@ -1,26 +1,54 @@
 import Stories from './Stories';
 import FeedPosts from './FeedPosts';
+import UserSuggestions from './UserSuggestions';
+
+import { useMediaQuery } from 'react-responsive';
+import {mobileMediaQuery} from '../ReactResponsiveQueries';
+
 
 const Feed = () =>{
+	
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
 	return (
 		<>
-			{/*<div className=" w-9/12   h-full text-white  ">*/}
-
-			<div className="w-full pl-[19.7rem] h-full text-white  ">
-
-				<div className="w-[98%] mx-3 my-2 h-[97vh] overflow-hidden bg-blink-black-2 drop-shadow-2xl rounded-2xl py-4 ">
-
-					<div className="right-container justify-center bg-blink-black-2 h-[97vh] overflow-y-auto  ">
+			{isMobileOrTablet ?
+				<> 
+					<div className="mobile text-white justify-center bg-blink-black-1 h-screen overflow-y-auto tablet-sm:px-3 tablet-md:px-6">
 
 						<Stories />
 
 						<FeedPosts />
 
 					</div>
+				</>
+				:
+				<> 
+					<div className="h-screen text-white bg-blink-black-1 laptop-lg:inline-grid">
 
-				</div>
-				
-			</div>
+						<div className=" mx-2 my-2 overflow-hidden laptop-lg:bg-blink-black-2 laptop-lg:py-4 drop-shadow-2xl rounded-2xl ">
+
+							<div className="feeds-container justify-center h-screen overflow-y-auto laptop-lg:py-4 ">
+
+								<Stories />
+
+								<FeedPosts />
+
+							</div>
+
+						</div>
+						
+					</div>
+
+					<div className="hidden w-[19.5rem] laptop-xl:block shrink-0">
+
+						<UserSuggestions />
+
+					</div>
+
+				</>
+			}
+
 		</>
 	)
 }
