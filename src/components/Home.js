@@ -7,11 +7,9 @@ import Settings from './Settings';
 import SideBar from '../layouts/SideBar';
 
 
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import {useState} from 'react';
+import { Routes, Route} from 'react-router-dom';
 
 import { useMediaQuery } from 'react-responsive';
-
 import {mobileMediaQuery} from '../ReactResponsiveQueries';
 
 

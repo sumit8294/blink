@@ -1,5 +1,5 @@
 import ReelPostItems from './ReelPostItems';
-import {useRef, useEffect} from 'react';
+import { useEffect} from 'react';
 
 
 

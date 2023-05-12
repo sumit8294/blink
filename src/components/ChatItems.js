@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+
 
 
 const ChatItems = ({user,handleActive,active}) => {

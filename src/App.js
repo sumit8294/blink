@@ -1,6 +1,4 @@
 import Home from './components/Home'
-import Feed from './components/Feed';
-import Explore from './components/Explore';
 
 
 import './App.css';

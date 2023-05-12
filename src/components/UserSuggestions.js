@@ -1,4 +1,4 @@
-import FeedPostItems from './FeedPostItems';
+
 import SuggestionItem from './SuggestionItem';
 
 const users = [

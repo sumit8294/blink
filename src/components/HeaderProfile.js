@@ -1,5 +1,6 @@
 import UserInbox from './UserInbox';
-import UserImage from './UserImage';
+// import UserImage from './UserImage';
+
 const HeaderProfile = () =>{
 	return (
 		<>

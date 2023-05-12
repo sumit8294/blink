@@ -1,4 +1,4 @@
-import Loading from './Loading';
+
 import Search from './Search';
 
 import {useState} from 'react';
@@ -53,7 +53,7 @@ const Feed = () =>{
 
 									<span className="w-1/12 py-2 px-2">Bio</span>
 
-									<input className="w-8/12 bg-blink-black-2 rounded-xl px-3 " type="text" value={bio} onChange={(e)=>setName(e.target.value)}/>
+									<input className="w-8/12 bg-blink-black-2 rounded-xl px-3 " type="text" value={bio} onChange={(e)=>setBio(e.target.value)}/>
 
 								</div>
 
