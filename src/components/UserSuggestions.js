@@ -1,8 +1,6 @@
 import FeedPostItems from './FeedPostItems';
 import SuggestionItem from './SuggestionItem';
 
-
-import './usersuggesstion.css'
 const users = [
 	{name:"harry",imageUrl:"./assets/images/users/harry.jpg"},
 	{name:"louis",imageUrl:"./assets/images/users/louis.jpg"},
