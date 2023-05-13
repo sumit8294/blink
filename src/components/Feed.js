@@ -28,7 +28,7 @@ const Feed = () =>{
 
 						<div className=" mx-2 my-2 overflow-hidden laptop-lg:bg-blink-black-2 laptop-lg:py-4 drop-shadow-2xl rounded-2xl ">
 
-							<div className="feeds-container justify-center h-screen overflow-y-auto laptop-lg:py-4 ">
+							<div className="custom-scroll justify-center h-screen overflow-y-auto laptop-lg:py-4 ">
 
 								<Stories />
 

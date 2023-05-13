@@ -1,27 +1,50 @@
 import Search from './Search';
 import ExplorePosts from './ExplorePosts';
 
-import './explore.css'
+import { useMediaQuery } from 'react-responsive';
+import {mobileMediaQuery} from '../ReactResponsiveQueries';
+
+
 const Explore = () =>{
+
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
 	return (
 		<>
-			{/*<div className="home-content w-9/12   h-full text-white  ">*/}
+			{isMobileOrTablet
+				?
+					<>
 
-			<div className=" w-full pl-[19.7rem] h-full text-white  ">
+						<div className="text-white h-screen overflow-y-auto justify-center bg-blink-black-1   ">
 
-				<div className="w-[98%] mx-3 my-2 h-[97vh] overflow-hidden rounded-2xl  py-4 text-white bg-blink-black-2 drop-shadow-2xl">
+							<Search />
 
-					<div className="right-container justify-center bg-blink-black-2 h-[97vh] overflow-y-auto  ">
+							<ExplorePosts />
 
-						<Search />
+						</div>
 
-						<ExplorePosts />
+					</>
+				:
+					<>
 
-					</div>
+						<div className="h-screen text-white w-full laptop-lg:inline-grid">
 
-				</div>
+							<div className=" my-2 text-white py-4 rounded-2xl text-white laptop-lg:mx-2 laptop-lg:bg-blink-black-2">
 
-			</div>
+								<div className="custom-scroll h-screen overflow-y-auto laptop-lg:px-4">
+
+									<Search />
+
+									<ExplorePosts />
+
+								</div>
+
+							</div>
+
+						</div>
+
+					</>
+			}
 		</>
 	)
 }

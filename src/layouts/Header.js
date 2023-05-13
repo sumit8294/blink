@@ -24,7 +24,7 @@ const Header = () =>{
 				</>
 				:
 				<>
-					<div className="px-6 py-3 w-full bg-blink-black-1 shadow-lg flex justify-between text-white laptop-lg:hidden laptop-xl:flex">
+					<div className="px-6 py-3 w-full bg-blink-black-1 shadow-lg flex justify-between text-white laptop-xl:flex">
 						<div className="">
 							{/*<img src="" alt="blink">*/}
 							<span className="poppins my-auto text-2xl font-bold font-Poppins ">BLINK</span>

@@ -1,6 +1,9 @@
 import ExplorePostItems from './ExplorePostItems'
 
 
+import { useMediaQuery } from 'react-responsive';
+import {mobileMediaQuery} from '../ReactResponsiveQueries';
+
 const users = [
 	{name:"divine",imageUrl:"./assets/images/users/divine.jpg"},
 	{name:"karan aujla",imageUrl:"./assets/images/users/karanaujla.jpg"},
@@ -33,19 +36,41 @@ const users = [
 ]
 
 const ExplorePosts = () =>{
+
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
 	return (
 		<>
-			<div className=" px-6 py-2">
-				<div className="Explore-header flex h-12 ">
-					<h3 className="poppins text-2xl font-bold py-2">Explore</h3>
-				</div>
-				<div className="posts-container image-gallery mx-auto py-px " >
-					{users.map((user,i)=>{
-						return <ExplorePostItems key={i} user={user}/>
-					})}
-					
-				</div>
-			</div>
+			{isMobileOrTablet
+				?
+					<>
+						<div className=" py-2">
+			
+							<div className="image-gallery mx-auto py-px " >
+								{users.map((user,i)=>{
+									return <ExplorePostItems key={i} user={user}/>
+								})}
+								
+							</div>
+
+						</div>
+					</>
+				:
+					<>
+						<div className=" px-6 py-2">
+							<div className="Explore-header flex h-12 ">
+								<h3 className="poppins text-2xl font-bold py-2">Explore</h3>
+							</div>
+							<div className="explore-image-gallery-desktop mx-auto py-px px-6 " >
+								{users.map((user,i)=>{
+									return <ExplorePostItems key={i} user={user}/>
+								})}
+								
+							</div>
+						</div>
+					</>
+
+			}
 		</>
 	)
 }
