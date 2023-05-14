@@ -7,7 +7,8 @@ import Settings from './Settings';
 import SideBar from '../layouts/SideBar';
 
 
-import { Routes, Route} from 'react-router-dom';
+import { Routes, Route, useParams} from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../ReactResponsiveQueries';
@@ -18,13 +19,21 @@ import './home.css'
 const Home = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+	const [isMobileReels,setIsMobileReels] = useState(false);
+
+	const params = useParams();
+	
+	useEffect(()=>{
+		if(params['*'] === 'reels') setIsMobileReels(true);
+		else setIsMobileReels(false);
+	},[params])
 
 	return (
 		<>
 			{isMobileOrTablet 
 				? 
 				<>
-					<Header />
+					{!isMobileReels && <Header />}
 					<div className="h-full min-h-screen bg-blink-black-1">
 						<Routes>
 							<Route path="/explore" element={<Explore />} />

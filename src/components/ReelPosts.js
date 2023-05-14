@@ -1,7 +1,8 @@
 import ReelPostItems from './ReelPostItems';
 import { useEffect} from 'react';
 
-
+import { useMediaQuery } from 'react-responsive';
+import {mobileMediaQuery} from '../ReactResponsiveQueries';
 
 const reels = [
 	{name:"Niall",videoUrl:"./assets/videos/video1.mp4",imageUrl:"./assets/images/users/niall.jpg"},
@@ -13,6 +14,8 @@ const reels = [
 
 const ReelPosts = ({scrollableDivRef,pre,setReelsLength}) =>{
 
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
 	useEffect(()=>{
 
 		setReelsLength(reels.length);
@@ -23,25 +26,38 @@ const ReelPosts = ({scrollableDivRef,pre,setReelsLength}) =>{
 	return (
 
 		<>
+			{isMobileOrTablet ?
 
-			<div className=" px-2 ">
+				<>
 
-				<div  className=" ">
-
-					<div  ref={scrollableDivRef} className=" duration-700 reel-posts posts-container py-10 px-2 mx-auto mb-10 h-screen snap-y snap-mandatory overflow-y-auto" >
+					<div  ref={scrollableDivRef} className=" duration-700 reel-posts mx-auto h-screen snap-y snap-mandatory overflow-y-auto tablet-sm:w-[24rem]" >
 
 						{reels.map((reel,index)=>{
 
 							return <ReelPostItems pre={pre} reelId={index+''} key={index} reel={reel}/>
 
 						})}
-					
+							
 					</div>
 
-				</div>
+				</>
 
+				:
 
-			</div>
+				<>
+					<div  ref={scrollableDivRef} className="duration-700 reel-posts laptop-lg:py-10 laptop-lg:px-2 mx-auto laptop-lg:mb-10 h-screen snap-y snap-mandatory overflow-y-auto laptop-sm:w-[26rem] laptop-lg:w-[22rem]" >
+
+						{reels.map((reel,index)=>{
+
+							return <ReelPostItems pre={pre} reelId={index+''} key={index} reel={reel}/>
+
+						})}
+							
+					</div>
+
+				</>
+
+			}
 
 		</>
 
