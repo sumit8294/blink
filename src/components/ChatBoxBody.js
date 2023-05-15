@@ -1,99 +1,183 @@
+
+import { useMediaQuery } from 'react-responsive';
+import {mobileMediaQuery} from '../ReactResponsiveQueries';
+
 import './chatboxbody.css'
 const ChatBoxBody = () =>{
+
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
 	return (
 
 		<>
 
-			<div className=" chatbox w-full h-[500px] overflow-y-auto">
+			{isMobileOrTablet
 
-				<div className=" flex px-2 py-2" >
+				?
+				<>
 
-					<div className=" post-image flex flex-col justify-start  px-2  overflow-hidden" >
+					<div className=" w-full overflow-y-auto px-1 text-[0.9rem] py-14 mobile-md:px-2 mobile-md:text-[1rem] mobile-lg:text-[1.2rem] tablet-sm:py-24 tablet-sm:px-4 tablet-sm:text-[1.4rem]">
 
-						<img className="w-full w-7 h-7  rounded-2xl"  src="./assets/images/users/badshah.jpg" alt="images" />
+						<div className="tablet-sm:flex" >
 
-					</div>					
+							<div className=" post-image flex flex-col justify-start mb-1 overflow-hidden" >
 
-					<div className=" post-image  my-auto w-32 rounded-xl text-center overflow-hidden" >
+								<img className="w-6 h-6 mobile-md:w-8 mobile-md:h-8 rounded-full tablet-sm:w-12 tablet-sm:h-12"  src="./assets/images/users/badshah.jpg" alt="images" />
 
-						<img className="w-full h-56"  src="./assets/images/users/zyan.jpg" alt="images" />
+							</div>					
 
-					</div>	
+							<div className=" post-image my-auto w-24 rounded-xl text-center overflow-hidden mb-2 mobile-md:w-32 tablet-sm:mx-2 tablet-sm:w-40" >
 
+								<img className="w-full h-40 mobile-md:h-52 tablet-sm:h-64"  src="./assets/images/users/zyan.jpg" alt="images" />
 
-				</div>
-
-				<div className="flex px-2 " >
-
-					<div className=" post-image flex flex-col justify-start  px-2  overflow-hidden" >
-
-						<p className="w-7 h-7  rounded-2xl " ></p>
-
-					</div>
-
-					<p className="text-sm text-start bg-blink-gradient-1 px-2 rounded-r-2xl rounded-b-2xl py-2">
-					you can also use variant modifiers to target media queries</p>
+							</div>	
 
 
-				</div>
-
-				<div className="flex px-2 py-1" >
-
-					<div className=" post-image flex flex-col justify-start  px-2 py-2 overflow-hidden" >
-
-						<p className="w-7 h-7  rounded-2xl " ></p>
-
-					</div>
-
-					<p className="text-sm text-start bg-blink-gradient-1 px-2 rounded-2xl py-2">Tailwind lets you conditionally apply utility classes in <br/>different states using variant modifiers.</p>
+						</div>
 
 
-				</div>
+						<div className="flex mt-0.5 max-w-[80%] tablet-sm:ml-14" >
+ 
+							<p className=" text-start bg-blink-gradient-1 px-2 rounded-r-xl rounded-t-xl py-0.5">utility classes indifferent states using variant modifiers.</p>
+						
+						</div>
 
-				<div className="relative flex justify-end px-2 py-1 right-0" >
+						<div className="flex mt-0.5 tablet-sm:ml-14" >
 
-					<div className=" post-image my-auto w-32 rounded-xl text-center overflow-hidden" >
-
-						<img className="w-full h-56"  src="./assets/images/users/badshah.jpg" alt="images" />
-
-					</div>
-
-					<div className="shrink-0 post-image flex flex-col justify-end  px-2  overflow-hidden" >
-
-						<p className="w-7 h-7  rounded-2xl " ></p>
-
-					</div>					
-				
-				</div>
+							<p className=" text-start bg-blink-gradient-1 px-2 rounded-r-xl rounded-b-xl py-0.5 max-w-[80%]">
+							you can also use </p>
 
 
-				<div className="relative text-sm flex justify-end py-1 right-0" >
+						</div>
 
-					<p className="text-start bg-blink-gradient-1 px-2 rounded-2xl py-2">Tailwind lets you conditionally apply utility classes in <br/>different states using variant modifiers.</p>
+						<div className="relative flex flex-col items-end justify-end  right-0 tablet-sm:mt-10 " >
 
-					<div className="shrink-0 post-image flex flex-col justify-end  px-2  overflow-hidden" >
+							<div className=" post-image my-auto w-24 rounded-xl text-center overflow-hidden mb-2 mobile-md:w-32 tablet-sm:w-40" >
 
-						<p className="w-7 h-7  rounded-2xl " ></p>
+								<img className="w-full h-40 mobile-md:h-52 tablet-sm:h-64"  src="./assets/images/users/badshah.jpg" alt="images" />
+
+							</div>	
+
+							<div className="relative flex justify-end mt-0.5 right-0 max-w-[80%]" >
+
+								<p className="text-start bg-blink-gradient-1 px-2 rounded-l-xl rounded-t-xl py-0.5">utility classes in different states using variant modifiers.</p>
+
+							</div>
+
+							<div className="relative flex justify-end mt-0.5 right-0 max-w-[80%]" >
+
+								<p className="text-start text-white bg-blink-gradient-1 px-2 mb-2 rounded-l-xl rounded-b-xl py-0.5">
+								you can also use variant</p>
+
+							</div>			
+						
+						</div>
+
+
+
+						
 
 					</div>
 
-				</div>
+				</>
 
-				<div className="relative text-sm flex justify-end right-0" >
+				:
 
-					<p className="text-start text-white bg-blink-gradient-1 px-2 mb-2 rounded-l-2xl rounded-t-2xl py-2">
-					you can also use variant modifiers to target media queries</p>
+				<>
 
-					<div className="shrink-0 post-image flex flex-col justify-end  px-2  overflow-hidden" >
+					<div className=" chatbox w-full h-[500px] overflow-y-auto text-[1rem]">
 
-						<img className="w-7 h-7  rounded-2xl"  src="./assets/images/users/zyan.jpg" alt="images" />
+						<div className=" flex px-2 py-2" >
+
+							<div className=" post-image flex flex-col justify-start  px-2  overflow-hidden" >
+
+								<img className="w-full w-7 h-7  rounded-2xl"  src="./assets/images/users/badshah.jpg" alt="images" />
+
+							</div>					
+
+							<div className=" post-image  my-auto w-32 rounded-xl text-center overflow-hidden" >
+
+								<img className="w-full h-52"  src="./assets/images/users/zyan.jpg" alt="images" />
+
+							</div>	
+
+
+						</div>
+
+						<div className="flex px-2 " >
+
+							<div className=" post-image flex flex-col justify-start  px-2  overflow-hidden" >
+
+								<p className="w-7 h-7  rounded-2xl " ></p>
+
+							</div>
+
+							<p className=" text-start bg-blink-gradient-1 px-2 rounded-r-2xl rounded-b-2xl py-2">
+							you can also use variant modifiers to target media queries</p>
+
+
+						</div>
+
+						<div className="flex px-2 py-1" >
+
+							<div className=" post-image flex flex-col justify-start  px-2 py-2 overflow-hidden" >
+
+								<p className="w-7 h-7  rounded-2xl " ></p>
+
+							</div>
+
+							<p className=" text-start bg-blink-gradient-1 px-2 rounded-2xl py-2">Tailwind lets you conditionally apply utility classes in <br/>different states using variant modifiers.</p>
+
+
+						</div>
+
+						<div className="relative flex justify-end px-2 py-1 right-0" >
+
+							<div className=" post-image my-auto w-32 rounded-xl text-center overflow-hidden" >
+
+								<img className="w-full h-52"  src="./assets/images/users/badshah.jpg" alt="images" />
+
+							</div>
+
+							<div className="shrink-0 post-image flex flex-col justify-end  px-2  overflow-hidden" >
+
+								<p className="w-7 h-7  rounded-2xl " ></p>
+
+							</div>					
+						
+						</div>
+
+
+						<div className="relative flex justify-end py-1 right-0" >
+
+							<p className="text-start bg-blink-gradient-1 px-2 rounded-2xl py-2">Tailwind lets you conditionally apply utility classes in <br/>different states using variant modifiers.</p>
+
+							<div className="shrink-0 post-image flex flex-col justify-end  px-2  overflow-hidden" >
+
+								<p className="w-7 h-7  rounded-2xl " ></p>
+
+							</div>
+
+						</div>
+
+						<div className="relative flex justify-end right-0" >
+
+							<p className="text-start text-white bg-blink-gradient-1 px-2 mb-2 rounded-l-2xl rounded-t-2xl py-2">
+							you can also use variant modifiers to target media queries</p>
+
+							<div className="shrink-0 post-image flex flex-col justify-end  px-2  overflow-hidden" >
+
+								<img className="w-7 h-7  rounded-2xl"  src="./assets/images/users/zyan.jpg" alt="images" />
+
+							</div>
+
+						</div>
 
 					</div>
 
-				</div>
+				</>
 
-			</div>
+			}
 
 		</>
 

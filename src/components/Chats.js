@@ -1,6 +1,9 @@
 import ChatItems from './ChatItems';
 import {useState} from 'react';
 
+import { useMediaQuery } from 'react-responsive';
+import {mobileMediaQuery} from '../ReactResponsiveQueries';
+
 import './chats.css'
 const users = [
 	{name:"karan aujla",imageUrl:"./assets/images/users/karanaujla.jpg",message:"Thanks for having me on stage",messageTime:"sun 1:13 pm"},
@@ -16,31 +19,70 @@ const users = [
 ]
 
 const Chats = () =>{
+
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
 	const [active,setActive] = useState("divine");
 
 	const handleActive = (messager) => setActive(messager);
 
 	return (
 		<>
-			<div className="bg-blink-black-1 w-4/12  rounded-l-2xl py-4">
+			{isMobileOrTablet
 
-				<div className="suggestion-head border-b border-blink-black-2 px-4 py-2 text-sm flex justify-between">
+				?
+				<>
 
-					<button className="text-blink-gray-2" >chats</button>
+					<div className="rounded-l-2xl py-4">
 
-				</div>
+						<div className="suggestion-head border-b border-blink-black-2 px-4 py-2 text-sm flex justify-between">
 
-				<div className="chats overflow-y-auto h-[500px]">
+							<button className="text-blink-gray-2" >chats</button>
 
-					{users.map((user,index)=>{
+						</div>
 
-						return <ChatItems key={index} user={user} active={active} handleActive={handleActive}/>
+						<div className="chats overflow-y-auto h-[500px]">
 
-					})}
+							{users.map((user,index)=>{
 
-				</div>
+								return <ChatItems key={index} user={user} active={active} handleActive={handleActive}/>
 
-			</div>
+							})}
+
+						</div>
+
+					</div>
+
+				</>
+
+				:
+
+				<>
+				
+					<div className="bg-blink-black-1 w-4/12  rounded-l-2xl py-4">
+
+						<div className="suggestion-head border-b border-blink-black-2 px-4  py-2 text-sm flex justify-between">
+
+							<button className="text-blink-gray-2" >chats</button>
+
+						</div>
+
+						<div className="chats overflow-y-auto h-[500px]">
+
+							{users.map((user,index)=>{
+
+								return <ChatItems key={index} user={user} active={active} handleActive={handleActive}/>
+
+							})}
+
+						</div>
+
+					</div>
+
+				</>
+
+			}
+
 		</>
 	)
 }

@@ -5,6 +5,7 @@ import Feed from './Feed';
 import Reels from './Reels';
 import Settings from './Settings';
 import SideBar from '../layouts/SideBar';
+import Chats from './Chats';
 
 
 import { Routes, Route, useParams} from 'react-router-dom';
@@ -19,13 +20,13 @@ import './home.css'
 const Home = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
-	const [isMobileReels,setIsMobileReels] = useState(false);
+	const [isNoHeaderMobilePages,setNoHeaderMobilePages] = useState(false);
 
 	const params = useParams();
 	
 	useEffect(()=>{
-		if(params['*'] === 'reels') setIsMobileReels(true);
-		else setIsMobileReels(false);
+		if(params['*'] === 'reels' || params['*'] === 'messages') setNoHeaderMobilePages(true);
+		else setNoHeaderMobilePages(false);
 	},[params])
 
 	return (
@@ -33,7 +34,7 @@ const Home = () =>{
 			{isMobileOrTablet 
 				? 
 				<>
-					{!isMobileReels && <Header />}
+					{!isNoHeaderMobilePages && <Header />}
 					<div className="h-full min-h-screen bg-blink-black-1">
 						<Routes>
 							<Route path="/explore" element={<Explore />} />
@@ -41,6 +42,8 @@ const Home = () =>{
 							<Route path="/messages" element={<Messages />} />
 							<Route path="/reels" element={<Reels />} />
 							<Route path="/settings" element={<Settings />} />
+
+							<Route path="/chats" element={<Chats />} />
 						</Routes>
 					</div>
 				</>

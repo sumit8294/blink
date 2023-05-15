@@ -1,46 +1,94 @@
 
-
+import { useMediaQuery } from 'react-responsive';
+import {mobileMediaQuery} from '../ReactResponsiveQueries';
 
 const ChatItems = ({user,handleActive,active}) => {
 
-	let activeUserChatBoxCss = `cursor-pointer relative flex px-4 py-2 ${ active === user.name ? 'border-y border-blink-black-2' : ''} `;
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 	
 	return (
 		<>
+			{isMobileOrTablet
 
-			<div className={activeUserChatBoxCss} onClick={()=>handleActive(user.name)} >
+				?
+				<>
 
-				<div className="shrink-0 post-image h-12 my-auto w-12 rounded-full text-center overflow-hidden" >
+					<div className={`cursor-pointer relative flex px-4 py-2 ${ active === user.name ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActive(user.name)} >
 
-					<img className="w-full"  src={user.imageUrl} alt="images" />
+						<div className="shrink-0 post-image h-12 my-auto w-12 rounded-full text-center overflow-hidden" >
 
-				</div>
-				
-				<span className="absolute left-14 bottom-5 w-2 h-2 rounded-full bg-blink-gradient-1"></span>
+							<img className="w-full"  src={user.imageUrl} alt="images" />
 
-				<div className="">
-
-					<div className="px-3 ">
+						</div>
 						
-						<span className="block tracking-wide font-normal text-white"> 
-							
-							{user.name}
+						<span className="absolute left-14 bottom-5 w-2 h-2 rounded-full bg-blink-gradient-1"></span>
 
-						</span>
+						<div className="">
 
-						<span className="block text-[11px] "> 
-							
-							<span className="block text-blink-gray-1"> { user.message } .</span>
+							<div className="px-3 ">
+								
+								<span className="block tracking-wide font-normal text-white"> 
+									
+									{user.name}
 
-							<span className="text-blink-gray-2 text-[11px]"> {user.messageTime} </span>
+								</span>
 
-						</span>
-				
+								<span className="block text-[11px] "> 
+									
+									<span className="block text-blink-gray-1"> { user.message } .</span>
+
+									<span className="text-blink-gray-2 text-[11px]"> {user.messageTime} </span>
+
+								</span>
+						
+							</div>
+						
+						</div>	
+						
 					</div>
-				
-				</div>	
-				
-			</div>
+				</>
+
+				:
+
+				<>
+
+					<div className={`cursor-pointer relative flex px-4 py-2 laptop-sm:px-2 ${ active === user.name ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActive(user.name)} >
+
+						<div className="shrink-0 post-image h-12 my-auto w-12 laptop-sm:h-10 laptop-sm:w-10 rounded-full text-center overflow-hidden" >
+
+							<img className="w-full"  src={user.imageUrl} alt="images" />
+
+						</div>
+						
+						<span className="absolute left-14 bottom-5 w-2 h-2 laptop-sm:left-10 rounded-full bg-blink-gradient-1"></span>
+
+						<div className="">
+
+							<div className="px-3 laptop-sm:px-1">
+								
+								<span className="block tracking-wide font-normal text-white"> 
+									
+									{user.name}
+
+								</span>
+
+								<span className="block text-[11px] "> 
+									
+									<span className="block text-blink-gray-1"> { user.message } .</span>
+
+									<span className="text-blink-gray-2 text-[11px]"> {user.messageTime} </span>
+
+								</span>
+						
+							</div>
+						
+						</div>	
+						
+					</div>
+				</>
+
+			}
+
 		</>
 	)
 }
