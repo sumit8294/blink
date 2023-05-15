@@ -6,7 +6,7 @@ import Reels from './Reels';
 import Settings from './Settings';
 import SideBar from '../layouts/SideBar';
 import Chats from './Chats';
-
+import BottomNavigation from '../layouts/BottomNavigation';
 
 import { Routes, Route, useParams} from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -16,6 +16,7 @@ import {mobileMediaQuery} from '../ReactResponsiveQueries';
 
 
 import './home.css'
+
 
 const Home = () =>{
 
@@ -46,6 +47,7 @@ const Home = () =>{
 							<Route path="/chats" element={<Chats />} />
 						</Routes>
 					</div>
+					<BottomNavigation />
 				</>
 				:
 				<>

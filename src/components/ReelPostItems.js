@@ -45,13 +45,13 @@ const ReelPostItems = ({reel,reelId,pre}) => {
 
 							<video width="100%" id={reelId} src={reel.videoUrl} onEnded={playVideo}> video not found</video>
 
-							<div className="absolute right-0 bottom-0 z-10">
+							<div className="absolute right-0 bottom-0 z-10 pb-10">
 
 								<ReelPostActions user={reel} />
 
 							</div>
 
-							<div className="absolute left-0 w-full py-4 px-2 bottom-0 bg-bl-grad-black-top tablet-sm:px-0">
+							<div className="absolute left-0 w-full py-4 px-2 bottom-0 bg-bl-grad-black-top tablet-sm:px-0 pb-20">
 
 								<ReelPostUser user={reel}/>
 
