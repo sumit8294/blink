@@ -63,7 +63,8 @@ const Home = () =>{
 								<Route path="/settings" element={<Settings />} />
 							</Routes>
 						</div>
-					
+						
+					<BottomNavigation />
 				</>
 
 			}

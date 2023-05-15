@@ -5,9 +5,7 @@ import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
 import { faFilm } from '@fortawesome/free-solid-svg-icons'
 
 import {Link} from 'react-router-dom';
-import {useState, useEffect, useContext} from 'react';
-
-import { NotificationContext } from '../store/NotificationContext';
+import {useState, useEffect} from 'react';
 
 import {useParams} from 'react-router-dom';
 
@@ -21,7 +19,7 @@ const BottomNavigation = () =>{
 
 	return (
 		<>
-			<div className="fixed bottom-0 z-20 w-full bg-blink-black-1 text-blink-gray-1 text-center text-[1.2rem]">
+			<div className="laptop-lg:hidden fixed bottom-0 z-20 w-full bg-blink-black-1 text-blink-gray-1 text-center text-[1.2rem]">
 
 				<nav className="flex">
 
