@@ -10,26 +10,32 @@ import {useEffect} from 'react';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../ReactResponsiveQueries';
 
-const ReelPostItems = ({reel,reelId,pre}) => {
+const ReelPostItems = ({reel,reelId,reelRef}) => {
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
-	useEffect(()=>{
+	const playVideoAgain = (e) =>{
 
-		playVideo();
-		
-	},[pre])
+		const video = e.target;
 
-	const playVideo = () =>{
-
-		if(reelId === pre){
-			let videoToPlay = document.getElementById(pre);
-			videoToPlay.currentTime = 0;
-			videoToPlay.play()
+		if(video){
+			
+			video.play()
 			.then(success => {})
 			.catch(error => {})
 		}
 		
+	}
+
+	const pausePlayVideo = (e) =>{
+
+		const video = e.target;
+		if(video.paused){
+			video.play();
+		}
+		else{
+			video.pause();
+		}
 	}
 
 	return (
@@ -43,7 +49,7 @@ const ReelPostItems = ({reel,reelId,pre}) => {
 
 						<div className="relative tablet-sm:h-[40rem] tablet-sm:my-auto post-image h-screen flex justify-center text-center overflow-hidden" >
 
-							<video width="100%" id={reelId} src={reel.videoUrl} onEnded={playVideo}> video not found</video>
+							<video onClick={pausePlayVideo} ref={reelRef} width="100%" id={reelId} src={reel.videoUrl} onEnded={playVideoAgain}> video not found</video>
 
 							<div className="absolute right-0 bottom-0 z-10 pb-10">
 
@@ -73,7 +79,7 @@ const ReelPostItems = ({reel,reelId,pre}) => {
 
 						<div className="post-image relative h-[46rem] laptop-lg:h-[32rem] flex justify-center text-center overflow-hidden rounded-2xl" >
 
-							<video  width="100%" id={reelId} src={reel.videoUrl} onEnded={playVideo}> video not found</video>
+							<video onClick={pausePlayVideo} ref={reelRef}  width="100%" id={reelId} src={reel.videoUrl} onEnded={playVideoAgain}> video not found</video>
 
 							<div className="absolute right-0 bottom-0 z-10">
 
