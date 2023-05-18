@@ -23,7 +23,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0B0C10;
+  background: #1A1A1D;
+}
+
+@media (max-width: 768px) {
+  body{
+      background: #0B0C10;
+  }
+  
 }
 
 code {

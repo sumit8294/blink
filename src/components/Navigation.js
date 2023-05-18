@@ -14,6 +14,9 @@ import { NotificationContext } from '../store/NotificationContext';
 
 import {useParams} from 'react-router-dom';
 
+import { LOGGED_OUT } from '../reducers/users';
+import {useDispatch} from 'react-redux';
+
 const navItems = [
 
 	{name:"Feed",icon:faChartBar},
@@ -35,6 +38,10 @@ const Navigation = () =>{
 	const {notifyBarVisibility,setNotifyBarVisibility} = useContext(NotificationContext);
 
 	const handleNotifyBarVisibility = () => setNotifyBarVisibility(!notifyBarVisibility);
+
+	const dispatch = useDispatch();
+
+	const handleLogout = () => dispatch(LOGGED_OUT());
 
 	return (
 
@@ -116,7 +123,7 @@ const Navigation = () =>{
 
 							</span>
 
-							<span className="text-sm font-bold my-auto">Logout</span>
+							<span onClick={handleLogout} className="text-sm font-bold my-auto">Logout</span>
 
 						</div>
 
