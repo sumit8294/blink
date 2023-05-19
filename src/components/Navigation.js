@@ -5,6 +5,7 @@ import { faBell } from '@fortawesome/free-regular-svg-icons'
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
 import { faFilm } from '@fortawesome/free-solid-svg-icons'
 import { faGear } from '@fortawesome/free-solid-svg-icons'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 import {Link} from 'react-router-dom';
@@ -24,12 +25,13 @@ const navItems = [
 	{name:"Messages",icon:faEnvelope},
 	{name:"Reels",icon:faFilm},
 	{name:"Settings",icon:faGear},
+	{name:"Profile",icon:faUser},
 
 ]
 
 const Navigation = () =>{
 
-	const [activeItem,setActiveItem] = useState("");
+	const [activeItem,setActiveItem] = useState("feed");
 
 	const params = useParams();
 
@@ -47,7 +49,7 @@ const Navigation = () =>{
 
 		<>
 		
-			<div className="text-blink-gray-1 font-normal text-xl">
+			<div className="text-blink-gray-1 font-normal text-[1.6rem]">
 
 				<nav>
 
@@ -82,7 +84,7 @@ const Navigation = () =>{
 
 											</span>
 
-											<span className="text-sm my-auto font-semibold">{item.name}</span>
+											<span className="text-[1.2rem] my-auto font-semibold">{item.name}</span>
 
 										</div>
 
@@ -107,7 +109,7 @@ const Navigation = () =>{
 
 							</span>
 
-							<span className="text-sm font-bold my-auto">Notifications</span>
+							<span className="text-[1.2rem] font-bold my-auto">Notifications</span>
 
 						</div>
 
@@ -123,7 +125,7 @@ const Navigation = () =>{
 
 							</span>
 
-							<span onClick={handleLogout} className="text-sm font-bold my-auto">Logout</span>
+							<span onClick={handleLogout} className="text-[1.2rem] font-bold my-auto">Logout</span>
 
 						</div>
 

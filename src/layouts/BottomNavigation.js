@@ -3,6 +3,7 @@ import { faChartBar } from '@fortawesome/free-regular-svg-icons'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
 import { faFilm } from '@fortawesome/free-solid-svg-icons'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 import {Link} from 'react-router-dom';
 import {useState, useEffect} from 'react';
@@ -58,6 +59,16 @@ const BottomNavigation = () =>{
 						<span className={activeItem === 'messages' ? 'text-blink-blue-1' : '' }>
 
 							<FontAwesomeIcon icon={faEnvelope} />
+
+						</span>							
+
+					</Link>
+
+					<Link className="py-4 w-1/4" to={`/profile`}>
+
+						<span className={activeItem === 'profile' ? 'text-blink-blue-1' : '' }>
+
+							<FontAwesomeIcon icon={faUser} />
 
 						</span>							
 

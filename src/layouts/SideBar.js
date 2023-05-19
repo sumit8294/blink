@@ -18,7 +18,7 @@ const SideBar = () =>{
 
 					<div className="ml-2 my-2 py-10 bg-blink-black-2 drop-shadow-2xl rounded-2xl">
 
-						<Profile />	
+						{/*<Profile />	*/}
 
 						<Navigation />	
 

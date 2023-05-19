@@ -1,7 +1,17 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
+import { faKey } from '@fortawesome/free-solid-svg-icons'
 
+import {useState} from 'react';
 
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
+
+import { LOGGED_IN } from '../reducers/users';
+import {useDispatch} from 'react-redux';
+import {Link} from 'react-router-dom';
+
+import Alert from './Alert';
 
 
 const validationSchema = Yup.object().shape({
@@ -14,40 +24,71 @@ const validationSchema = Yup.object().shape({
 
 const UserSignup = () =>{
 
+	const dispatch = useDispatch();
+	const [successAlert,setSuccessAlert] = useState(false);
+
+	const handleLogin = (values) =>{
+		setSuccessAlert(true);
+		setTimeout(() => {
+         	dispatch(LOGGED_IN());
+         	
+        }, 2000);
+	}
+
+
+	const formik = useFormik({
+	  initialValues: {
+	    email: '',
+	    password: '',
+	  },
+	  validationSchema: validationSchema,
+	  onSubmit: handleLogin,
+	});
+
+	const {handleChange, handleSubmit, touched, errors, values} = formik;
+
 	return (
 
 		<>
-			<div className="mx-auto my-auto w-1/2">
+
+			<div className="mx-auto tablet-sm:w-[26rem] mt-20 bg-blink-black-1 rounded-xl py-10 px-10">
+
+				<div className="text-center px-2 mb-8 text-[3rem] laptop-sm:text-3xl font-bold text-blink-blue-1">
+					<span>BLINK</span>
+				</div>
 				
-				<Formik
-			      initialValues={{ email: '', password: '' }}
-			      validationSchema={validationSchema}
-			      onSubmit={(values, { setSubmitting }) => {
-			        setTimeout(() => {
-			          alert(JSON.stringify(values, null, 2));
-			          setSubmitting(false);
-			        }, 500);
-			      }}
-			    >
-			    	<Form>
+		    	<form onSubmit={handleSubmit}>
+		    		
+			       {successAlert && <Alert type="success" message="Logged In Successfully!!"/>}
+			       {touched.email && errors.email && <Alert type="errors" message={errors.email}/>}
 
-				        <div>
-				        	<label htmlFor="email">Email</label>
-							<Field type="email" id="email" name="email" />
-							<ErrorMessage name="email" component="div" />
-				        </div>
+			       	<div className="flex mx-auto my-4 bg-blue-100 border border-blue-300">
 
-				        <div>
-							<label htmlFor="password">Password</label>
-							<Field type="password" id="password" name="password" />
-							<ErrorMessage name="password" component="div" />
-				        </div>
+			       		<span className="px-4 py-2"><FontAwesomeIcon icon={faEnvelope} /></span>
+						
+						<input className=" py-2 px-2 w-full outline-none bg-blue-100 " type="text" id="email" name="email" placeholder="Type Your Email" value={values.email} onChange={handleChange}/>
+						
+		    		</div>
 
-			        	<button type="submit" className="bg-blink-blue-1">Signup</button>
+		    		<div className="flex mx-auto mb-4 bg-blue-100 border border-blue-300">
+						
+		    			<span className="px-4 py-2 "><FontAwesomeIcon icon={faKey} /></span>
 
-			      </Form>
+						<input className="py-2 px-2 w-full w-3/4 outline-none bg-blue-100" type="text" id="password" name="password" placeholder="Type Your Password" value={values.password} onChange={handleChange}/>
+						
+		    		</div>
+			        
 
-			    </Formik>
+		        	<button className="bg-blink-gradient-1 text-blink-black-1 text-xl font-bold w-full block py-2 px-2 my-10" type="submit" >Signup</button>
+		        	
+		    	</form>
+
+		    	<span className="text-blue-100">
+		    		Already Have An Account? - 
+		    		<Link to="/login">
+		    			<span className="text-blink-blue-1 font-semibold"> Login Here</span>
+		    		</Link>
+		    	</span>
 
 			</div>
 			     

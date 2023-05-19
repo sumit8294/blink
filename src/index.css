@@ -25,6 +25,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #1A1A1D;
 }
+button{
+  outline:none;
+}
 
 @media (max-width: 768px) {
   body{

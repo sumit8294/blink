@@ -7,6 +7,7 @@ import Settings from './Settings';
 import SideBar from '../layouts/SideBar';
 import Chats from './Chats';
 import BottomNavigation from '../layouts/BottomNavigation';
+import UserProfile from './UserProfile';
 
 import { Routes, Route, useParams} from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -43,7 +44,7 @@ const Home = () =>{
 							<Route path="/messages" element={<Messages />} />
 							<Route path="/reels" element={<Reels />} />
 							<Route path="/settings" element={<Settings />} />
-
+							<Route path="/profile" element={<UserProfile />} />
 							<Route path="/chats" element={<Chats />} />
 						</Routes>
 					</div>
@@ -61,6 +62,7 @@ const Home = () =>{
 								<Route path="/messages" element={<Messages />} />
 								<Route path="/reels" element={<Reels />} />
 								<Route path="/settings" element={<Settings />} />
+								<Route path="/profile" element={<UserProfile />} />
 							</Routes>
 						</div>
 						
