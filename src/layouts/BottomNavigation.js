@@ -54,23 +54,17 @@ const BottomNavigation = () =>{
 
 					</Link>
 
-					<Link className="py-4 w-1/4" to={`/messages`}>
-
-						<span className={activeItem === 'messages' ? 'text-blink-blue-1' : '' }>
-
-							<FontAwesomeIcon icon={faEnvelope} />
-
-						</span>							
-
-					</Link>
-
 					<Link className="py-4 w-1/4" to={`/profile`}>
 
-						<span className={activeItem === 'profile' ? 'text-blink-blue-1' : '' }>
+						<span>
 
-							<FontAwesomeIcon icon={faUser} />
+							<div className="border-2 border-blink-blue-1 mx-auto w-8 h-8 rounded-full overflow-hidden">
+					
+								<img className="" src='./assets/images/users/zyan.jpg' alt="user-story"/>		
+				
+							</div>
 
-						</span>							
+						</span>					
 
 					</Link>
 

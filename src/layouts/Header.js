@@ -1,4 +1,4 @@
-import HeaderProfile from '../components/HeaderProfile';
+import HeaderNav from '../components/HeaderNav';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../ReactResponsiveQueries';
@@ -18,7 +18,7 @@ const Header = () =>{
 							<span className="poppins my-auto text-2xl font-bold font-Poppins ">BLINK</span>
 						</div>
 							
-						<HeaderProfile/>		
+						<HeaderNav/>		
 						
 					</div>
 				</>
@@ -30,7 +30,7 @@ const Header = () =>{
 							<span className="poppins my-auto text-2xl font-bold font-Poppins ">BLINK</span>
 						</div>
 							
-						<HeaderProfile/>		
+						<HeaderNav/>	
 						
 					</div>
 				</>

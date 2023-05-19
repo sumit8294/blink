@@ -8,6 +8,8 @@ import SideBar from '../layouts/SideBar';
 import Chats from './Chats';
 import BottomNavigation from '../layouts/BottomNavigation';
 import UserProfile from './UserProfile';
+import Notifications from './Notifications';
+
 
 import { Routes, Route, useParams} from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -46,6 +48,7 @@ const Home = () =>{
 							<Route path="/settings" element={<Settings />} />
 							<Route path="/profile" element={<UserProfile />} />
 							<Route path="/chats" element={<Chats />} />
+							<Route path="/notifications" element={<Notifications />} />
 						</Routes>
 					</div>
 					<BottomNavigation />
@@ -63,6 +66,7 @@ const Home = () =>{
 								<Route path="/reels" element={<Reels />} />
 								<Route path="/settings" element={<Settings />} />
 								<Route path="/profile" element={<UserProfile />} />
+								<Route path="/notifications" element={<Notifications />} />
 							</Routes>
 						</div>
 						

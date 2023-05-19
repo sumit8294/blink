@@ -26,6 +26,7 @@ const navItems = [
 	{name:"Reels",icon:faFilm},
 	{name:"Settings",icon:faGear},
 	{name:"Profile",icon:faUser},
+	{name:"Notifications",icon:faUser},
 
 ]
 
@@ -98,22 +99,6 @@ const Navigation = () =>{
 					})}
 
 					</ul>
-
-					<div onClick={handleNotifyBarVisibility} className=" cursor-pointer px-3 hover:text-blink-blue-1 hover:border-r-2 hover:border-blink-blue-1">
-
-						<div className="flex px-5 py-2  border-blink-black-3 content-center text-center">
-
-							<span className="mr-4">
-
-								<FontAwesomeIcon icon={faBell} />
-
-							</span>
-
-							<span className="text-[1.2rem] font-bold my-auto">Notifications</span>
-
-						</div>
-
-					</div>
 
 					<div className=" cursor-pointer px-3 mt-5 hover:text-blink-blue-1 hover:border-r-2 hover:border-blink-blue-1">
 
