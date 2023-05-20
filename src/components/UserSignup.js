@@ -1,6 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+
 
 import {useState} from 'react';
 
@@ -15,7 +17,12 @@ import Alert from './Alert';
 
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Email is required'),
+  email: Yup.string()
+  	.email('Invalid email')
+  	.required('Email is required'),
+  username: Yup.string()
+  	.required('Username is required')
+  	.matches(/\s/, 'Spaces are not allowed'),
   password: Yup.string()
     .required('Password is required')
     .min(6, 'Password must be at least 6 characters long'),
@@ -28,10 +35,10 @@ const UserSignup = () =>{
 	const [successAlert,setSuccessAlert] = useState(false);
 
 	const handleLogin = (values) =>{
+		
 		setSuccessAlert(true);
 		setTimeout(() => {
-         	dispatch(LOGGED_IN());
-         	
+         	dispatch(LOGGED_IN()); 	
         }, 2000);
 	}
 
@@ -39,6 +46,7 @@ const UserSignup = () =>{
 	const formik = useFormik({
 	  initialValues: {
 	    email: '',
+	    username: '',
 	    password: '',
 	  },
 	  validationSchema: validationSchema,
@@ -67,6 +75,14 @@ const UserSignup = () =>{
 			       		<span className="px-4 py-2"><FontAwesomeIcon icon={faEnvelope} /></span>
 						
 						<input className=" py-2 px-2 w-full outline-none bg-blue-100 " type="text" id="email" name="email" placeholder="Type Your Email" value={values.email} onChange={handleChange}/>
+						
+		    		</div>
+
+		    		<div className="flex mx-auto my-4 bg-blue-100 border border-blue-300">
+
+			       		<span className="px-4 py-2"><FontAwesomeIcon icon={faUser} /></span>
+						
+						<input className=" py-2 px-2 w-full outline-none bg-blue-100 " type="text" id="username" name="username" placeholder="Type Your Username" value={values.username} onChange={handleChange}/>
 						
 		    		</div>
 
