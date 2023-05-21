@@ -5,13 +5,10 @@ import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 
 import {useState} from 'react';
-
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
-import { LOGGED_IN } from '../reducers/users';
-import {useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 import Alert from './Alert';
 
@@ -22,7 +19,8 @@ const validationSchema = Yup.object().shape({
   	.required('Email is required'),
   username: Yup.string()
   	.required('Username is required')
-  	.matches(/\s/, 'Spaces are not allowed'),
+  	.matches(/^\S*$/, 'Spaces are not allowed')
+  	.min(3, 'Username contains at least 3 characters'),
   password: Yup.string()
     .required('Password is required')
     .min(6, 'Password must be at least 6 characters long'),
@@ -31,29 +29,59 @@ const validationSchema = Yup.object().shape({
 
 const UserSignup = () =>{
 
-	const dispatch = useDispatch();
-	const [successAlert,setSuccessAlert] = useState(false);
+	const [successAlert,setSuccessAlert] = useState({status:false,message:""});
+	const [errorAlert,setErrorAlert] = useState({status:false,message:""});
 
-	const handleLogin = (values) =>{
+	const handleLogin = async (values) =>{
+
+		const body = {...values};
+
+		try{
+			const response = await axios.post('http://localhost:5000/users/',body,{withCredentials: true});
+			if(response.data){
+				setSuccessAlert({status:true,message:response.data.message});
+			}
+		}catch(error){
+
+			
+			if(error.response && error.response.status === 409){
+
+				const errorMessage = error.response.data.message || 'Conflict with user status';
+
+				setErrorAlert({status:true,message:errorMessage});
+
+				setTimeout(()=>{
+					setErrorAlert({status:false,message:''});
+				},3000)
+			}
+			else{
+
+				setErrorAlert({status:true,message:"Signup Failed!!"});
+			}
+			
+		}
+
 		
-		setSuccessAlert(true);
 		setTimeout(() => {
-         	dispatch(LOGGED_IN()); 	
+
         }, 2000);
 	}
 
 
 	const formik = useFormik({
-	  initialValues: {
-	    email: '',
-	    username: '',
-	    password: '',
-	  },
-	  validationSchema: validationSchema,
-	  onSubmit: handleLogin,
+		initialValues: {
+		email: '',
+		username: '',
+		password: '',
+		},
+		validationSchema: validationSchema,
+		validateOnChange: false,
+		validateOnBlur: false,
+		onSubmit: handleLogin,
 	});
 
 	const {handleChange, handleSubmit, touched, errors, values} = formik;
+
 
 	return (
 
@@ -67,8 +95,19 @@ const UserSignup = () =>{
 				
 		    	<form onSubmit={handleSubmit}>
 		    		
-			       {successAlert && <Alert type="success" message="Logged In Successfully!!"/>}
-			       {touched.email && errors.email && <Alert type="errors" message={errors.email}/>}
+			       {successAlert.status && <Alert type="success" message={successAlert.message}/>}
+			       {errorAlert.status && <Alert type="errors" message={errorAlert.message}/>}
+
+
+			       {
+			       		(touched.email && errors.email) ? <Alert type="errors" message={errors.email}/>
+			       	
+			    		:(touched.username && errors.username) ? <Alert type="errors" message={errors.username}/>
+
+			    		:(touched.password && errors.password) ? <Alert type="errors" message={errors.password}/>
+			       
+			    		: null
+			       	}
 
 			       	<div className="flex mx-auto my-4 bg-blue-100 border border-blue-300">
 

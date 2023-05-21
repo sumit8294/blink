@@ -1,46 +1,62 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 
 import {useState} from 'react';
-
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
-import { LOGGED_IN } from '../reducers/users';
-import {useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 import Alert from './Alert';
 
 
 const validationSchema = Yup.object().shape({
-  // email: Yup.string().email('Invalid email').required('Email is required'),
-  // password: Yup.string()
-  //   .required('Password is required')
-  //   .min(6, 'Password must be at least 6 characters long'),
+	usernameOrEmail: Yup.string().required('Enter Username or Email'),
+	password: Yup.string()
+	.required('Password is required')
+	.min(6, 'Password must be at least 6 characters long'),
 });
 
 
 const UserLogin = () =>{
 
-	const dispatch = useDispatch();
-	const [successAlert,setSuccessAlert] = useState(false);
 
-	const handleLogin = (values) =>{
-		setSuccessAlert(true);
-		setTimeout(() => {
-         	dispatch(LOGGED_IN());
-         	
-        }, 1000);
+	const [successAlert,setSuccessAlert] = useState({status:false,message:""});
+	const [errorAlert,setErrorAlert] = useState({status:false,message:""});
+
+
+	const handleLogin = async (values) =>{
+		
+		const body = {...values}; // 'usernameOrEmail','password' --> fields require for login api
+		
+		try{
+			const response = await axios.post('http://localhost:5000/auth/login',body)
+
+			if(response.data)
+				setSuccessAlert({status:true,message:response.data.message});
+				
+			const accessToken = response.data.accessToken
+			Cookies.set('jwt',accessToken,{expires: 7})	
+			console.log(accessToken);
+			
+		}catch(error){
+			console.log(error.response.data.message)
+			setErrorAlert({status:true,message:error.response.data.message});
+		}
+
+		
 	}
 
 
 	const formik = useFormik({
 	  initialValues: {
-	    email: '',
+	    usernameOrEmail: '',
 	    password: '',
 	  },
+	  validateOnBlur: false,
+	  validateOnChange: false,
 	  validationSchema: validationSchema,
 	  onSubmit: handleLogin,
 	});
@@ -58,14 +74,21 @@ const UserLogin = () =>{
 				
 		    	<form onSubmit={handleSubmit}>
 		    		
-			       {successAlert && <Alert type="success" message="Logged In Successfully!!"/>}
-			       {touched.email && errors.email && <Alert type="errors" message={errors.email}/>}
+			       {successAlert.status && <Alert type="success" message={successAlert.message}/>}
+			       {errorAlert.status && <Alert type="errors" message={errorAlert.message}/>}
 
+			       {(touched.usernameOrEmail && errors.usernameOrEmail) ?
+			       		<Alert type="errors" message={errors.usernameOrEmail}/>
+			       	:
+			       	(touched.password && errors.password) ?
+			       		<Alert type="errors" message={errors.password}/>
+			       	: null
+			       }
 			       	<div className="flex mx-auto my-4 bg-blue-100 border border-blue-300">
 
-			       		<span className="px-4 py-2"><FontAwesomeIcon icon={faEnvelope} /></span>
+			       		<span className="px-4 py-2"><FontAwesomeIcon icon={faUser} /></span>
 						
-						<input className=" py-2 px-2 w-full outline-none bg-blue-100 " type="text" id="email" name="email" placeholder="Type Your Email" value={values.email} onChange={handleChange}/>
+						<input className=" py-2 px-2 w-full outline-none bg-blue-100 " type="text" id="usernameOrEmail" name="usernameOrEmail" placeholder="Type Your Username / Email" value={values.usernameOrEmail} onChange={handleChange}/>
 						
 		    		</div>
 

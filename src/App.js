@@ -6,25 +6,17 @@ import { Routes, Route} from 'react-router-dom';
 
 import UserSignup from './components/UserSignup';
 import UserLogin from './components/UserLogin';
-import {useSelector} from 'react-redux';
 
-function App() {
 
-	const user = useSelector(state => state.user);
+function App() {	
+
 	return (
 	    <>
-	    	{!user.isLoggedIn ?
-
-	    		<Routes>
-	    			<Route path="/signup" element={<UserSignup />} />
-	    			<Route path="/login" element={<UserLogin />} />
-	    			<Route path="*" element={<UserLogin />} />
-	    		</Routes>
-	    	:
-	    		<Routes>
-	    			<Route path="*" element={<Home />} />
-	    		</Routes>
-	    	}
+			<Routes>
+				<Route path="/signup" element={<UserSignup />} />
+				<Route path="/login" element={<UserLogin />} />
+				<Route path="*" element={<Home />} />
+			</Routes>
 	    </>
 	);
 }
