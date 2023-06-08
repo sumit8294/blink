@@ -4,8 +4,8 @@ import Home from './components/Home'
 import './App.css';
 import { Routes, Route} from 'react-router-dom';
 
-import UserSignup from './components/UserSignup';
-import UserLogin from './components/UserLogin';
+import UserSignup from './components/auth/UserSignup';
+import UserLogin from './components/auth/UserLogin';
 
 
 function App() {	

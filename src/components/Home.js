@@ -1,14 +1,14 @@
 import Header from '../layouts/Header';
-import Explore from './Explore';
-import Messages from './Messages';
-import Feed from './Feed';
-import Reels from './Reels';
-import Settings from './Settings';
+import Explore from './explores/Explore';
+import Messages from './chats/Messages';
+import Feed from './feeds/Feed';
+import Reels from './reels/Reels';
+import Settings from './userSettings/Settings';
 import SideBar from '../layouts/SideBar';
-import Chats from './Chats';
+import Chats from './chats/Chats';
 import BottomNavigation from '../layouts/BottomNavigation';
-import UserProfile from './UserProfile';
-import Notifications from './Notifications';
+import UserProfile from './users/UserProfile';
+import Notifications from './notifications/Notifications';
 
 
 import { Routes, Route, useParams} from 'react-router-dom';
