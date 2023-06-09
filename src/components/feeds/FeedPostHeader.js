@@ -1,7 +1,7 @@
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-const FeedPostHeader = ({user}) =>{
+const FeedPostHeader = ({post}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
@@ -18,13 +18,13 @@ const FeedPostHeader = ({user}) =>{
 
 							<div className="post-image w-8 h-8 rounded-full text-center  overflow-hidden" >
 
-								<img className=""  src={user.imageUrl} alt="images" />
+								<img className=""  src={post.user.profile} alt="user" />
 
 							</div>
 
 							<div className="px-2">
 
-								<span className="block text-[1rem] font-semibold">{user.name}</span>
+								<span className="block text-[1rem] font-semibold">{post.user.username}</span>
 
 								<span className="block text-[10px] text-blink-gray-1">original audio</span>
 
@@ -42,13 +42,13 @@ const FeedPostHeader = ({user}) =>{
 
 							<div className="post-image w-10 h-10 rounded-full text-center  overflow-hidden" >
 
-								<img className=""  src={user.imageUrl} alt="images" />
+								<img className=""  src={post.user.profile} alt="user" />
 
 							</div>
 
 							<div className="">
 
-								<p className="text-[1rem] h-4 px-2 py-1 font-semibold">{user.name}</p>
+								<p className="text-[1rem] h-4 px-2 py-1 font-semibold">{post.user.username}</p>
 
 								<p className="text-[0.6rem] h-4 px-2 mt-2 text-blink-gray-1">original audio</p>
 

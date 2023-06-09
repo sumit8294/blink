@@ -5,7 +5,7 @@ import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
 
-const FeedPostComments = ({user}) =>{
+const FeedPostComments = ({post}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
@@ -21,9 +21,9 @@ const FeedPostComments = ({user}) =>{
 								
 								<span className="block  text-blink-gray-1"> 
 									
-									<span className="font-bold text-white"> {user.name} </span>
+									<span className="font-bold text-white"> {post.user.username} </span>
 
-									<span>	My silence is just... another word for my pain !! </span>
+									<span>	{post.caption} </span>
 
 									<span className="">
 
@@ -95,9 +95,9 @@ const FeedPostComments = ({user}) =>{
 								
 								<span className="block text-blink-gray-1"> 
 									
-									<b className="font-semibold text-white"> {user.name} </b>
+									<b className="font-semibold text-white"> {post.user.username} </b>
 
-									<span>	My silence is just... another word for my pain !! </span>
+									<span>	{post.caption} </span>
 
 									<span className="">
 

@@ -13,7 +13,7 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
 
 
-const FeedPostActions = ({user}) =>{
+const FeedPostActions = ({post}) =>{
 
 	const {commentsVisibility,setCommentsVisibility} = useContext(CommentsContext);
 
@@ -42,7 +42,7 @@ const FeedPostActions = ({user}) =>{
 
 								</span>
 
-								<span className="text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem] ml-1 tablet-sm:text-[0.7]">20k</span>
+								<span className="text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem] ml-1 tablet-sm:text-[0.7]">{post.reactions.likes}</span>
 
 							</div>
 
@@ -55,7 +55,7 @@ const FeedPostActions = ({user}) =>{
 
 								</span>
 
-								<span className="text-[0.7rem] mobile-md:text-[0.8rem]text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem] ml-1 tablet-sm:text-[0.7rem]" >23k</span>
+								<span className="text-[0.7rem] mobile-md:text-[0.8rem]text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem] ml-1 tablet-sm:text-[0.7rem]" >{post.reactions.comments}</span>
 
 							</div>
 
@@ -69,7 +69,7 @@ const FeedPostActions = ({user}) =>{
 								</span>
 
 
-								<span className="text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem] ml-1 tablet-sm:text-[0.7rem]" >100k</span>
+								<span className="text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem] ml-1 tablet-sm:text-[0.7rem]" >{post.reactions.shares}</span>
 
 							</div>
 
@@ -85,7 +85,7 @@ const FeedPostActions = ({user}) =>{
 
 								</span>
 
-								<span className="text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem] ml-1 tablet-sm:text-[0.7rem]">20k</span>
+								<span className="text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem] ml-1 tablet-sm:text-[0.7rem]">{post.reactions.bookmarks}</span>
 
 							</div>
 
@@ -107,7 +107,7 @@ const FeedPostActions = ({user}) =>{
 
 								</span>
 
-								<span className="text-[0.850rem] ml-1 ">20k</span>
+								<span className="text-[0.850rem] ml-1 ">{post.reactions.likes}</span>
 
 							</div>
 
@@ -120,7 +120,7 @@ const FeedPostActions = ({user}) =>{
 
 								</span>
 
-								<span className="text-[0.850rem] ml-1" >23k</span>
+								<span className="text-[0.850rem] ml-1" >{post.reactions.comments}</span>
 
 							</div>
 
@@ -134,7 +134,7 @@ const FeedPostActions = ({user}) =>{
 								</span>
 
 
-								<span className="text-[0.850rem] ml-1" >100k</span>
+								<span className="text-[0.850rem] ml-1" >{post.reactions.shares}</span>
 
 							</div>
 
@@ -150,7 +150,7 @@ const FeedPostActions = ({user}) =>{
 
 								</span>
 
-								<span className="text-[0.850rem] ml-1">20k</span>
+								<span className="text-[0.850rem] ml-1">{post.reactions.bookmarks}</span>
 
 							</div>
 

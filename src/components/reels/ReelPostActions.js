@@ -13,7 +13,7 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
 
 
-const ReelPostActions = ({user}) =>{
+const ReelPostActions = ({reactions}) =>{
 
 	const {commentsVisibility,setCommentsVisibility} = useContext(CommentsContext);
 
@@ -42,7 +42,7 @@ const ReelPostActions = ({user}) =>{
 
 								</span>
 
-								<span className="block text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem] tablet-sm:text-[1.1rem]">20k</span>
+								<span className="block text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem] tablet-sm:text-[1.1rem]">{reactions.likes}</span>
 
 							</div>
 
@@ -55,7 +55,7 @@ const ReelPostActions = ({user}) =>{
 
 								</span>
 
-								<span className="block text-[0.7rem] mobile-md:text-[0.8rem]text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem]  tablet-sm:text-[1.1rem]" >23k</span>
+								<span className="block text-[0.7rem] mobile-md:text-[0.8rem]text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem]  tablet-sm:text-[1.1rem]" >{reactions.comments}</span>
 
 							</div>
 
@@ -69,7 +69,7 @@ const ReelPostActions = ({user}) =>{
 								</span>
 
 
-								<span className="block text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem]  tablet-sm:text-[1.1rem]" >100k</span>
+								<span className="block text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem]  tablet-sm:text-[1.1rem]" >{reactions.shares}</span>
 
 							</div>
 
@@ -85,7 +85,7 @@ const ReelPostActions = ({user}) =>{
 
 								</span>
 
-								<span className="block text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem]  tablet-sm:text-[1.1rem]">20k</span>
+								<span className="block text-[0.7rem] mobile-md:text-[0.8rem] mobile-lg:text-[0.9rem]  tablet-sm:text-[1.1rem]">{reactions.bookmarks}</span>
 
 							</div>
 
@@ -107,7 +107,7 @@ const ReelPostActions = ({user}) =>{
 
 								</span>
 
-								<span className="block text-[1rem] laptop-lg:text-[0.8rem]">20k</span>
+								<span className="block text-[1rem] laptop-lg:text-[0.8rem]">{reactions.likes}</span>
 
 							</div>
 
@@ -120,7 +120,7 @@ const ReelPostActions = ({user}) =>{
 
 								</span>
 
-								<span className="block text-[1rem] laptop-lg:text-[0.8rem]" >23k</span>
+								<span className="block text-[1rem] laptop-lg:text-[0.8rem]" >{reactions.comments}</span>
 
 							</div>
 
@@ -134,7 +134,7 @@ const ReelPostActions = ({user}) =>{
 								</span>
 
 
-								<span className="block text-[1rem] laptop-lg:text-[0.8rem]" >100k</span>
+								<span className="block text-[1rem] laptop-lg:text-[0.8rem]" >{reactions.shares}</span>
 
 							</div>
 
@@ -150,7 +150,7 @@ const ReelPostActions = ({user}) =>{
 
 								</span>
 
-								<span className="block text-[1rem] laptop-lg:text-[0.8rem]">20k</span>
+								<span className="block text-[1rem] laptop-lg:text-[0.8rem]">{reactions.bookmarks}</span>
 
 							</div>
 

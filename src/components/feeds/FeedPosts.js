@@ -2,14 +2,8 @@ import FeedPostItems from './FeedPostItems';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-
-const users = [
-	{name:"badshah",imageUrl:"./assets/images/users/badshah.jpg"},
-	{name:"harry",imageUrl:"./assets/images/users/harry.jpg"},
-	{name:"louis",imageUrl:"./assets/images/users/louis.jpg"},
-	{name:"divine",imageUrl:"./assets/images/users/divine.jpg"},
-	{name:"karan aujla",imageUrl:"./assets/images/users/karanaujla.jpg"},
-]
+import axios from 'axios';
+import {useEffect, useState} from 'react';
 
 
 
@@ -17,6 +11,31 @@ const FeedPosts = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
+	const [posts,setPosts] = useState([]);
+
+	const fetchPosts = async () =>{
+
+		try{
+			const response = await axios.get('http://localhost:5000/posts');
+
+			if(response.data){
+				
+				setPosts(response.data);
+			}
+		}
+		catch(error){
+
+			if(error.response && error.response.status === 404){
+				console.log(error.response.data.message,"dd");
+			}else{
+				console.log("something went wrong")
+			}
+		}
+	} 
+
+	useEffect(()=>{
+		fetchPosts();
+	},[]);
 
 	return (
 		<>
@@ -27,9 +46,9 @@ const FeedPosts = () =>{
 
 					<div className="posts-container tablet-sm:w-8/12 tablet-sm:mx-auto tablet-md:w-7/12 " >
 
-						{users.map((user,i)=>{
+						{posts.map((post,i)=>{
 
-							return <FeedPostItems key={i} user={user}/>
+							return <FeedPostItems key={i} post={post}/>
 
 						})}
 					
@@ -51,9 +70,9 @@ const FeedPosts = () =>{
 
 							<div className="mx-auto w-96 laptop-lg:w-[24rem]" >
 
-								{users.map((user,i)=>{
+								{posts.map((post,i)=>{
 
-									return <FeedPostItems key={i} user={user}/>
+									return <FeedPostItems key={i} post={post}/>
 
 								})}
 							

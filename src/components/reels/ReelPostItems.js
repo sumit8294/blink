@@ -53,15 +53,15 @@ const ReelPostItems = ({reel,reelId,reelRef}) => {
 
 							<div className="absolute right-0 bottom-0 z-10 pb-10">
 
-								<ReelPostActions user={reel} />
+								<ReelPostActions reactions={reel.reactions} />
 
 							</div>
 
 							<div className="absolute left-0 w-full py-4 px-2 bottom-0 bg-bl-grad-black-top tablet-sm:px-0 pb-20">
 
-								<ReelPostUser user={reel}/>
+								<ReelPostUser user={reel.user}/>
 
-								<ReelPostDiscription user={reel} />
+								<ReelPostDiscription reel={reel} />
 
 							</div>
 
@@ -83,15 +83,15 @@ const ReelPostItems = ({reel,reelId,reelRef}) => {
 
 							<div className="absolute right-0 bottom-0 z-10">
 
-								<ReelPostActions user={reel} />
+								<ReelPostActions reactions={reel.reactions} />
 
 							</div>
 
 							<div className="absolute left-0 w-full py-4 px-2 bottom-0 bg-bl-grad-black-top tablet-sm:px-0">
 
-								<ReelPostUser user={reel}/>
+								<ReelPostUser user={reel.user}/>
 
-								<ReelPostDiscription user={reel} />
+								<ReelPostDiscription reel={reel} />
 
 							</div>
 

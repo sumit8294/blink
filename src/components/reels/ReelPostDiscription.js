@@ -1,7 +1,7 @@
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-const ReelPostDiscription = () =>{
+const ReelPostDiscription = ({reel}) =>{
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
 	return (
@@ -13,7 +13,7 @@ const ReelPostDiscription = () =>{
 						<div className="likes flex px-2 mobile-md:px-3 mb-4 tablet-sm:px-4  tablet-sm:text-[1.3rem] ">
 							<span className=" text-center font-semibold text-white">
 
-								Blink first Reel...
+								{reel.title}
 
 							</span>
 						</div >
@@ -54,7 +54,7 @@ const ReelPostDiscription = () =>{
 
 						<span className=" text-center font-semibold text-white">
 
-							Blink first Reel...
+							{reel.title}
 
 						</span>
 

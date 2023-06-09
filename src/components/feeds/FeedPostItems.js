@@ -10,7 +10,7 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
 
 
-const FeedPostItems = ({user}) =>{
+const FeedPostItems = ({post}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
@@ -21,19 +21,19 @@ const FeedPostItems = ({user}) =>{
 				<>
 					<div className="post relative bg-blink-black-1 " >
 
-						<FeedPostHeader user={user}/>
+						<FeedPostHeader post={post}/>
 
 						<div className="post-image px-2 text-center overflow-hidden" >
 
-							<img className="w-full rounded-xl"  src={user.imageUrl} alt="images" />
+							<img className="w-full rounded-xl"  src={post.imageUrl} alt="images" />
 
 						</div>
 
-						<FeedPostActions user={user} />
+						<FeedPostActions post={post} />
 
-						<FeedPostLikes user={user} />
+						<FeedPostLikes post={post} />
 
-						<FeedPostComments user={user} />
+						<FeedPostComments post={post} />
 	
 					</div>
 
@@ -42,19 +42,19 @@ const FeedPostItems = ({user}) =>{
 				<>
 					<div className="post relative mb-6 laptop-lg:bg-blink-black-1 laptop-lg:px-4 laptop-lg:border laptop-lg:border-blink-black-3" >
 
-						<FeedPostHeader user={user}/>
+						<FeedPostHeader post={post}/>
 
 						<div className="post-image rounded-xl text-center overflow-hidden" >
 
-							<img className="rounded-xl w-full"  src={user.imageUrl} alt="images" />
+							<img className="rounded-xl w-full"  src={post.imageUrl} alt="images" />
 
 						</div>
 
-						<FeedPostActions user={user} />
+						<FeedPostActions post={post} />
 
-						<FeedPostLikes user={user} />
+						<FeedPostLikes post={post} />
 
-						<FeedPostComments user={user} />
+						<FeedPostComments post={post} />
 
 						
 					</div>

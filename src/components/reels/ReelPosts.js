@@ -3,17 +3,12 @@ import { faCircleUp } from '@fortawesome/free-regular-svg-icons'
 import { faCircleDown } from '@fortawesome/free-regular-svg-icons'
 
 import ReelPostItems from './ReelPostItems';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import axios from 'axios';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-const reels = [
-	{name:"Niall",videoUrl:"./assets/videos/video1.mp4",imageUrl:"./assets/images/users/niall.jpg"},
-	{name:"KaranAujla",videoUrl:"./assets/videos/video2.mp4",imageUrl:"./assets/images/users/karanaujla.jpg"},
-	{name:"harry",videoUrl:"./assets/videos/video5.mp4",imageUrl:"./assets/images/users/harry.jpg"},
-	{name:"louis",videoUrl:"./assets/videos/video6.mp4",imageUrl:"./assets/images/users/louis.jpg"},
-]
 
 const ReelPosts = () =>{
 
@@ -21,10 +16,6 @@ const ReelPosts = () =>{
 
 	const containerRef = useRef(null)
   	const reelRefsArray = useRef([])
-
-  	useEffect(()=>{
-  		handleScroll();
-  	},[])
 
   	const scrollReelWithButton = (scrollTo) =>{
   		const container = containerRef.current
@@ -62,6 +53,31 @@ const ReelPosts = () =>{
 		    }
 
 	}
+
+	const [reels,setReels] = useState([]);
+	const fetchReels = async () =>{
+
+		try{
+			const response = await axios.get('http://localhost:5000/reels/');
+
+			if(response.data){
+				console.log(response.data);
+				setReels(response.data);
+			}
+		}
+		catch(error){
+			if(error.response && error.response.status === 404){
+				console.log("reels not found");
+			}
+		}
+
+	}
+
+
+	useEffect(()=>{
+  		fetchReels();
+  		handleScroll();
+  	},[])
 
 	return (
 
