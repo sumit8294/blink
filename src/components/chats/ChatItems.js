@@ -1,8 +1,8 @@
-
+import { format } from 'date-fns';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-const ChatItems = ({user,handleActive,active}) => {
+const ChatItems = ({chat,handleActiveChat,activeChat}) => {
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 	
@@ -13,11 +13,11 @@ const ChatItems = ({user,handleActive,active}) => {
 				?
 				<>
 
-					<div className={`cursor-pointer relative flex px-4 py-2 ${ active === user.name ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActive(user.name)} >
+					<div className={`cursor-pointer relative flex px-4 py-2 ${ activeChat === chat._id ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActiveChat(chat._id)} >
 
 						<div className="shrink-0 post-image h-12 my-auto w-12 rounded-full text-center overflow-hidden" >
 
-							<img className="w-full"  src={user.imageUrl} alt="images" />
+							<img className="w-full"  src={chat.participants[0].profile} alt="images" />
 
 						</div>
 						
@@ -29,15 +29,15 @@ const ChatItems = ({user,handleActive,active}) => {
 								
 								<span className="block tracking-wide font-normal text-white"> 
 									
-									{user.name}
+									{chat.participants[0].username}
 
 								</span>
 
 								<span className="block text-[11px] "> 
 									
-									<span className="block text-blink-gray-1"> { user.message } .</span>
+									<span className="block text-blink-gray-1"> { chat.messages[0].content } .</span>
 
-									<span className="text-blink-gray-2 text-[11px]"> {user.messageTime} </span>
+									<span className="text-blink-gray-2 text-[11px]"> {format(new Date(chat.messages[0].sendAt), 'dd MMM yyyy hh:mm a')} </span>
 
 								</span>
 						
@@ -52,11 +52,11 @@ const ChatItems = ({user,handleActive,active}) => {
 
 				<>
 
-					<div className={`cursor-pointer relative flex px-4 py-2 laptop-sm:px-2 ${ active === user.name ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActive(user.name)} >
+					<div className={`cursor-pointer relative flex px-4 py-2 laptop-sm:px-2 ${ activeChat === chat._id ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActiveChat(chat._id)} >
 
 						<div className="shrink-0 post-image h-12 my-auto w-12 laptop-sm:h-10 laptop-sm:w-10 rounded-full text-center overflow-hidden" >
 
-							<img className="w-full"  src={user.imageUrl} alt="images" />
+							<img className="w-full"  src={chat.participants[0].profile} alt="images" />
 
 						</div>
 						
@@ -64,19 +64,19 @@ const ChatItems = ({user,handleActive,active}) => {
 
 						<div className="">
 
-							<div className="px-3 laptop-sm:px-1">
+							<div className="px-3 laptop-sm:px-3">
 								
 								<span className="block tracking-wide font-normal text-white"> 
 									
-									{user.name}
+									{chat.participants[0].username}
 
 								</span>
 
 								<span className="block text-[11px] "> 
 									
-									<span className="block text-blink-gray-1"> { user.message } .</span>
+									<span className="block text-blink-gray-1"> { chat.messages[0].content } .</span>
 
-									<span className="text-blink-gray-2 text-[11px]"> {user.messageTime} </span>
+									<span className="text-blink-gray-2 text-[11px]">  {format(new Date(chat.messages[0].sendAt), 'dd MMM yyyy hh:mm a')}  </span>
 
 								</span>
 						

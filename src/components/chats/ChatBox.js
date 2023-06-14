@@ -5,9 +5,10 @@ import ChatBoxInput from './ChatBoxInput';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-const ChatBox = () =>{
+const ChatBox = ({chatMessages}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+	
 
 	return (
 		<>
@@ -35,9 +36,9 @@ const ChatBox = () =>{
 
 						<div className="w-full py-1 border-l border-blink-black-2 bg-blink-black-1 rounded-r-2xl">
 
-							<ChatBoxHeader />
+							<ChatBoxHeader participant={chatMessages && chatMessages.participants[0]} />
 
-							<ChatBoxBody />
+							<ChatBoxBody messages={chatMessages && chatMessages.messages} participant={chatMessages && chatMessages.participants[0]}/>
 
 							<ChatBoxInput />
 

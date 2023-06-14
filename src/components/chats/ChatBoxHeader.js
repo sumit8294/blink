@@ -5,7 +5,9 @@ import { faPhone } from '@fortawesome/free-solid-svg-icons'
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-const ChatBoxHeader = () =>{
+import {Link} from 'react-router-dom';
+
+const ChatBoxHeader = ({participant}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
@@ -18,21 +20,25 @@ const ChatBoxHeader = () =>{
 				<>
 					<div className="w-full flex justify-between px-4 py-1 border-b border-blink-black-2 fixed top-0 bg-blink-black-1 tablet-sm:py-2 tablet-sm:text-[1.6rem]">
 
-						<div className="user-info flex" >
+						<Link to={participant && `/profile/${participant._id}`} >
 
-							<div className=" post-image h-8 my-auto w-8 tablet-sm:h-12 tablet-sm:w-12 rounded-full text-center overflow-hidden" >
+							<div className="user-info flex" >
 
-								<img className="w-full"  src="./assets/images/users/badshah.jpg" alt="images" />
+								<div className=" post-image h-8 my-auto w-8 tablet-sm:h-12 tablet-sm:w-12 rounded-full text-center overflow-hidden" >
 
+									<img className="w-full"  src={participant && participant.profile} alt="user" />
+
+								</div>
+
+								<div className="ml-3 py-2 ">
+									
+									<span className="block tracking-wide font-normal text-white"> {participant && participant.username} </span>
+							
+								</div>					
+							
 							</div>
 
-							<div className="ml-3 py-2 ">
-								
-								<span className="block tracking-wide font-normal text-white"> Badshah </span>
-						
-							</div>					
-						
-						</div>
+						</Link >
 
 						<div className="contact-options cursor-pointer flex py-2">
 							
@@ -58,21 +64,25 @@ const ChatBoxHeader = () =>{
 				<>
 					<div className="flex justify-between px-4 py-1 border-b border-blink-black-2">
 
-						<div className="user-info flex" >
+						<Link to={ participant && `/profile/${participant._id}`} >
 
-							<div className=" post-image h-8 my-auto w-8 rounded-full text-center overflow-hidden" >
+							<div className="user-info flex" >
 
-								<img className="w-full"  src="./assets/images/users/badshah.jpg" alt="images" />
+								<div className=" post-image h-8 my-auto w-8 rounded-full text-center overflow-hidden" >
 
+									<img className="w-full"  src={participant && participant.profile} alt="user" />
+
+								</div>
+
+								<div className="ml-3 py-2 ">
+									
+									<span className="block tracking-wide font-normal text-white"> {participant && participant.username} </span>
+							
+								</div>					
+							
 							</div>
 
-							<div className="ml-3 py-2 ">
-								
-								<span className="block tracking-wide font-normal text-white"> Badshah </span>
-						
-							</div>					
-						
-						</div>
+						</Link >
 
 						<div className="contact-options cursor-pointer flex py-2">
 							

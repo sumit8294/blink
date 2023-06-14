@@ -1,30 +1,44 @@
 import ChatItems from './ChatItems';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
+import axios from 'axios';
 
 import './chats.css'
-const users = [
-	{name:"karan aujla",imageUrl:"./assets/images/users/karanaujla.jpg",message:"Thanks for having me on stage",messageTime:"sun 1:13 pm"},
-	{name:"badshah",imageUrl:"./assets/images/users/badshah.jpg",message:"Thanks for having me on stage",messageTime:"1:44 pm"},
-	{name:"divine",imageUrl:"./assets/images/users/divine.jpg",message:"Thanks for having me on stage",messageTime:"12:33 am"},
-	{name:"paradox",imageUrl:"./assets/images/users/para.jpg",message:"Thanks for having me on stage..",messageTime:" 2 days ago"},
-	{name:"zyan",imageUrl:"./assets/images/users/zyan.jpg",message:"Thanks for having me on stage",messageTime:"yesterday"},
-	{name:"harry",imageUrl:"./assets/images/users/harry.jpg",message:"Thanks for having me on stage",messageTime:"sun 1:13 pm"},
-	{name:"louis",imageUrl:"./assets/images/users/louis.jpg",message:"Thanks for having me on stage",messageTime:"1:44 pm"},
-	{name:"divine",imageUrl:"./assets/images/users/divine.jpg",message:"Thanks for having me on stage",messageTime:"12:33 am"},
-	{name:"paradox",imageUrl:"./assets/images/users/para.jpg",message:"Thanks for having me on stage",messageTime:"2 days ago"},
-	{name:"zyan",imageUrl:"./assets/images/users/zyan.jpg",message:"Thanks for having me on stage",messageTime:"yesterday"},
-]
 
-const Chats = () =>{
+
+const Chats = ({activeChat, handleActiveChat}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
-	const [active,setActive] = useState("divine");
 
-	const handleActive = (messager) => setActive(messager);
+	const [userChats,setUserChats] = useState([]);
+
+	const fetchUserChats = async () =>{
+
+		const userId = "646e21641b4dc70af49f4940";
+
+		try{
+			const response = await axios.get(`http://localhost:5000/chats/${userId}`);
+
+			if(response.data){
+				
+				setUserChats(response.data);
+			}
+		}
+		catch(error){
+			if(error.response && error.response.status === 404){
+				console.log("chats not found");
+			}
+			else console.log("chats not fetched");
+		}
+	}
+
+	useEffect(()=>{
+		fetchUserChats();
+	},[])
+
 
 	return (
 		<>
@@ -43,9 +57,9 @@ const Chats = () =>{
 
 						<div className="chats overflow-y-auto h-[500px]">
 
-							{users.map((user,index)=>{
+							{userChats && userChats.map((chat,index)=>{
 
-								return <ChatItems key={index} user={user} active={active} handleActive={handleActive}/>
+								return <ChatItems key={index} chat={chat} activeChat={activeChat} handleActiveChat={handleActiveChat}/>
 
 							})}
 
@@ -69,9 +83,9 @@ const Chats = () =>{
 
 						<div className="chats overflow-y-auto h-[500px]">
 
-							{users.map((user,index)=>{
+							{userChats && userChats.map((chat,index)=>{
 
-								return <ChatItems key={index} user={user} active={active} handleActive={handleActive}/>
+								return <ChatItems key={index} chat={chat} activeChat={activeChat} handleActiveChat={handleActiveChat}/>
 
 							})}
 

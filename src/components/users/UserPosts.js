@@ -1,42 +1,45 @@
-import ExplorePostItems from '../explores/ExplorePostItems';
+import PostsGrid from './PostsGrid';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-const users = [
-	{name:"divine",imageUrl:"./assets/images/users/divine.jpg"},
-	{name:"karan aujla",imageUrl:"./assets/images/users/karanaujla.jpg"},
-	{name:"badshah",imageUrl:"./assets/images/users/badshah.jpg"},
-	{name:"harry",imageUrl:"./assets/images/users/harry.jpg"},
-	{name:"louis",imageUrl:"./assets/images/users/louis.jpg"},
-	{name:"niall",imageUrl:"./assets/images/users/niall.jpg"},
-	{name:"paradox",imageUrl:"./assets/images/users/para.jpg"},
-	{name:"zyan",imageUrl:"./assets/images/users/zyan.jpg"},
-	{name:"ronaldo",imageUrl:"./assets/images/users/ronaldo.jpg"},
-	{name:"divine",imageUrl:"./assets/images/users/divine.jpg"},
-	{name:"karan aujla",imageUrl:"./assets/images/users/karanaujla.jpg"},
-	{name:"badshah",imageUrl:"./assets/images/users/badshah.jpg"},
-	{name:"harry",imageUrl:"./assets/images/users/harry.jpg"},
-	{name:"louis",imageUrl:"./assets/images/users/louis.jpg"},
-	{name:"niall",imageUrl:"./assets/images/users/niall.jpg"},
-	{name:"paradox",imageUrl:"./assets/images/users/para.jpg"},
-	{name:"zyan",imageUrl:"./assets/images/users/zyan.jpg"},
-	{name:"ronaldo",imageUrl:"./assets/images/users/ronaldo.jpg"},
-	{name:"divine",imageUrl:"./assets/images/users/divine.jpg"},
-	{name:"karan aujla",imageUrl:"./assets/images/users/karanaujla.jpg"},
-	{name:"badshah",imageUrl:"./assets/images/users/badshah.jpg"},
-	{name:"harry",imageUrl:"./assets/images/users/harry.jpg"},
-	{name:"louis",imageUrl:"./assets/images/users/louis.jpg"},
-	{name:"niall",imageUrl:"./assets/images/users/niall.jpg"},
-	{name:"paradox",imageUrl:"./assets/images/users/para.jpg"},
-	{name:"zyan",imageUrl:"./assets/images/users/zyan.jpg"},
-	{name:"ronaldo",imageUrl:"./assets/images/users/ronaldo.jpg"},
+import {useState, useEffect} from 'react';
+import axios from 'axios';
+import {useParams} from 'react-router-dom';
 
-]
+
 
 const UserPosts = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
+	const [posts,setPosts] = useState([]);
+
+	const {userId} = useParams();
+
+	const fetchPosts = async () =>{
+
+		try{
+			const response = await axios.get(`http://localhost:5000/posts/user/${userId}`);
+
+			if(response.data){
+				
+				setPosts(response.data);
+			}
+		}
+		catch(error){
+			if(error.response && error.response.status === 404){
+				console.log(error.response.message);
+			}
+			else{
+				console.log("posts not fetched");
+			}
+		}
+	}
+
+	useEffect(()=>{
+		fetchPosts();
+	},[])
 
 	return (
 		<>
@@ -46,8 +49,8 @@ const UserPosts = () =>{
 						<div className=" py-2">
 			
 							<div className="image-gallery mx-auto py-px " >
-								{users.map((user,i)=>{
-									return <ExplorePostItems key={i} user={user}/>
+								{posts && posts.map((post,i)=>{
+									return <PostsGrid key={i} post={post}/>
 								})}
 								
 							</div>
@@ -57,9 +60,9 @@ const UserPosts = () =>{
 				:
 					<>
 						<div className=" px-6 py-2">
-							<div className="explore-image-gallery-desktop mx-auto py-px px-6 " >
-								{users.map((user,i)=>{
-									return <ExplorePostItems key={i} user={user}/>
+							<div className="explore-image-gallery-desktop py-px px-6 " >
+								{posts && posts.map((post,i)=>{
+									return <PostsGrid key={i} post={post}/>
 								})}
 								
 							</div>

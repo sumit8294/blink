@@ -7,6 +7,8 @@ import { faFilm } from '@fortawesome/free-solid-svg-icons'
 import { faGear } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
+
 
 import {Link} from 'react-router-dom';
 import {useState, useEffect, useContext} from 'react';
@@ -26,7 +28,8 @@ const navItems = [
 	{name:"Reels",icon:faFilm},
 	{name:"Settings",icon:faGear},
 	{name:"Profile",icon:faUser},
-	{name:"Notifications",icon:faUser},
+	{name:"Create",icon:faFilm},
+	{name:"Notifications",icon:faCommentDots},
 
 ]
 
@@ -60,7 +63,7 @@ const Navigation = () =>{
 
 						return (
 
-							<Link key={key} to={`/${item.name.toLowerCase()}`}>
+							<Link key={key} to={item.name !== 'Profile' ? `/${item.name.toLowerCase()}` : `/${item.name.toLowerCase()}/646e21671b4dc70af49f494d`}>
 
 								<li className="cursor-pointer">
 

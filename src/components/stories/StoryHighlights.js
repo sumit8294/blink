@@ -1,33 +1,45 @@
+import HighlightItems from './HighlightItems';
 
-import StoryItems from './StoryItems';
-
-const users = [
-	{name:"",imageUrl:"./assets/images/users/divine.jpg"},
-	{name:"",imageUrl:"./assets/images/users/karanaujla.jpg"},
-	{name:"",imageUrl:"./assets/images/users/badshah.jpg"},
-	{name:"",imageUrl:"./assets/images/users/harry.jpg"},
-	{name:"",imageUrl:"./assets/images/users/louis.jpg"},
-	{name:"",imageUrl:"./assets/images/users/niall.jpg"},
-	{name:"",imageUrl:"./assets/images/users/para.jpg"},
-	{name:"",imageUrl:"./assets/images/users/zyan.jpg"},
-	{name:"",imageUrl:"./assets/images/users/ronaldo.jpg"},
-	{name:"",imageUrl:"./assets/images/users/divine.jpg"},
-	{name:"",imageUrl:"./assets/images/users/karanaujla.jpg"},
-	{name:"",imageUrl:"./assets/images/users/badshah.jpg"},
-	{name:"",imageUrl:"./assets/images/users/harry.jpg"},
-
-]
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import {useParams} from 'react-router-dom';
 
 const StoryHighlights = () =>{
 
+	const [storiesHighlights,setStoriesHighlights] = useState([]);
+
+	const {userId} = useParams();
+
+	const fetchStories = async () =>{
+
+		try{
+			const response = await axios.get(`http://localhost:5000/stories/user/${userId}`);
+
+			if(response.data){
+				setStoriesHighlights(response.data);
+			}
+		}
+		catch(error){
+			if(error.response && error.response.status === 404){
+				console.log(error.response.message);
+			}
+			else{
+				console.log("story highlights not fetched");
+			}
+		}
+	}
+
+	useEffect(()=>{
+		fetchStories();
+	},[])
+
 	return (
 		<>
-			{users.map((user,index)=>{
-				return(
+
+			{storiesHighlights.story && storiesHighlights.story.map((storyItem,index)=>{
+
+				return	(<HighlightItems key={index} profile={storyItem.storyUrl} />)
 				
-					<StoryItems key={index} user={user}/>
-				
-				)
 			})}
 		</>
 	)

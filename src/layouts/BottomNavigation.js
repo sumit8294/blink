@@ -54,13 +54,13 @@ const BottomNavigation = () =>{
 
 					</Link>
 
-					<Link className="py-4 w-1/4" to={`/profile`}>
+					<Link className="py-4 w-1/4" to={`/profile/646e21671b4dc70af49f494d`}>
 
 						<span>
 
 							<div className="border-2 border-blink-blue-1 mx-auto w-8 h-8 rounded-full overflow-hidden">
 					
-								<img className="" src='./assets/images/users/zyan.jpg' alt="user-story"/>		
+								<img className="" src='https://res.cloudinary.com/dzaklkjrk/image/upload/v1684937670/posts-and-profile/zyan.jpg' alt="user-story"/>		
 				
 							</div>
 

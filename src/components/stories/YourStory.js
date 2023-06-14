@@ -2,7 +2,7 @@
 import StoryItems from './StoryItems'
 
 const YourStory = () =>{
-	const user = {name:"Your story",imageUrl:"./assets/images/users/zyan.jpg"};
+	const user = {username:"Your story",profile:"./assets/images/users/zyan.jpg"};
 	return (
 		<>
 			<StoryItems user={user}/>

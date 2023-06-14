@@ -24,7 +24,7 @@ const Feed = () =>{
 				</>
 				:
 				<> 
-					<div className="h-screen text-white bg-blink-black-1 laptop-lg:inline-grid">
+					<div className="h-screen w-full text-white bg-blink-black-1 laptop-lg:inline-grid">
 
 						<div className=" mx-2 my-2 overflow-hidden laptop-lg:bg-blink-black-2 laptop-lg:py-4 drop-shadow-2xl rounded-2xl ">
 

@@ -1,14 +1,16 @@
+import BottomNavigation from '../layouts/BottomNavigation';
 import Header from '../layouts/Header';
+import SideBar from '../layouts/SideBar';
 import Explore from './explores/Explore';
-import Messages from './chats/Messages';
 import Feed from './feeds/Feed';
 import Reels from './reels/Reels';
 import Settings from './userSettings/Settings';
-import SideBar from '../layouts/SideBar';
+import Messages from './chats/Messages';
 import Chats from './chats/Chats';
-import BottomNavigation from '../layouts/BottomNavigation';
-import UserProfile from './users/UserProfile';
 import Notifications from './notifications/Notifications';
+import StoryViewer from './stories/StoryViewer';
+import UserProfile from './users/UserProfile';
+import CreatePost from './users/CreatePost';
 
 
 import { Routes, Route, useParams} from 'react-router-dom';
@@ -46,9 +48,12 @@ const Home = () =>{
 							<Route path="/messages" element={<Messages />} />
 							<Route path="/reels" element={<Reels />} />
 							<Route path="/settings" element={<Settings />} />
-							<Route path="/profile" element={<UserProfile />} />
+							<Route path="/profile/:userId" element={<UserProfile />} />
 							<Route path="/chats" element={<Chats />} />
 							<Route path="/notifications" element={<Notifications />} />
+							<Route path="/stories/following/:userId/:userStoryindex" element={<StoryViewer />} />
+							<Route path="/create" element={<CreatePost />} />
+
 						</Routes>
 					</div>
 					<BottomNavigation />
@@ -65,8 +70,11 @@ const Home = () =>{
 								<Route path="/messages" element={<Messages />} />
 								<Route path="/reels" element={<Reels />} />
 								<Route path="/settings" element={<Settings />} />
-								<Route path="/profile" element={<UserProfile />} />
+								<Route path="/profile/:userId" element={<UserProfile />} />
 								<Route path="/notifications" element={<Notifications />} />
+								<Route path="/stories/following/:userId/:userStoryindex" element={<StoryViewer />} />
+								<Route path="/create" element={<CreatePost />} />
+
 							</Routes>
 						</div>
 						
