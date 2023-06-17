@@ -5,6 +5,8 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
 import axios from 'axios';
 import {useState, useEffect} from 'react';
+import {useSelector,useDispatch} from 'react-redux';
+import {getAccessToken,getAccessTokenWithRefreshToken} from '../../reducers/authSlice';
 
 
 const ExplorePosts = () =>{
@@ -12,29 +14,44 @@ const ExplorePosts = () =>{
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
 	const [explorePosts,setExplorePosts] = useState([]);
+	const token = useSelector(getAccessToken);
+	const dispatch = useDispatch();
 	const fetchPosts = async () =>{
-
 		try{
 
-			const response = await axios.get('http://localhost:5000/posts');
+			const response = await axios.get(
+				'http://localhost:5000/posts',
+				{
+					withCredential: true,
+					headers:{
+						'authorization':`Bearer ${token}`
+					}
+				});
 
 			if(response.data){
 				setExplorePosts(response.data);
 			}
 		}
 		catch(error){
-			if(error.response && error.response.status === 404){
-				console.log("posts not found");
+			if(error.response && error.response.status === 403){
+				try{
+					
+					await dispatch(getAccessTokenWithRefreshToken());
+
+				}
+				catch(error){
+					console.log(error)
+				}
 			}
 			else{
-				console.log("Something went wrong");
+				console.log(error);
 			}
 		}
 	}
 
 	useEffect(()=>{
 		fetchPosts();
-	},[])
+	},[token])
 
 	return (
 		<>

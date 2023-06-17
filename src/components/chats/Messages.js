@@ -6,6 +6,8 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
 import {useState,useEffect} from 'react';
 import axios from 'axios';
+import useAuth from '../../hooks/useAuth';
+
 
 const Messages = () =>{
 
@@ -17,9 +19,9 @@ const Messages = () =>{
 
 	const handleActiveChat = (messager) => setActiveChat(messager);
 
-	const fetchChatMessages = async (chatId) =>{
+	const {userId} = useAuth();
 
-		const userId = "646e21641b4dc70af49f4940";
+	const fetchChatMessages = async (chatId) =>{	
 
 		try{
 			const response = await axios.get(`http://localhost:5000/chats/${userId}/${chatId}`);

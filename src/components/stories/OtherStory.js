@@ -1,5 +1,5 @@
 import StoryItems from './StoryItems'
-
+import useAuth from '../../hooks/useAuth';
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -7,14 +7,16 @@ import axios from 'axios';
 const OtherStory = () =>{
 
 
-	const [storiesProfile,setStoriesProfile] = useState([]);
+	const [storiesProfile,setStoriesProfile] = useState(null);
 
+	const loggedInUser = useAuth();
+
+	const {userId} = loggedInUser;
+	
 	const fetchStoriesProfile = async () =>{
 
-		const loggedInUserId = "646e216a1b4dc70af49f495c";
-
 		try{
-			const response = await axios.get(`http://localhost:5000/stories/following/active/${loggedInUserId}`);
+			const response = await axios.get(`http://localhost:5000/stories/following/active/${userId}`);
 
 			if(response.data){
 				
@@ -39,10 +41,10 @@ const OtherStory = () =>{
 
 	return (
 		<>
-			{storiesProfile.map((story,index)=>{
+			{storiesProfile && storiesProfile.map((story,index)=>{
 				return(
 				
-					<StoryItems key={index} user={story.user} userStoryindex={index} loggedInUserId={"646e216a1b4dc70af49f495c"}/>
+					<StoryItems key={index} user={story.user} userStoryindex={index} loggedInUserId={userId}/>
 				
 				)
 			})}

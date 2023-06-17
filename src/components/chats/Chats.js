@@ -4,6 +4,7 @@ import {useState,useEffect} from 'react';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 import axios from 'axios';
+import useAuth from '../../hooks/useAuth';
 
 import './chats.css'
 
@@ -12,12 +13,11 @@ const Chats = ({activeChat, handleActiveChat}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
-
 	const [userChats,setUserChats] = useState([]);
 
-	const fetchUserChats = async () =>{
+	const {userId} = useAuth();
 
-		const userId = "646e21641b4dc70af49f4940";
+	const fetchUserChats = async () =>{		
 
 		try{
 			const response = await axios.get(`http://localhost:5000/chats/${userId}`);

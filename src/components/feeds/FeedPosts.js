@@ -2,8 +2,10 @@ import FeedPostItems from './FeedPostItems';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-import axios from 'axios';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
+import {useSelector,useDispatch} from 'react-redux';
+import {getPosts, selectAllPosts} from '../../reducers/postSlice';
+import {getAccessToken} from '../../reducers/authSlice';
 
 
 
@@ -11,26 +13,15 @@ const FeedPosts = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
-	const [posts,setPosts] = useState([]);
+	const posts = useSelector(selectAllPosts);
+	const token = useSelector(getAccessToken);
+
+	const dispatch = useDispatch();
 
 	const fetchPosts = async () =>{
 
-		try{
-			const response = await axios.get('http://localhost:5000/posts');
-
-			if(response.data){
-				
-				setPosts(response.data);
-			}
-		}
-		catch(error){
-
-			if(error.response && error.response.status === 404){
-				console.log(error.response.data.message,"dd");
-			}else{
-				console.log("something went wrong")
-			}
-		}
+		dispatch(getPosts(token));
+		
 	} 
 
 	useEffect(()=>{
@@ -71,7 +62,7 @@ const FeedPosts = () =>{
 							<div className="mx-auto w-96 laptop-lg:w-[24rem]" >
 
 								{posts.map((post,i)=>{
-
+									
 									return <FeedPostItems key={i} post={post}/>
 
 								})}

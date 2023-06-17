@@ -8,7 +8,6 @@ const FeedPostHeader = ({post}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
-
 	return (
 
 		<>

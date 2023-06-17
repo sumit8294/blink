@@ -27,7 +27,7 @@ const StoryItems = ({user,userStoryindex,loggedInUserId}) =>{
 
 						</Link>
 
-						{user.username === "Your story" &&
+						{user._id === loggedInUserId &&
 
 						<span className="absolute right-1 bottom-7 mobile-md:right-3 mobile-md:bottom-8 tablet-md:right-2 bg-blink-black-1 rounded-full text-[0px]">
 
@@ -63,7 +63,7 @@ const StoryItems = ({user,userStoryindex,loggedInUserId}) =>{
 
 						</Link>
 
-						{user.username=== "Your story" &&
+						{user._id === loggedInUserId &&
 
 						<span className="absolute right-2 bottom-10 bg-blink-black-1 rounded-full text-[0px]">
 

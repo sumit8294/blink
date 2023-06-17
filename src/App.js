@@ -2,20 +2,33 @@ import Home from './components/Home'
 
 
 import './App.css';
-import { Routes, Route} from 'react-router-dom';
+import { Routes, Route, Outlet, Navigate} from 'react-router-dom';
 
 import UserSignup from './components/auth/UserSignup';
 import UserLogin from './components/auth/UserLogin';
+import PersistLogin from './components/auth/PersistLogin';
+import RequiredAuth from './components/auth/RequiredAuth';
+import {getAccessToken} from './reducers/authSlice';
+import {useSelector} from 'react-redux';
 
 
-function App() {	
-
+function App() {
+	const token = useSelector(getAccessToken);
 	return (
 	    <>
 			<Routes>
-				<Route path="/signup" element={<UserSignup />} />
-				<Route path="/login" element={<UserLogin />} />
-				<Route path="*" element={<Home />} />
+					
+				<Route element={<PersistLogin />} >
+
+					<Route path="/signup" element={token ? <Navigate to="/" /> : <UserSignup />} />
+					<Route path="/login" element={token ? <Navigate to="/" /> : <UserLogin />} />
+
+					<Route element={<RequiredAuth />}>
+						<Route path="*" element={<Home />} />
+					</Route>
+
+				</Route>
+
 			</Routes>
 	    </>
 	);

@@ -1,13 +1,14 @@
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
+import useAuth from '../../hooks/useAuth';
 
 import './chatboxbody.css'
 const ChatBoxBody = ({messages,participant}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
-	const tempLoginUserId = "646e21641b4dc70af49f4940"; 
+	const {userId} = useAuth(); 
 
 	return (
 
@@ -91,11 +92,11 @@ const ChatBoxBody = ({messages,participant}) =>{
 
 						{messages && messages.map((messageItem,index)=>{
 							
-							if(messageItem.sender._id === tempLoginUserId){
+							if(messageItem.sender._id === userId){
 
 								return (
 
-									<div className="relative flex justify-end right-0" >
+									<div key={index} className="relative flex justify-end right-0" >
 
 										<p className="text-start text-white bg-blink-gradient-1 px-2 mx-4 my-2 rounded-2xl py-2">
 										{messageItem.content}</p>

@@ -7,6 +7,7 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const Followers = ({type,setShowFollowers}) =>{
 
@@ -16,7 +17,9 @@ const Followers = ({type,setShowFollowers}) =>{
 	//************
 	//***********
 
-	const loggedUserId = '646e21671b4dc70af49f494d';
+	const {userId} = useAuth(); 
+	// correct this do not call followers by loggedIn auth user call by userId whose profile is displaying
+	// here we are only displaying the loggedIn user followers for every user
 
 	const [followers, setFollowers] = useState([]);
 
@@ -26,7 +29,7 @@ const Followers = ({type,setShowFollowers}) =>{
 
 		try{
 			if(type === 'followers'){
-				const response = await axios.get(`http://localhost:5000/followers/followers/${loggedUserId}`);
+				const response = await axios.get(`http://localhost:5000/followers/followers/${userId}`);
 				if(response.data){
 					
 					setListType("Followers");
@@ -34,7 +37,7 @@ const Followers = ({type,setShowFollowers}) =>{
 				}
 			}
 			else if(type === 'followings'){
-				const response = await axios.get(`http://localhost:5000/followers/following/${loggedUserId}`);
+				const response = await axios.get(`http://localhost:5000/followers/following/${userId}`);
 				if(response.data){
 					
 					setListType("Followings");
@@ -89,7 +92,7 @@ const Followers = ({type,setShowFollowers}) =>{
 										let userId = followerItem.follower._id || followerItem.user._id;
 										return (
 
-											<Link to={`/profile/${userId}`}>
+											<Link key={index} to={`/profile/${userId}`}>
 
 												<li className="flex " key={index} onClick={()=>setShowFollowers("")}>
 
@@ -155,7 +158,7 @@ const Followers = ({type,setShowFollowers}) =>{
 										let userId = followerItem.follower._id || followerItem.user._id;
 										return (
 
-											<Link to={`/profile/${userId}`}>
+											<Link key={index} to={`/profile/${userId}`}>
 
 												<li className="flex " key={index}>
 

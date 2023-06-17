@@ -17,8 +17,9 @@ import { NotificationContext } from '../store/NotificationContext';
 
 import {useParams} from 'react-router-dom';
 
-// import { LOGGED_OUT } from '../reducers/users';
-// import {useDispatch} from 'react-redux';
+import { userLogout } from '../reducers/authSlice';
+import {useDispatch} from 'react-redux';
+
 
 const navItems = [
 
@@ -45,9 +46,12 @@ const Navigation = () =>{
 
 	const handleNotifyBarVisibility = () => setNotifyBarVisibility(!notifyBarVisibility);
 
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-	// const handleLogout = () => dispatch(LOGGED_OUT());
+	const handleLogout = async () =>{
+
+		await dispatch(userLogout());
+	}
 
 	return (
 
@@ -103,7 +107,7 @@ const Navigation = () =>{
 
 					</ul>
 
-					<div className=" cursor-pointer px-3 mt-5 hover:text-blink-blue-1 hover:border-r-2 hover:border-blink-blue-1">
+					<div onClick={handleLogout} className=" cursor-pointer px-3 mt-5 hover:text-blink-blue-1 hover:border-r-2 hover:border-blink-blue-1">
 
 						<div className="flex px-5 py-2  border-blink-black-3 content-center text-center">
 

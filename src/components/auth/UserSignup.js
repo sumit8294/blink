@@ -4,11 +4,12 @@ import { faKey } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 
-import {useState} from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
+
+import {useDispatch,useSelector} from 'react-redux';
+import {userSignup, getAuthStatus, getAuthError} from '../../reducers/authSlice';
 
 import Alert from '../elements/Alert';
 
@@ -29,42 +30,15 @@ const validationSchema = Yup.object().shape({
 
 const UserSignup = () =>{
 
-	const [successAlert,setSuccessAlert] = useState({status:false,message:""});
-	const [errorAlert,setErrorAlert] = useState({status:false,message:""});
+
+	let dispatch = useDispatch();
+	let signupStatus = useSelector(getAuthStatus);
+	let signupError = useSelector(getAuthError);
 
 	const handleLogin = async (values) =>{
-
 		const body = {...values};
 
-		try{
-			const response = await axios.post('http://localhost:5000/users/',body,{withCredentials: true});
-			if(response.data){
-				setSuccessAlert({status:true,message:response.data.message});
-			}
-		}catch(error){
-
-			
-			if(error.response && error.response.status === 409){
-
-				const errorMessage = error.response.data.message || 'Conflict with user status';
-
-				setErrorAlert({status:true,message:errorMessage});
-
-				setTimeout(()=>{
-					setErrorAlert({status:false,message:''});
-				},3000)
-			}
-			else{
-
-				setErrorAlert({status:true,message:"Signup Failed!!"});
-			}
-			
-		}
-
-		
-		setTimeout(() => {
-
-        }, 2000);
+		dispatch(userSignup(body));
 	}
 
 
@@ -79,7 +53,6 @@ const UserSignup = () =>{
 		validateOnBlur: false,
 		onSubmit: handleLogin,
 	});
-
 	const {handleChange, handleSubmit, touched, errors, values} = formik;
 
 
@@ -87,7 +60,7 @@ const UserSignup = () =>{
 
 		<>
 
-			<div className="mx-auto tablet-sm:w-[26rem] mt-20 bg-blink-black-1 rounded-xl py-10 px-10">
+			<div className="mx-auto tablet-sm:w-[26rem] mt-20 bg-blink-black-1 rounded-xl py-10 px-10 text-black">
 
 				<div className="text-center px-2 mb-8 text-[3rem] laptop-sm:text-3xl font-bold text-blink-blue-1">
 					<span>BLINK</span>
@@ -95,8 +68,9 @@ const UserSignup = () =>{
 				
 		    	<form onSubmit={handleSubmit}>
 		    		
-			       {successAlert.status && <Alert type="success" message={successAlert.message}/>}
-			       {errorAlert.status && <Alert type="errors" message={errorAlert.message}/>}
+			       {signupStatus === 'succeeded' && <Alert type="success" message={"Signup successfully!!"}/>}
+			       {signupStatus === 'loading' && <Alert type="toaster" message={"Sending signup request!!"}/>}
+			       {signupStatus === 'failed' && signupError && <Alert type="errors" message={signupError}/>}
 
 
 			       {

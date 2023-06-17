@@ -2,12 +2,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
 
-import {useState} from 'react';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import {Link} from 'react-router-dom';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import {Link, useNavigate} from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
+import {userLogin,getAuthStatus, getAuthError, getAccessToken} from '../../reducers/authSlice';
+import {useEffect} from 'react';
 
 import Alert from '../elements/Alert';
 
@@ -22,33 +23,22 @@ const validationSchema = Yup.object().shape({
 
 const UserLogin = () =>{
 
-
-	const [successAlert,setSuccessAlert] = useState({status:false,message:""});
-	const [errorAlert,setErrorAlert] = useState({status:false,message:""});
+	const dispatch = useDispatch();
+	const loginStatus = useSelector(getAuthStatus);
+	const loginError = useSelector(getAuthError);
+	const token = useSelector(getAccessToken);
+	const navigate = useNavigate();
 
 
 	const handleLogin = async (values) =>{
 		
 		const body = {...values}; // 'usernameOrEmail','password' --> fields require for login api
 		
-		try{
-			const response = await axios.post('http://localhost:5000/auth/login',body)
-
-			if(response.data)
-				setSuccessAlert({status:true,message:response.data.message});
-				
-			const accessToken = response.data.accessToken
-			Cookies.set('jwt',accessToken,{expires: 7})	
-			console.log(accessToken);
-			
-		}catch(error){
-			console.log(error.response.data.message)
-			setErrorAlert({status:true,message:error.response.data.message});
-		}
-
+		await dispatch(userLogin(body));
 		
-	}
+		navigate('/');
 
+	}
 
 	const formik = useFormik({
 	  initialValues: {
@@ -66,7 +56,7 @@ const UserLogin = () =>{
 	return (
 
 		<>
-			<div className="mx-auto tablet-sm:w-[26rem] mt-20 bg-blink-black-1 rounded-xl py-10 px-10">
+			<div className="mx-auto tablet-sm:w-[26rem] mt-20 bg-blink-black-1 rounded-xl py-10 px-10 text-black">
 
 				<div className="text-center px-2 mb-8 text-[3rem] laptop-sm:text-3xl font-bold text-blink-blue-1">
 					<span>BLINK</span>
@@ -74,8 +64,9 @@ const UserLogin = () =>{
 				
 		    	<form onSubmit={handleSubmit}>
 		    		
-			       {successAlert.status && <Alert type="success" message={successAlert.message}/>}
-			       {errorAlert.status && <Alert type="errors" message={errorAlert.message}/>}
+			       {loginStatus === 'succeeded' && <Alert type="success" message={"Logged In Successfully!!"}/>}
+			       {loginStatus === 'loading' && <Alert type="toaster" message={"Sending login request..."}/>}
+			       {loginStatus === 'failed' && loginError && <Alert type="errors" message={loginError}/>}
 
 			       {(touched.usernameOrEmail && errors.usernameOrEmail) ?
 			       		<Alert type="errors" message={errors.usernameOrEmail}/>
