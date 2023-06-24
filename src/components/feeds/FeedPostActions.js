@@ -41,7 +41,7 @@ const FeedPostActions = ({post}) =>{
 
 		try{
 			if(currentState){
-				await dispatch(removePostLike({userId,postId,token}))
+				await dispatch(removePostLike({userId,postId,token,auth}))
 
 			}else{
 				await dispatch(addPostLike({userId,postId,auth,token})) // "auth" for add mutualLike of loggedInUser
@@ -58,7 +58,7 @@ const FeedPostActions = ({post}) =>{
 
 		try{
 			if(currentState){
-				await dispatch(removePostBookmark({userId,postId,token}))
+				await dispatch(removePostBookmark({userId,postId,token,auth}))
 
 			}else{
 				await dispatch(addPostBookmark({userId,postId,token,auth})) // auth for increaseLikeCount()

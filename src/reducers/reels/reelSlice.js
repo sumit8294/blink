@@ -95,7 +95,9 @@ const reelSlice = createSlice({
 export const getReelsStatus = state => state.reels.status
 export const selectAllReels = state => state.reels.reels
 export const selectReelById = (state,id) => {
-	return state.reels.reels.find((reelItem)=> reelItem._id === id);
+	if(state.reels.reels){
+		return state.reels.reels.find((reelItem)=> reelItem._id === id);
+	}
 }
 
 export default reelSlice.reducer;
