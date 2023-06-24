@@ -8,9 +8,10 @@ import FeedPostComments from './FeedPostComments';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
+import React from 'react';
 
 
-const FeedPostItems = ({post}) =>{
+let FeedPostItems = ({post}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
@@ -31,7 +32,7 @@ const FeedPostItems = ({post}) =>{
 
 						<FeedPostActions post={post} />
 
-						<FeedPostLikes post={post} />
+						{post.mutualLikes.length > 0 && <FeedPostLikes mutualLikes={post.mutualLikes} likeCount={post.reactions.likes}/>}
 
 						<FeedPostComments post={post} />
 	
@@ -52,7 +53,7 @@ const FeedPostItems = ({post}) =>{
 
 						<FeedPostActions post={post} />
 
-						<FeedPostLikes post={post} />
+						{post.mutualLikes.length > 0 && <FeedPostLikes mutualLikes={post.mutualLikes} likeCount={post.reactions.likes}/>}
 
 						<FeedPostComments post={post} />
 
@@ -64,4 +65,5 @@ const FeedPostItems = ({post}) =>{
 	)
 }
 
+FeedPostItems = React.memo(FeedPostItems)
 export default FeedPostItems;

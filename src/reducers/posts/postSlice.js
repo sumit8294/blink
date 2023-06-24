@@ -1,6 +1,17 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {baseApi} from '../config.js';
+import {baseApi} from '../../config.js';
+import {
+	increaseReactionCount,
+	decreaseReactionCount,
+	addPostLike,
+	removePostLike,
+	addPostBookmark,
+	removePostBookmark,
+} from './reactionAsyncThunks'
+import { addComment,removeComment } from '../commentSlice'
+import { shareContent } from '../chatSlice'
+
 
 const initialState = {
 	posts:[],
@@ -9,11 +20,13 @@ const initialState = {
 	error: null,
 }
 
-export const getPosts = createAsyncThunk('posts/fetchPosts',async (token)=>{
+
+
+export const getPosts = createAsyncThunk('posts/fetchPosts',async ({userId,token})=>{
 	try{
-		
+
 		const posts = await axios.get(
-			`${baseApi}/posts`,
+			`${baseApi}/posts/${userId}`,
 			{
 				withCredentials: true,
 				headers:{
@@ -69,11 +82,16 @@ export const deletePost = createAsyncThunk('posts/deletePost',async (userId,post
 	}
 })
 
+
+
+
+
+
 const postSlice = createSlice({
 	name: 'posts',
 	initialState,
-	reducer:{
-
+	reducers:{
+		
 	},
 	extraReducers:(builder)=>{
 		builder
@@ -100,11 +118,28 @@ const postSlice = createSlice({
 			state.status = 'failed'
 			state.error = action.error.message
 		})
+		.addCase(addPostLike.pending,(state,action)=> increaseReactionCount(state,action,'likes'))
+		.addCase(addPostLike.rejected,(state,action)=> decreaseReactionCount(state,action,'likes'))
+		.addCase(removePostLike.pending,(state,action)=> decreaseReactionCount(state,action,'likes'))
+		.addCase(removePostLike.rejected,(state,action)=> increaseReactionCount(state,action,'likes'))
+		.addCase(addPostBookmark.pending,(state,action)=> increaseReactionCount(state,action,'bookmarks'))
+		.addCase(addPostBookmark.rejected,(state,action)=> decreaseReactionCount(state,action,'bookmarks'))
+		.addCase(removePostBookmark.pending,(state,action)=> decreaseReactionCount(state,action,'bookmarks'))
+		.addCase(removePostBookmark.rejected,(state,action)=> increaseReactionCount(state,action,'bookmarks'))
+		.addCase(addComment.fulfilled,(state,action)=> increaseReactionCount(state,action,'comments'))
+		.addCase(removeComment.fulfilled,(state,action)=> decreaseReactionCount(state,action,'comments'))
+		.addCase(shareContent.fulfilled,(state,action)=> increaseReactionCount(state,action,'shares'))
 	}
 })
 
 
 export const selectAllPosts = (state) => state.posts.posts;
+export const selectPostById = (state,id) => {
+	return state.posts.posts.find((postItem)=> postItem._id === id);
+}
 export const selectUserPosts = (state) => state.posts.userPosts;
+export const getPostStatus = (state) => state.posts.status;
 
 export default postSlice.reducer;
+
+

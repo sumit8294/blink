@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 
 import ReelPosts from './ReelPosts';
-import ReelPostsComments from './ReelPostsComments';
+import Share from '../others/Share';
+import Comment from '../others/Comment';
 
-import {CommentsContext} from '../../store/CommentsContext';
+
+import {DialogContext} from '../../store/DialogContext';
+
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
@@ -12,9 +15,7 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 const Reels = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
-
-
-	const [commentsVisibility, setCommentsVisibility] = useState(false);
+	const {state} = useContext(DialogContext)
 	return (
 		<>
 			{isMobileOrTablet ?
@@ -27,13 +28,14 @@ const Reels = () =>{
 
 							<div className="h-screen overflow-y-auto  ">	
 
-								<CommentsContext.Provider value={{commentsVisibility, setCommentsVisibility }}>
+								
 
-									<ReelPosts />
+								<ReelPosts />
 
-								</CommentsContext.Provider >
 
-								{commentsVisibility && <ReelPostsComments />}
+								{state.commentsVisibility && <Comment />}
+								{state.sharesVisibility && <Share />}
+
 
 							</div>
 
@@ -53,13 +55,13 @@ const Reels = () =>{
 
 							<div className="laptop-lg:flex laptop-lg:justify-center laptop-lg:bg-blink-black-2 h-screen overflow-y-auto custom-scroll ">
 
-								<CommentsContext.Provider value={{commentsVisibility, setCommentsVisibility, }}>
 
-									<ReelPosts />
+								<ReelPosts />
 
-								</CommentsContext.Provider >
 
-								{commentsVisibility && <ReelPostsComments />}
+								{state.commentsVisibility && <Comment />}
+								{state.sharesVisibility && <Share />}
+
 
 							</div>
 

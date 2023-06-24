@@ -53,7 +53,7 @@ const ReelPostItems = ({reel,reelId,reelRef}) => {
 
 							<div className="absolute right-0 bottom-0 z-10 pb-10">
 
-								<ReelPostActions reactions={reel.reactions} />
+								<ReelPostActions reel={reel} />
 
 							</div>
 
@@ -83,7 +83,7 @@ const ReelPostItems = ({reel,reelId,reelRef}) => {
 
 							<div className="absolute right-0 bottom-0 z-10">
 
-								<ReelPostActions reactions={reel.reactions} />
+								<ReelPostActions reel={reel} />
 
 							</div>
 

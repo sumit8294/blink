@@ -2,35 +2,50 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleUp } from '@fortawesome/free-regular-svg-icons'
 import { faCircleDown } from '@fortawesome/free-regular-svg-icons'
 
-import ReelPostItems from './ReelPostItems';
-import { useRef, useEffect, useState } from 'react';
-import axios from 'axios';
+import ReelPostItems from './ReelPostItems'
+import { useRef, useEffect, useState } from 'react'
+import axios from 'axios'
+import { useSelector,useDispatch } from 'react-redux'
+import { 
+	selectAllReels,
+	getReels,
+	getReelsStatus 
+} from '../../reducers/reels/reelSlice' 
+import useAuth from '../../hooks/useAuth'
 
-import { useMediaQuery } from 'react-responsive';
-import {mobileMediaQuery} from '../../ReactResponsiveQueries';
+import { useMediaQuery } from 'react-responsive'
+import { mobileMediaQuery } from '../../ReactResponsiveQueries'
 
 
 const ReelPosts = () =>{
 
-	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
-
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery)
 	const containerRef = useRef(null)
   	const reelRefsArray = useRef([])
+
+  	const reels = useSelector(selectAllReels)
+
+  	const reelsStatus = useSelector(getReelsStatus)
+  	const dispatch = useDispatch();
+  	const {userId,token} = useAuth();
+
+  	const fetchReels = () => {
+  		dispatch(getReels({userId,token}))
+  	}
 
   	const scrollReelWithButton = (scrollTo) =>{
   		const container = containerRef.current
   		const videoHeight = container.offsetHeight
   		if(scrollTo === 'up'){
-  			container.scrollTop -= videoHeight;
+  			container.scrollTop -= videoHeight
   		}
   		else if(scrollTo === 'down'){
-  			container.scrollTop += videoHeight;
+  			container.scrollTop += videoHeight
   		}
   	}
 
   	let previousVideo = reelRefsArray.current[0]
-  	const handleScroll = () => {
-  		
+  	const playCurrentVideo = () => {
   		
 	    const container = containerRef.current
 	    const scrollPosition = container.scrollTop
@@ -42,42 +57,22 @@ const ReelPosts = () =>{
 	    
 		    if (currentVideo && currentVideo.currentTime === 0) {
 		    	if(previousVideo){
-			    	previousVideo.pause();
-					previousVideo.currentTime = 0;
+			    	previousVideo.pause()
+					previousVideo.currentTime = 0
 		    	}
 		    	currentVideo.play()
 		    	.then(success => {})
 				.catch(error => {})
 
-		    	previousVideo = currentVideo;
+		    	previousVideo = currentVideo
 		    }
 
 	}
 
-	const [reels,setReels] = useState([]);
-	const fetchReels = async () =>{
-
-		try{
-			const response = await axios.get('http://localhost:5000/reels/');
-
-			if(response.data){
-				console.log(response.data);
-				setReels(response.data);
-			}
-		}
-		catch(error){
-			if(error.response && error.response.status === 404){
-				console.log("reels not found");
-			}
-		}
-
-	}
-
-
 	useEffect(()=>{
-  		fetchReels();
-  		handleScroll();
-  	},[])
+		fetchReels()
+  		playCurrentVideo()
+  	},[]);
 
 	return (
 
@@ -86,13 +81,15 @@ const ReelPosts = () =>{
 
 				<>
 
-					<div ref={containerRef} onScroll={handleScroll} className=" duration-700 reel-posts mx-auto h-screen snap-y snap-mandatory overflow-y-auto tablet-sm:w-[24rem]" >
+					<div ref={containerRef} onScroll={playCurrentVideo} className=" duration-700 reel-posts mx-auto h-screen snap-y snap-mandatory overflow-y-auto tablet-sm:w-[24rem]" >
 
-						{reels.map((reel,index)=>{
+						{reels?.length > 0 && reels.map((reel,index)=>{
 
 							return <ReelPostItems reelId={index+''} key={index} reel={reel} reelRef={video => (reelRefsArray.current[index] = video)}/>
 
 						})}
+
+						{reelsStatus === 'loading' && <p className="text-white">Loading</p>}
 							
 					</div>
 
@@ -101,13 +98,15 @@ const ReelPosts = () =>{
 				:
 
 				<>
-					<div ref={containerRef} onScroll={handleScroll} className="duration-700 reel-posts laptop-lg:py-10 laptop-lg:px-2 mx-auto laptop-lg:mb-10 h-screen snap-y snap-mandatory overflow-y-auto laptop-sm:w-[26rem] laptop-lg:w-[22rem]" >
+					<div ref={containerRef} onScroll={playCurrentVideo} className="duration-700 reel-posts laptop-lg:py-10 laptop-lg:px-2 mx-auto laptop-lg:mb-10 h-screen snap-y snap-mandatory overflow-y-auto laptop-sm:w-[26rem] laptop-lg:w-[22rem]" >
 
-						{reels.map((reel,index)=>{
+						{reels?.length > 0 && reels.map((reel,index)=>{
 
 							return <ReelPostItems reelId={index+''} key={index} reel={reel} reelRef={video => (reelRefsArray.current[index] = video)}/>
 
 						})}
+
+						{reelsStatus === 'loading' && <p className="text-white">Loading</p>}
 							
 					</div>
 

@@ -11,7 +11,7 @@ const ReelPostDiscription = ({reel}) =>{
 				?
 					<>
 						<div className="likes flex px-2 mobile-md:px-3 mb-4 tablet-sm:px-4  tablet-sm:text-[1.3rem] ">
-							<span className=" text-center font-semibold text-white">
+							<span className=" font-semibold text-white">
 
 								{reel.title}
 
@@ -52,7 +52,7 @@ const ReelPostDiscription = ({reel}) =>{
 				<>
 					<div className="likes flex px-6  mb-4 text-[1.2rem] laptop-lg:mb-1 laptop-lg:text-[1rem] laptop-lg:px-2">
 
-						<span className=" text-center font-semibold text-white">
+						<span className=" font-semibold text-white">
 
 							{reel.title}
 

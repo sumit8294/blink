@@ -1,13 +1,14 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons'
 
-import { useMediaQuery } from 'react-responsive';
-import {mobileMediaQuery} from '../../ReactResponsiveQueries';
+import { useMediaQuery } from 'react-responsive'
+import {mobileMediaQuery} from '../../ReactResponsiveQueries'
 
 
 const FeedPostComments = ({post}) =>{
 
-	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery)
 
 	return (
 		
@@ -113,22 +114,30 @@ const FeedPostComments = ({post}) =>{
 
 								</span>
 
-								<span className="block  text-blink-gray-1"> 
-									
-									<b className=" font-semibold text-white"> ranveersingh </b>
+								<ul>
+								{post.comments && post.comments.map((commentItem,index)=>{
 
-									<span>	VIV SUPREMACY 👑 </span>
+									return(
+										<li key={index}>
+											<div  className="mb-0.5 text-blink-gray-1">
 
-								</span>
-								
-								<span className="block   mb-0.5 text-blink-gray-1"> 
-									
-									<b className=" font-semibold text-white"> yoyohoneysingh </b>
+												<div className="inline-block w-5 h-5 rounded-full text-center  overflow-hidden" >
 
-									<span>	Unforgettable. Thank you for having </span>
+													<img src={commentItem.user.profile} alt="comments" />
 
-								</span>
-						
+												</div>
+												
+												<b className=" font-semibold text-white"> {commentItem.user.username} </b>
+
+												<span>	{commentItem.content} </span>
+
+											</div>
+										</li>
+									)
+
+								})}
+								</ul>
+
 							</div>
 						
 						</div>

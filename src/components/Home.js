@@ -12,6 +12,7 @@ import StoryViewer from './stories/StoryViewer';
 import UserProfile from './users/UserProfile';
 import CreatePost from './users/CreatePost';
 import {Outlet,Navigate,useLocation} from 'react-router-dom';
+import DialogProvider from '../store/DialogContext';
 
 
 
@@ -46,9 +47,9 @@ const Home = () =>{
 					<div className="h-full min-h-screen bg-blink-black-1">
 						<Routes>
 							<Route path="/explore" element={<Explore />} />
-							<Route path="/feed" element={<Feed />} />
+							<Route path="/feed" element={<DialogProvider><Feed /></DialogProvider>} />
 							<Route path="/messages" element={<Messages />} />
-							<Route path="/reels" element={<Reels />} />
+							<Route path="/reels" element={<DialogProvider><Reels /></DialogProvider>} />
 							<Route path="/settings" element={<Settings />} />
 							<Route path="/profile/:userId" element={<UserProfile />} />
 							<Route path="/chats" element={<Chats />} />
@@ -68,9 +69,9 @@ const Home = () =>{
 							<SideBar />
 							<Routes>
 								<Route path="/explore" element={<Explore />} />
-								<Route path="/feed" element={<Feed />} />
+								<Route path="/feed" element={<DialogProvider><Feed /></DialogProvider>} />
 								<Route path="/messages" element={<Messages />} />
-								<Route path="/reels" element={<Reels />} />
+								<Route path="/reels" element={<DialogProvider><Reels /></DialogProvider>} />
 								<Route path="/settings" element={<Settings />} />
 								<Route path="/profile/:userId" element={<UserProfile />} />
 								<Route path="/notifications" element={<Notifications />} />

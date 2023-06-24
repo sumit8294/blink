@@ -7,14 +7,17 @@ import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 import {Link} from 'react-router-dom';
 import {useState, useEffect} from 'react';
-
 import {useParams} from 'react-router-dom';
+
+import useAuth from '../hooks/useAuth';
 
 const BottomNavigation = () =>{
 
 	const [activeItem,setActiveItem] = useState("feed");
 
 	const params = useParams();
+
+	const {userId} = useAuth();
 
 	useEffect( () => setActiveItem(params['*']) , [params] );
 
@@ -54,7 +57,7 @@ const BottomNavigation = () =>{
 
 					</Link>
 
-					<Link className="py-4 w-1/4" to={`/profile/646e21671b4dc70af49f494d`}>
+					<Link className="py-4 w-1/4" to={`/profile/${userId}`}>
 
 						<span>
 

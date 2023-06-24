@@ -1,27 +1,89 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-regular-svg-icons'
+import { faHeart as redHeart } from '@fortawesome/free-solid-svg-icons'
 import { faShare } from '@fortawesome/free-solid-svg-icons'
 import { faComment } from '@fortawesome/free-solid-svg-icons'
-import { faBookmark } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark } from '@fortawesome/free-regular-svg-icons'
+import { faBookmark as bookMarked } from '@fortawesome/free-solid-svg-icons'
 
-import {CommentsContext} from '../../store/CommentsContext';
-import {useContext} from 'react';
+import {DialogContext} from '../../store/DialogContext'
+import {useContext} from 'react'
 
-import { useMediaQuery } from 'react-responsive';
-import {mobileMediaQuery} from '../../ReactResponsiveQueries';
-
+import { useMediaQuery } from 'react-responsive'
+import { mobileMediaQuery } from '../../ReactResponsiveQueries'
+import { useDispatch } from 'react-redux';
+import useAuth from '../../hooks/useAuth';
+import { getComments,resetComments } from '../../reducers/commentSlice'
+import { getChatsByUserId } from '../../reducers/chatSlice'
+import {
+	addPostLike,
+	removePostLike,
+	addPostBookmark,
+	removePostBookmark,
+} from '../../reducers/posts/reactionAsyncThunks'
 
 
 const FeedPostActions = ({post}) =>{
 
-	const {commentsVisibility,setCommentsVisibility} = useContext(CommentsContext);
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+	const { setCommentsVisibility, setSharesVisibility } = useContext(DialogContext);
+	
 
-	const handleVisiblility = () =>{
-		setCommentsVisibility(!commentsVisibility);
+
+	const auth = useAuth() //passing to addLike
+	const {userId,token} = useAuth();
+
+	const dispatch = useDispatch();
+
+
+	const handleLike = async (currentState,postId) =>{
+
+		try{
+			if(currentState){
+				await dispatch(removePostLike({userId,postId,token}))
+
+			}else{
+				await dispatch(addPostLike({userId,postId,auth,token})) // "auth" for add mutualLike of loggedInUser
+			}
+		}
+		catch(error){
+			console.log(error.message)
+		}
+
 	}
 
-	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
+	const handleBookmark = async (currentState,postId) =>{
+
+		try{
+			if(currentState){
+				await dispatch(removePostBookmark({userId,postId,token}))
+
+			}else{
+				await dispatch(addPostBookmark({userId,postId,token,auth})) // auth for increaseLikeCount()
+			}
+		}
+		catch(error){
+			console.log(error.message)
+		}
+
+	}
+
+	const handleVisiblility = (type) =>{
+		if(type === 'comments'){
+			setCommentsVisibility( true );
+			dispatch(resetComments());
+			dispatch(getComments({contentId:post._id,contentType:'post',token}));
+		}
+		else if(type === 'share'){
+			setSharesVisibility( true )
+			dispatch(getChatsByUserId({shareableContent:post,shareableType:'post',userId,token}));
+		}
+		
+	}
+
+	
 
 	return (
 
@@ -34,11 +96,11 @@ const FeedPostActions = ({post}) =>{
 
 						<div className="post-actions flex text-[0.9rem] mobile-md:text-[1.1rem] mobile-lg:text-[1.225rem] tablet-sm:text-[1.1rem]">
 
-							<div className="likes rounded-xl bg-blink-black-2 cursor-pointer mr-1 px-2 py-0.5 mobile-md:py-0">
+							<div onClick={()=>handleLike(post.likeState,post._id)} className="likes rounded-xl bg-blink-black-2 cursor-pointer mr-1 px-2 py-0.5 mobile-md:py-0">
 
-								<span className="text-[#eb3349]">
+								<span className={post.likeState ? "text-[#eb3349]" : ""}>
 								
-									<FontAwesomeIcon icon={faHeart} />
+									<FontAwesomeIcon icon={post.likeState ? redHeart : faHeart} />
 
 								</span>
 
@@ -47,7 +109,7 @@ const FeedPostActions = ({post}) =>{
 							</div>
 
 
-							<div onClick={handleVisiblility} className="comments rounded-xl bg-blink-black-2 cursor-pointer mr-1 px-2 py-0.5 mobile-md:py-0">
+							<div onClick={() => handleVisiblility('comments')} className="comments rounded-xl bg-blink-black-2 cursor-pointer mr-1 px-2 py-0.5 mobile-md:py-0">
 
 								<span>
 
@@ -60,7 +122,7 @@ const FeedPostActions = ({post}) =>{
 							</div>
 
 
-							<div className="shares rounded-xl bg-blink-black-2 cursor-pointer mr-1 mr-1 px-2 py-0.5 mobile-md:py-0">
+							<div onClick={() => handleVisiblility('share')} className="shares rounded-xl bg-blink-black-2 cursor-pointer mr-1 mr-1 px-2 py-0.5 mobile-md:py-0">
 
 								<span>
 
@@ -77,11 +139,11 @@ const FeedPostActions = ({post}) =>{
 
 						<div className="post-actions flex text-[0.9rem] mobile-md:text-[1rem] mobile-lg:text-[1.225rem] tablet-sm:text-[0.9rem]">
 
-							<div className="save rounded-xl bg-blink-black-2 cursor-pointer mr-1 mr-1 px-2 py-0.5 mobile-md:py-0 tablet-sm:py-0.5">
+							<div onClick={()=>handleBookmark(post.bookmarkState,post._id)} className="save rounded-xl bg-blink-black-2 cursor-pointer mr-1 mr-1 px-2 py-0.5 mobile-md:py-0 tablet-sm:py-0.5">
 
 								<span>
 
-									<FontAwesomeIcon icon={faBookmark} />
+									<FontAwesomeIcon icon={post.bookmarkState ? bookMarked : faBookmark} />
 
 								</span>
 
@@ -99,11 +161,11 @@ const FeedPostActions = ({post}) =>{
 
 						<div className="post-actions text-[1.2rem] flex">
 
-							<div className="likes bg-blink-black-2 cursor-pointer px-2 mr-1  shadow-lg shadow-blink-black-1/20 bg-blink-black-1 rounded-2xl">
+							<div onClick={()=>handleLike(post.likeState,post._id)} className="likes bg-blink-black-2 cursor-pointer px-2 mr-1  shadow-lg shadow-blink-black-1/20 bg-blink-black-1 rounded-2xl">
 
-								<span className="text-[#eb3349]">
+								<span className={post.likeState ? "text-[#eb3349]" : ""}>
 								
-									<FontAwesomeIcon icon={faHeart} />
+									<FontAwesomeIcon icon={post.likeState ? redHeart : faHeart} />
 
 								</span>
 
@@ -112,7 +174,7 @@ const FeedPostActions = ({post}) =>{
 							</div>
 
 
-							<div onClick={handleVisiblility} className="comments bg-blink-black-2 cursor-pointer px-2 mr-1 py-0.5 shadow-lg shadow-blink-black-1/20 bg-blink-black-1 rounded-2xl">
+							<div onClick={() => handleVisiblility('comments')} className="comments bg-blink-black-2 cursor-pointer px-2 mr-1 py-0.5 shadow-lg shadow-blink-black-1/20 bg-blink-black-1 rounded-2xl">
 
 								<span>
 
@@ -125,7 +187,7 @@ const FeedPostActions = ({post}) =>{
 							</div>
 
 
-							<div className="shares bg-blink-black-2 cursor-pointer px-2 mr-1 py-0.5 shadow-lg shadow-blink-black-1/20 bg-blink-black-1 rounded-2xl">
+							<div onClick={() => handleVisiblility('share')} className="shares bg-blink-black-2 cursor-pointer px-2 mr-1 py-0.5 shadow-lg shadow-blink-black-1/20 bg-blink-black-1 rounded-2xl">
 
 								<span>
 
@@ -142,11 +204,11 @@ const FeedPostActions = ({post}) =>{
 
 						<div className="post-actions text-[1rem] flex">
 
-							<div className="save bg-blink-black-2 cursor-pointer px-2 py-1 shadow-md shadow-blink-black-1/20 bg-blink-black-1 rounded-2xl">
+							<div onClick={()=>handleBookmark(post.bookmarkState,post._id)} className="save bg-blink-black-2 cursor-pointer px-2 py-1 shadow-md shadow-blink-black-1/20 bg-blink-black-1 rounded-2xl">
 
 								<span>
 
-									<FontAwesomeIcon icon={faBookmark} />
+									<FontAwesomeIcon icon={post.bookmarkState ? bookMarked : faBookmark} />
 
 								</span>
 
