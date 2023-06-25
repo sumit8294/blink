@@ -51,7 +51,7 @@ const Home = () =>{
 							<Route path="/messages" element={<Messages />} />
 							<Route path="/reels" element={<DialogProvider><Reels /></DialogProvider>} />
 							<Route path="/settings" element={<Settings />} />
-							<Route path="/profile/:userId" element={<UserProfile />} />
+							<Route path="/profile/:userId" element={<DialogProvider><UserProfile /></DialogProvider>} />
 							<Route path="/chats" element={<Chats />} />
 							<Route path="/notifications" element={<Notifications />} />
 							<Route path="/stories/following/:userId/:userStoryindex" element={<StoryViewer />} />
@@ -73,11 +73,10 @@ const Home = () =>{
 								<Route path="/messages" element={<Messages />} />
 								<Route path="/reels" element={<DialogProvider><Reels /></DialogProvider>} />
 								<Route path="/settings" element={<Settings />} />
-								<Route path="/profile/:userId" element={<UserProfile />} />
+								<Route path="/profile/:userId" element={<DialogProvider><UserProfile /></DialogProvider>} />
 								<Route path="/notifications" element={<Notifications />} />
 								<Route path="/stories/following/:userId/:userStoryindex" element={<StoryViewer />} />
 								<Route path="/create" element={<CreatePost />} />
-
 							</Routes>
 						</div>
 						

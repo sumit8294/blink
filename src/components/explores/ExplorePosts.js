@@ -1,57 +1,31 @@
 import ExplorePostItems from './ExplorePostItems'
 
-import { useMediaQuery } from 'react-responsive';
-import {mobileMediaQuery} from '../../ReactResponsiveQueries';
-
-import axios from 'axios';
-import {useState, useEffect} from 'react';
-import {useSelector,useDispatch} from 'react-redux';
-import {getAccessToken,getAccessTokenWithRefreshToken} from '../../reducers/authSlice';
+import { useMediaQuery } from 'react-responsive'
+import { mobileMediaQuery } from '../../ReactResponsiveQueries'
 
 
+import { useEffect} from 'react'
+import {useSelector,useDispatch } from 'react-redux'
+import useAuth from '../../hooks/useAuth'
+import { getPosts,selectAllPosts } from '../../reducers/posts/postSlice'
+
+import './exploreposts.css'
 const ExplorePosts = () =>{
 
-	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery)
+	const dispatch = useDispatch()
 
-	const [explorePosts,setExplorePosts] = useState([]);
-	const token = useSelector(getAccessToken);
-	const dispatch = useDispatch();
-	const fetchPosts = async () =>{
-		try{
+	const {userId,token} = useAuth()
+	
+	const explorePosts = useSelector(selectAllPosts)
 
-			const response = await axios.get(
-				'http://localhost:5000/posts',
-				{
-					withCredential: true,
-					headers:{
-						'authorization':`Bearer ${token}`
-					}
-				});
-
-			if(response.data){
-				setExplorePosts(response.data);
-			}
-		}
-		catch(error){
-			if(error.response && error.response.status === 403){
-				try{
-					
-					await dispatch(getAccessTokenWithRefreshToken());
-
-				}
-				catch(error){
-					console.log(error)
-				}
-			}
-			else{
-				console.log(error);
-			}
-		}
+	const fetchPosts = () => {
+		dispatch(getPosts({userId,token}))
 	}
 
 	useEffect(()=>{
 		fetchPosts();
-	},[token])
+	},[])
 
 	return (
 		<>
@@ -66,7 +40,7 @@ const ExplorePosts = () =>{
 			
 							<div className="image-gallery mx-auto py-px " >
 
-								{explorePosts.map((post,i)=>{
+								{explorePosts?.length > 0 && explorePosts.map((post,i)=>{
 
 									return <ExplorePostItems key={i} post={post}/>
 
@@ -91,7 +65,7 @@ const ExplorePosts = () =>{
 
 							<div className="explore-image-gallery-desktop mx-auto py-px px-6 " >
 
-								{explorePosts.map((post,i)=>{
+								{explorePosts?.length > 0  && explorePosts.map((post,i)=>{
 
 									return <ExplorePostItems key={i} post={post}/>
 

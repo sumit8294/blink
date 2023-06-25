@@ -5,6 +5,7 @@ import userSlice from '../reducers/userSlice'
 import commentSlice from '../reducers/commentSlice'
 import chatSlice from '../reducers/chatSlice'
 import reelSlice from '../reducers/reels/reelSlice'
+import followerSlice from '../reducers/followerSlice'
 
 
 
@@ -15,6 +16,7 @@ export const store = configureStore({
 		users:userSlice,
 		comments:commentSlice,
 		chats:chatSlice,
-		reels:reelSlice
+		reels:reelSlice,
+		followers:followerSlice
 	}
 })

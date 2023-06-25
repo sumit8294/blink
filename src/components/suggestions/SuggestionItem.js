@@ -1,46 +1,57 @@
+import useAuth from '../../hooks/useAuth'
+import {useDispatch} from 'react-redux'
+import { 
+	followUser,
+	unfollowUser
+} from '../../reducers/followerSlice'
+import { setIsFollowingSuggesstions } from '../../reducers/userSlice'
+import {Link} from 'react-router-dom'
+
+
 
 const SuggestionItem = ({user}) =>{
+	const dispatch = useDispatch()
+	const {userId: loggedUserId, token} = useAuth()
+
+	const handleFollow = (event,isFollowingStatus,toUserId) =>{
+		event.preventDefault()
+		event.stopPropagation()
+		if(isFollowingStatus){	
+			dispatch(setIsFollowingSuggesstions({userId:toUserId,status:isFollowingStatus}))
+			dispatch(unfollowUser({userId:toUserId,loggedUserId,token}))
+		}else{
+			dispatch(setIsFollowingSuggesstions({userId:toUserId,status:isFollowingStatus}))
+			dispatch(followUser({userId:toUserId,loggedUserId,token}))
+		}
+	}
 	return (
 		<>
-			<div className="flex py-2 px-3 justify-between border-b last:border-none border-blink-black-3">
 
-				<div className="flex">
+			<Link to={`/profile/${user._id}`}>
 
-					<div className="post-image shrink-0 h-12 my-auto w-12 rounded-full text-center overflow-hidden" >
+				<li className="flex px-2" >
 
-						<img className="w-full"  src={user.imageUrl} alt="images" />
+					<div className=" my-2 rounded-full w-10 h-10 overflow-hidden">
+
+						<img className="w-full"  src={user.profile} alt="images" />
 
 					</div>
 
-					<div className="px-2 py-1">
-						
-						<span className="block text-[1em] tracking-wide font-normal text-white"> 
-							
-							{user.name} 
+					<div className="flex-grow px-4 py-4 font-semibold">
 
-						</span>
+						{user.username}
 
-						<span className="block text-[11px] text-blink-gray-1"> 
-							
-							<span className="tracking-wide"> Followed by </span>
-
-							<span className="text-white"> harry, </span>
-							
-							<span className="text-white"> karan... </span>
-
-						</span>
-				
 					</div>
-				
-				</div>
 
-				<div className="text-[12px]  text-blink-blue-1 flex justify-end content-center">
+					<div className="flex item-center">
+						<button onClick={(e)=>handleFollow(e,user.isFollowing,user._id)} className="my-auto bg-blink-gradient-1 px-2 text-sm rounded">
+							{user.isFollowing ? "Following" : "Follow"}
+						</button>
+					</div>
 
-					<button>Follow</button>
-				
-				</div>
-				
-			</div>
+				</li>
+
+			</Link>
 
 		</>
 

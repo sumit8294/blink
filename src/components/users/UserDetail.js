@@ -1,36 +1,49 @@
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-import {useState, useEffect} from 'react';
+import {useState, useEffect,useContext} from 'react';
 import axios from 'axios';
 import {useParams} from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux'
+import {DialogContext} from '../../store/DialogContext'
+import {setFollowersListType, unfollowUser, followUser} from '../../reducers/followerSlice'
+import {selectUserDetails, selectUsersStatus, getUserDetails, setIsFollowing} from '../../reducers/userSlice'
+import useAuth from '../../hooks/useAuth'
+
 
 
 const UserDetail = ({setShowFollowers}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+	const {setfollowersVisibility} = useContext(DialogContext);
 
-	const [userDetail,setUserDetail] = useState([]);
+	const userDetail = useSelector(selectUserDetails);
+	const userStatus = useSelector(selectUsersStatus);
+
+	const dispatch = useDispatch();
 
 	const {userId} = useParams();
 
-	const fetchUserDetail = async () =>{
+	const {userId: loggedUserId, token} = useAuth()
 
-		try{
-			const response = await axios.get(`http://localhost:5000/users/${userId}`);
 
-			if(response.data){
-				
-				setUserDetail(response.data);
-			}
-		}
-		catch(error){
-			if(error.response && error.response.status === 404){
-				console.log(error.response.message);
-			}
-			else{
-				console.log("user detail not fetched");
-			}
+	const fetchUserDetail = () =>{
+		dispatch(getUserDetails({userId,loggedUserId}));
+	}
+
+	const handleFollowerVisibility = (type) =>{
+		dispatch(setFollowersListType(type))
+		setfollowersVisibility(true)
+	}
+
+	const handleFollow = (isFollowing,toUserId) =>{
+		
+		if(isFollowing){
+			dispatch(setIsFollowing(false))
+			dispatch(unfollowUser({userId:toUserId,loggedUserId,token}))
+		}else{
+			dispatch(setIsFollowing(true))
+			dispatch(followUser({userId:toUserId,loggedUserId,token}))
 		}
 	}
 
@@ -45,7 +58,7 @@ const UserDetail = ({setShowFollowers}) =>{
 				?
 				<>
 
-					<div className=" mb-5 ">
+					{userStatus === 'succeeded' && userDetail && <div className=" mb-5 ">
 					
 						<div className="flex py-2 px-4 mobile-lg:py-5 mobile-lg:px-5" >
 
@@ -59,28 +72,29 @@ const UserDetail = ({setShowFollowers}) =>{
 								
 								<div className="posts">
 
-									<span className="  font-semibold relative ">34</span>
+									<span className="  font-semibold relative ">{userDetail.posts}</span>
 									<span className="block text-[0.8rem] text-blink-gray-1 ">posts</span>
 
 								</div>
 
-								<div className="followers" onClick={()=>setShowFollowers("followers")}>
+								<div className="followers" onClick={()=>handleFollowerVisibility("followers")}>
 
-									<span className="  font-semibold relative ">1M</span>
+									<span className="  font-semibold relative ">{userDetail.followers}</span>
 									<span className="block text-[0.8rem] text-blink-gray-1">followers</span>
 
 								</div>
 
-								<div className="following relative" onClick={()=>setShowFollowers("followings")}>
+								<div className="following relative" onClick={()=>handleFollowerVisibility("followings")}>
 
-									<span className="  font-semibold relative ">80</span>
-									<span className="block text-[0.8rem] text-blink-gray-1">following</span>
+									<span className="  font-semibold relative ">{userDetail.followings}</span>
+									<span className="block text-[0.8rem] text-blink-gray-1">followings</span>
 
 								</div>
 
 							</div>
 
 						</div>
+
 					
 						<div className="user-details px-2 mobile-md:px-4 mobile-lg:px-5">
 
@@ -98,14 +112,22 @@ const UserDetail = ({setShowFollowers}) =>{
 
 						</div>
 
-					</div>
+						<div className="w-full ">
+							{userDetail._id !== loggedUserId && <button className="py-2 w-full bg-blink-gradient-1" onClick={()=>handleFollow(userDetail.isFollowing,userDetail._id)}>
+								{userDetail.isFollowing 
+									? "Following" 
+									: (userDetail.isFollower) ? "Follow Back" : "Follow"}
+							</button>}
+						</div>
+
+					</div>}
 
 				</>
 				
 				:
 
 				<>
-					<div className="px-5 text-white py-10 laptop-lg:py-0 laptop-lg:mb-5">
+					{userStatus === 'succeeded' && userDetail && <div className="px-5 text-white py-10 laptop-lg:py-0 laptop-lg:mb-5">
 
 						<div className="flex py-2 px-5" >
 
@@ -119,22 +141,22 @@ const UserDetail = ({setShowFollowers}) =>{
 								
 								<div className="posts" >
 
-									<span className="  font-semibold relative ">34</span>
+									<span className="  font-semibold relative ">{userDetail.posts}</span>
 									<span className="block text-sm text-blink-gray-1 ">posts</span>
 
 								</div>
 
-								<div className="followers" onClick={()=>setShowFollowers("followers")}>
+								<div className="followers" onClick={()=>handleFollowerVisibility("followers")}>
 
-									<span className="  font-semibold relative ">1M</span>
+									<span className="  font-semibold relative ">{userDetail.followers}</span>
 									<span className="block text-sm text-blink-gray-1">followers</span>
 
 								</div>
 
-								<div className="following relative" onClick={()=>setShowFollowers("followings")}>
+								<div className="following relative" onClick={()=>handleFollowerVisibility("followings")}>
 
-									<span className="  font-semibold relative ">80</span>
-									<span className="block text-sm text-blink-gray-1">following</span>
+									<span className="  font-semibold relative ">{userDetail.followings}</span>
+									<span className="block text-sm text-blink-gray-1">followings</span>
 
 								</div>
 
@@ -158,7 +180,15 @@ const UserDetail = ({setShowFollowers}) =>{
 
 						</div>
 
-					</div>
+						<div className="w-full mt-2 px-4">
+							{userDetail._id !== loggedUserId && <button className="py-2 w-full rounded-2xl font-bold bg-blink-gradient-1" onClick={()=>handleFollow(userDetail.isFollowing,userDetail._id)}>
+								{userDetail.isFollowing 
+									? "Following" 
+									: (userDetail.isFollower) ? "Follow Back" : "Follow"}
+							</button>}
+						</div>
+
+					</div>}
 				</>
 			}	
 		</>

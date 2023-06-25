@@ -1,15 +1,26 @@
 
 import SuggestionItem from './SuggestionItem';
+import { useSelector,useDispatch } from 'react-redux'
+import { getSuggestions,selectAllSuggestions,selectUsersStatus } from '../../reducers/userSlice'
+import useAuth from '../../hooks/useAuth'
+import { useEffect } from 'react'
 
-const users = [
-	{name:"harry",imageUrl:"./assets/images/users/harry.jpg"},
-	{name:"louis",imageUrl:"./assets/images/users/louis.jpg"},
-	{name:"niall",imageUrl:"./assets/images/users/niall.jpg"},
-	{name:"paradox",imageUrl:"./assets/images/users/para.jpg"},
-	{name:"zyan",imageUrl:"./assets/images/users/zyan.jpg"},
-]
+
 
 const UserSuggestions = () =>{
+	const {userId,token} = useAuth()
+	const dispatch = useDispatch()
+	const users = useSelector(selectAllSuggestions)
+	const usersStatus = useSelector(selectUsersStatus)
+
+
+	const fetchUsers = () =>{
+		dispatch(getSuggestions({token,userId}))
+	}
+
+	useEffect(()=>{
+		fetchUsers()
+	},[])
 	return (
 		<>
 			<div className=" mr-2 ml-1 my-2 bg-blink-black-2 rounded-2xl">
@@ -22,11 +33,14 @@ const UserSuggestions = () =>{
 
 				</div>
 
-				{users.map((user,index)=>{
+				{users?.length > 0 && users.map((user,index)=>{
 
 					return <SuggestionItem key={index} user={user}/>
 
 				})}
+
+				{usersStatus === 'loading' && <p>Loading...</p>}
+
 
 			</div>
 

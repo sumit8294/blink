@@ -3,7 +3,7 @@ const Loading = ({size}) =>{
 	return(
 
 		<div className="mx-auto" style={{height:size,width:size}}>
-			<img src="./assets/elements/loading.gif" alt="loading..." />
+			<img src="http://localhost:3000/assets/elements/loading.gif" alt="loading..." />
 		</div>
 	)
 }

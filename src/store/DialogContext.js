@@ -9,6 +9,8 @@ const reducer = (state,action) =>{
 			return {...state , commentsVisibility:action.payload};
 		case 'SHARES': 
 			return {...state , sharesVisibility:action.payload};
+		case 'FOLLOWERS':
+			return {...state, followersVisibility:action.payload};
 		default:
 			return state;
 
@@ -16,7 +18,8 @@ const reducer = (state,action) =>{
 }
 const initialState = {
 	commentsVisibility:false,
-	sharesVisibility: false
+	sharesVisibility: false,
+	followersVisibility: false,
 }
 
 const DialogProvider = ({children}) => {
@@ -34,8 +37,18 @@ const DialogProvider = ({children}) => {
 		dispatch({type:'SHARES',payload:visibility})
 	}
 
+	const setfollowersVisibility = (visibility) =>{
+		
+		dispatch({type:'FOLLOWERS',payload:visibility})
+	}
+
 	return(
-		<DialogContext.Provider value={{ setCommentsVisibility, setSharesVisibility, state }}>
+		<DialogContext.Provider value={{ 
+			setCommentsVisibility,
+			setSharesVisibility,
+			setfollowersVisibility,
+			state 
+		}}>
 			{children}
 		</DialogContext.Provider>
 	)

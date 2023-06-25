@@ -3,201 +3,149 @@ import { faCircleLeft } from '@fortawesome/free-regular-svg-icons';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
+import Loading from '../elements/Loading'
+import {useState, useEffect} from 'react'
+import axios from 'axios'
+import {Link} from 'react-router-dom'
+import useAuth from '../../hooks/useAuth'
+import {useContext} from 'react';
+import {useParams} from 'react-router-dom';
+import {DialogContext} from '../../store/DialogContext'
+import {useSelector,useDispatch} from 'react-redux'
+import { 
+	selectAllFollowers,
+	selectAllFollowings,
+	selectListType,
+	selectListStatus,
+	getFollowers,
+	getFollowings,
+	followUser,
+	unfollowUser,
+	resetList
+} from '../../reducers/followerSlice'
 
-import {useState, useEffect} from 'react';
-import axios from 'axios';
-import {Link} from 'react-router-dom';
-import useAuth from '../../hooks/useAuth';
-
-const Followers = ({type,setShowFollowers}) =>{
+const Followers = () =>{
 
 	//***************
 	//************
 	//optimization needed because userProfile component call unneccessarily
 	//************
 	//***********
+	const {setfollowersVisibility} = useContext(DialogContext);
 
-	const {userId} = useAuth(); 
-	// correct this do not call followers by loggedIn auth user call by userId whose profile is displaying
-	// here we are only displaying the loggedIn user followers for every user
+	const {userId: loggedUserId, token} = useAuth()
 
-	const [followers, setFollowers] = useState([]);
+	const {userId} = useParams();
 
-	const [listType, setListType] = useState("");
+	const dispatch = useDispatch()
+	const followers = useSelector(selectAllFollowers)
+	const followings = useSelector(selectAllFollowings)
+	const listType = useSelector(selectListType)
+	const listStatus = useSelector(selectListStatus)
 
-	const fetchFollowerOrFollowing = async () =>{
+	let displayList
+	if(listType === 'followers'){
+		displayList = followers
+	}else if(listType === 'followings'){
+		displayList = followings
+	}
+
+	const fetchFollowerOrFollowing = () =>{
 
 		try{
-			if(type === 'followers'){
-				const response = await axios.get(`http://localhost:5000/followers/followers/${userId}`);
-				if(response.data){
-					
-					setListType("Followers");
-					setFollowers(response.data);
-				}
+			if(listType === 'followers'){
+				dispatch(resetList('followers'))	
+				dispatch(getFollowers({loggedUserId,userId,token}))
 			}
-			else if(type === 'followings'){
-				const response = await axios.get(`http://localhost:5000/followers/following/${userId}`);
-				if(response.data){
-					
-					setListType("Followings");
-					setFollowers(response.data);
-				}
+			else if(listType === 'followings'){
+				dispatch(resetList('followings'))
+				dispatch(getFollowings({loggedUserId,userId,token}))
+				
 			}
-			else{
-				console.log("wrong follower type");
-			}
-
-			
-
 		}
 		catch(error){
-			if(error.response && error.response.status === 404){
-				console.log(error.response.data.message);
-			}
+			console.log(error.response.data.message);
+		}
+	}
+
+	const handleFollow = (event,isFollowing,toUserId) =>{
+		event.preventDefault()
+		event.stopPropagation()
+		if(isFollowing){	
+			dispatch(unfollowUser({userId:toUserId,loggedUserId,token}))
+		}else{
+			dispatch(followUser({userId:toUserId,loggedUserId,token}))
 		}
 	}
 
 	useEffect(()=>{
 		fetchFollowerOrFollowing();
-	},[])
+	},[listType])
 	
-
-	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
 	return (
 		<>
-			{isMobileOrTablet
 
-					?
-					<>
-						<div className="absolute top-20 w-full h-screen rounded-2xl bg-blink-black-2 mt-2 px-2 text-white">
+			<div className="w-5/12 rounded-2xl bg-blink-black-2 mt-2 px-2 text-white">
+				
+				<div className="flex relative">
+
+					<button className="absolute left-0 top-4 text-xl">
+						<FontAwesomeIcon icon={faCircleLeft} onClick={()=>setfollowersVisibility(false)}/>
+					</button>
+
+					<div className="text-center w-full h-14 font-bold py-4 px-2 border-b border-blink-black-3">
+						{listType}
+					</div>
+				</div>
+
+				<div className="">
+
+					<ul>
+						{ displayList?.length > 0 && displayList.map((listItem,index)=>{
+
+							let user = listItem.follower || listItem.user;
+							return (
+
+								<Link key={index} onClick={()=>setfollowersVisibility(false)} to={`/profile/${user._id}`}>
+
+									<li className="flex" key={index}>
+
+										<div className=" my-2 rounded-full w-10 h-10 overflow-hidden">
+
+
+											{user && user.profile && <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={ user.profile} alt="user-profile" />}
+
+										</div>
+
+										<div className="flex-grow px-4 py-4 font-semibold">
+
+											{user && (user._id !== loggedUserId ? user.username : "You")}
+
+										</div>
+
+										<div className="flex item-center">
+											{user._id !== loggedUserId && <button onClick={(e)=>handleFollow(e,listItem.isFollowing,user._id)} className="my-auto bg-blink-gradient-1 px-2 text-sm rounded">
+												{listItem.isFollowing ? "following" : "follow"}
+											</button>}
+										</div>
+
+									</li>
+
+								</Link>
+							)
+						})
 							
-							<div className="flex relative">
+						}
 
-								<button className="absolute left-0 top-4 text-xl">
-									<FontAwesomeIcon icon={faCircleLeft} onClick={()=>setShowFollowers("")}/>
-								</button>
+					</ul>
 
-								<div className="text-center w-full h-14 font-bold py-4 px-2 border-b border-blink-black-3">
-									{listType}
-								</div>
-							</div>
+					{listStatus === 'loading' && <Loading size={"40px"}/>}
 
-							<div className="">
+				</div>
 
-								<ul>
-									{ followers && followers.map((followerItem,index)=>{
-
-										let userId = followerItem.follower._id || followerItem.user._id;
-										return (
-
-											<Link key={index} to={`/profile/${userId}`}>
-
-												<li className="flex " key={index} onClick={()=>setShowFollowers("")}>
-
-													<div className=" my-2 rounded-full w-10 h-10 overflow-hidden">
-
-														{followerItem.follower && followerItem.follower.profile && <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={followerItem.follower.profile} alt="user-profile" />}
-
-														{followerItem.user && followerItem.user.profile &&<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={ followerItem.user.profile} alt="user-profile" />}
-
-													</div>
-
-													<div className="flex-grow px-4 py-4 font-semibold">
-
-														{followerItem.follower && followerItem.follower.username}
-														{followerItem.user && followerItem.user.username}
-
-													</div>
-
-													<div className="flex item-center">
-														<button className="my-auto bg-blink-gradient-1 px-2 text-sm rounded">
-															Follow
-														</button>
-													</div>
-
-												</li>
-
-											</Link>
-										)
-									})
-										
-									}
-
-								</ul>
-
-							</div>
-
-						</div>
-					</>
-
-					:
-
-					<>
-						
-
-						<div className="w-5/12 rounded-2xl bg-blink-black-2 mt-2 px-2 text-white">
-							
-							<div className="flex relative">
-
-								<button className="absolute left-0 top-4 text-xl">
-									<FontAwesomeIcon icon={faCircleLeft} onClick={()=>setShowFollowers("")}/>
-								</button>
-
-								<div className="text-center w-full h-14 font-bold py-4 px-2 border-b border-blink-black-3">
-									{listType}
-								</div>
-							</div>
-
-							<div className="">
-
-								<ul>
-									{ followers && followers.map((followerItem,index)=>{
-
-										let userId = followerItem.follower._id || followerItem.user._id;
-										return (
-
-											<Link key={index} to={`/profile/${userId}`}>
-
-												<li className="flex " key={index}>
-
-													<div className=" my-2 rounded-full w-10 h-10 overflow-hidden">
-
-														{followerItem.follower && followerItem.follower.profile && <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={followerItem.follower.profile} alt="user-profile" />}
-
-														{followerItem.user && followerItem.user.profile &&<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={ followerItem.user.profile} alt="user-profile" />}
-
-													</div>
-
-													<div className="flex-grow px-4 py-4 font-semibold">
-
-														{followerItem.follower && followerItem.follower.username}
-														{followerItem.user && followerItem.user.username}
-
-													</div>
-
-													<div className="flex item-center">
-														<button className="my-auto bg-blink-gradient-1 px-2 text-sm rounded">
-															Follow
-														</button>
-													</div>
-
-												</li>
-
-											</Link>
-										)
-									})
-										
-									}
-
-								</ul>
-
-							</div>
-
-						</div>
-					</>
-			}
+			</div>
+					
 		</>
 	)
 }
