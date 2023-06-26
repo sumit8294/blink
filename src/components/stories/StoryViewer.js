@@ -12,6 +12,9 @@ import StoryViewerSlides from './StoryViewerSlides';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
+import {getStoryDomIndex,setStoryDomIndex,selectAllStories,getFollowingStories} from '../../reducers/storySlice'
+import {useSelector,useDispatch} from 'react-redux'
+import useAuth from '../../hooks/useAuth'
 
 
 
@@ -19,35 +22,17 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 const StoryViewer = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+	const dispatch = useDispatch();
 
-	const [stories,setStories] = useState([]);
+	const stories = useSelector(selectAllStories)
 
-	const {userId} = useParams(); // stories[userStoryindex].story
+	const {userId,token} = useAuth(); 
 
-	let {userStoryindex} = useParams();
+	const userStoryindex = useSelector(getStoryDomIndex); // stories[userStoryindex].story
 
 	const fetchStories = async () =>{
-
-		try{
-
-			const response = await axios.get(`http://localhost:5000/stories/following/${userId}`);
-
-			if(response.data){
-
-				setStories(response.data);
-				
-			}
-		}
-		catch(error){
-			if(error.response && error.response.status === 404){
-				console.log(error.response.message);
-			}
-			else{
-				console.log("user detail not fetched");
-			}
-		}
+		dispatch(getFollowingStories({userId,token}))
 	}
-
 
 
 	const [storyDom, setStoryDom] = useState();
@@ -78,8 +63,8 @@ const StoryViewer = () =>{
 	const containerRef = useRef(null)
 
 	const handleScroll = () =>{
-		userStoryindex++
-		userStoryindex--;
+		setStoryDomIndex(userStoryindex+1)
+		setStoryDomIndex(userStoryindex-1)
 	}
 
   	const swipeUserStory = (scrollTo) =>{
@@ -107,7 +92,7 @@ const StoryViewer = () =>{
 		// Pre-swipe to the next story
 			swipeUserStory(1);
 		}
-	}, [storyDom,userStoryindex]);
+	}, [storyDom]);
 
 
 	return (

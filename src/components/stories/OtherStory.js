@@ -2,49 +2,32 @@ import StoryItems from './StoryItems'
 import useAuth from '../../hooks/useAuth';
 
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import {getFollowingActiveStories,selectAllActiveStories,getStoryStatus} from '../../reducers/storySlice';
+import {useSelector,useDispatch} from 'react-redux'
 
 const OtherStory = () =>{
 
-
-	const [storiesProfile,setStoriesProfile] = useState(null);
-
-	const loggedInUser = useAuth();
-
-	const {userId} = loggedInUser;
+	const dispatch = useDispatch();
+	const storiesProfile = useSelector(selectAllActiveStories);
+	const status = useSelector(getStoryStatus);
+	const {userId:loggedInUser,token} = useAuth();
 	
 	const fetchStoriesProfile = async () =>{
 
-		try{
-			const response = await axios.get(`http://localhost:5000/stories/following/active/${userId}`);
-
-			if(response.data){
-				
-				setStoriesProfile(response.data);
-			}
-		}
-		catch(error){
-			if(error.response && error.response.status === 400){
-				console.log(error.response.message);
-			}
-			else{
-				console.log("Stories profile not fetched");
-
-			}
-		}
+		dispatch(getFollowingActiveStories({loggedInUser,token}))
 	}
-
+	
 	useEffect(()=>{
 		fetchStoriesProfile();
 	},[])
-
+	
 
 	return (
 		<>
-			{storiesProfile && storiesProfile.map((story,index)=>{
+			{storiesProfile?.length > 0 && storiesProfile.map((profile,index)=>{
 				return(
 				
-					<StoryItems key={index} user={story.user} userStoryindex={index} loggedInUserId={userId}/>
+					<StoryItems key={index} profile={profile} userStoryindex={index} loggedInUserId={loggedInUser}/>
 				
 				)
 			})}

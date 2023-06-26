@@ -54,7 +54,7 @@ const UserProfile = () =>{
 							
 										<div className="stories h-32 flex my-auto overflow-x-auto scroll-smooth ">
 											
-											<StoryHighlights />
+											{/*<StoryHighlights />*/}
 										
 										</div>
 

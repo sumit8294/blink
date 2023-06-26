@@ -9,7 +9,7 @@ const YourStory = () =>{
 
 	return (
 		<>
-			<StoryItems user={user} loggedInUserId={userId}/>
+			<StoryItems profile={user} loggedInUserId={userId}/>
 		</>
 	)
 }

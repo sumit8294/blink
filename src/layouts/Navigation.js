@@ -19,17 +19,17 @@ import {useParams} from 'react-router-dom';
 
 import { userLogout } from '../reducers/authSlice';
 import {useDispatch} from 'react-redux';
-
+import useAuth from '../hooks/useAuth';
 
 const navItems = [
 
 	{name:"Feed",icon:faChartBar},
-	{name:"Explore",icon:faMagnifyingGlass},
-	{name:"Messages",icon:faEnvelope},
 	{name:"Reels",icon:faFilm},
-	{name:"Settings",icon:faGear},
 	{name:"Profile",icon:faUser},
+	{name:"Explore",icon:faMagnifyingGlass},
 	{name:"Create",icon:faFilm},
+	{name:"Settings",icon:faGear},
+	{name:"Messages",icon:faEnvelope},
 	{name:"Notifications",icon:faCommentDots},
 
 ]
@@ -39,6 +39,8 @@ const Navigation = () =>{
 	const [activeItem,setActiveItem] = useState("feed");
 
 	const params = useParams();
+
+	const {userId: loggedUserId} = useAuth();
 
 	useEffect( () => setActiveItem(params['*']) , [params] );
 
@@ -67,7 +69,7 @@ const Navigation = () =>{
 
 						return (
 
-							<Link key={key} to={item.name !== 'Profile' ? `/${item.name.toLowerCase()}` : `/${item.name.toLowerCase()}/646e21671b4dc70af49f494d`}>
+							<Link key={key} to={item.name !== 'Profile' ? `/${item.name.toLowerCase()}` : `/${item.name.toLowerCase()}/${loggedUserId}`}>
 
 								<li className="cursor-pointer">
 

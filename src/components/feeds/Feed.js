@@ -44,7 +44,7 @@ const Feed = () =>{
 
 							<div className="custom-scroll justify-center h-screen overflow-y-auto laptop-lg:py-4 ">
 
-								{/*<Stories />*/}
+								<Stories />
 
 								{/*<FeedPosts />*/}
 
@@ -63,7 +63,7 @@ const Feed = () =>{
 
 					<div className="hidden w-[19.5rem] laptop-xl:block shrink-0">
 
-						<UserSuggestions />
+						{/*<UserSuggestions />*/}
 
 					</div>
 

@@ -18,6 +18,12 @@
 .scrollbar-none::-webkit-scrollbar{
   display: none;
 }
+.loading-bar {
+  width: 0;
+  height: 40px;
+  background-color: #00cdac;
+  transition: width 0.3s;
+}
 
 
 body {

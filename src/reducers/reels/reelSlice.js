@@ -14,10 +14,10 @@ import {
 import { addComment,removeComment } from '../commentSlice'
 import { shareContent } from '../chatSlice'
 
-export const addReel = createAsyncThunk('reels/addReel',async ({body,token}) =>{
+export const createReel = createAsyncThunk('reels/createReel',async ({userId,body,token}) =>{
 	try{
 		const response = await axios.post(
-			`${baseApi}/reels/`,
+			`${baseApi}/reels/create`,
 			body,
 			{
 				withCredentials:true,
@@ -56,6 +56,7 @@ export const getReels = createAsyncThunk('reels/getReels',async ({userId,token})
 const initialState = {
 	reels: [],
 	status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+	createStatus: 'idle',
 	error: null,
 
 }
@@ -89,6 +90,16 @@ const reelSlice = createSlice({
 		.addCase(addComment.fulfilled,(state,action)=> increaseReactionCount(state,action,'comments'))
 		.addCase(removeComment.fulfilled,(state,action)=> decreaseReactionCount(state,action,'comments'))
 		.addCase(shareContent.fulfilled,(state,action)=> increaseReactionCount(state,action,'shares'))
+		.addCase(createReel.pending,(state,action)=>{
+			state.createStatus = 'loading'
+		})
+		.addCase(createReel.fulfilled,(state,action)=>{
+			state.createStatus = 'succeeded'
+		})
+		.addCase(createReel.rejected,(state,action)=>{
+			state.createStatus = 'rejected'
+		})
+
 	}
 })
 
@@ -99,5 +110,7 @@ export const selectReelById = (state,id) => {
 		return state.reels.reels.find((reelItem)=> reelItem._id === id);
 	}
 }
+export const getCreateReelStatus = state => state.reels.createStatus
+
 
 export default reelSlice.reducer;

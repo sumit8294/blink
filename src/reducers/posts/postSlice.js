@@ -17,10 +17,28 @@ const initialState = {
 	posts:[],
 	userPosts:[],
 	status:'idle', // 'idle' | 'loading' | 'failed' | 'succeeded'
+	createStatus: 'idle',
 	error: null,
 }
 
 
+export const createPost = createAsyncThunk('posts/createPost',async ({userId,body,token})=>{
+	try{
+		const response = await axios.post(`${baseApi}/posts/create`,
+			body,
+			{
+				withCredentials:true,
+				headers:{
+					'Authorization': `Bearer ${token}`
+				}
+			}
+		);
+		return response.data;
+	}
+	catch(error){
+		throw new Error(error.response.data.message);
+	}
+})
 
 export const getPosts = createAsyncThunk('posts/fetchPosts',async ({userId,token})=>{
 	try{
@@ -61,15 +79,6 @@ export const getFollowingPosts = createAsyncThunk('posts/getFollowingPosts', asy
 	}
 })
 
-export const createPost = createAsyncThunk('posts/createPost',async (body)=>{
-	try{
-		const response = await axios.post(`${baseApi}/posts/create`,body,{withCredentials:true});
-		return response.data;
-	}
-	catch(error){
-		throw new Error(error.response.data.message);
-	}
-})
 
 export const deletePost = createAsyncThunk('posts/deletePost',async (userId,postId)=>{
 
@@ -129,6 +138,15 @@ const postSlice = createSlice({
 		.addCase(addComment.fulfilled,(state,action)=> increaseReactionCount(state,action,'comments'))
 		.addCase(removeComment.fulfilled,(state,action)=> decreaseReactionCount(state,action,'comments'))
 		.addCase(shareContent.fulfilled,(state,action)=> increaseReactionCount(state,action,'shares'))
+		.addCase(createPost.pending,(state,action)=>{
+			state.createStatus = 'loading'
+		})
+		.addCase(createPost.fulfilled,(state,action)=>{
+			state.createStatus = 'succeeded'
+		})
+		.addCase(createPost.rejected,(state,action)=>{
+			state.createStatus = 'rejected'
+		})
 	}
 })
 
@@ -139,6 +157,8 @@ export const selectPostById = (state,id) => {
 }
 export const selectUserPosts = (state) => state.posts.userPosts;
 export const getPostStatus = (state) => state.posts.status;
+export const getCreatePostStatus = state => state.posts.createStatus
+
 
 export default postSlice.reducer;
 
