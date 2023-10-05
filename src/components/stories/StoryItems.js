@@ -1,11 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
-import { useMediaQuery } from 'react-responsive';
-import {mobileMediaQuery} from '../../ReactResponsiveQueries';
+import { useMediaQuery } from 'react-responsive'
+import {mobileMediaQuery} from '../../ReactResponsiveQueries'
 
-import {Link,useNavigate,useLocation,useHistory } from 'react-router-dom';
-import {setStoryDomIndex} from '../../reducers/storySlice'
+import {useEffect} from 'react'
+import {Link,useNavigate,useLocation,useHistory } from 'react-router-dom'
+import {setStoryDomIndex,getFollowingStories} from '../../reducers/storySlice'
+import useAuth from '../../hooks/useAuth';
+
 import {useDispatch} from 'react-redux'
+
 const StoryItems = ({profile,userStoryindex,loggedInUserId}) =>{
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
@@ -13,9 +17,17 @@ const StoryItems = ({profile,userStoryindex,loggedInUserId}) =>{
 	const location = useLocation();
 	const navigate = useNavigate();
 
-	const handleNavigation = () =>{
-		dispatch(setStoryDomIndex(userStoryindex));
-		navigate("/stories/following", { state: { from: location }, replace: true });
+	const {userId,token} = useAuth(); 
+
+	const handleNavigation = async () =>{
+		await dispatch(getFollowingStories({userId,token}))
+		await dispatch(setStoryDomIndex(userStoryindex))
+		navigate(
+			"/stories/following", 
+			{ 
+				state: { from: location }, 
+				replace: true
+			})
 	}
 
 	return (

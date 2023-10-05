@@ -46,7 +46,7 @@ const Feed = () =>{
 
 								<Stories />
 
-								{/*<FeedPosts />*/}
+								<FeedPosts />
 
 							</div>
 
@@ -63,7 +63,7 @@ const Feed = () =>{
 
 					<div className="hidden w-[19.5rem] laptop-xl:block shrink-0">
 
-						{/*<UserSuggestions />*/}
+						<UserSuggestions />
 
 					</div>
 

@@ -21,7 +21,7 @@ module.exports = {
       		'blink-gradient-7': "linear-gradient(to right, #4568dc , #b06ab3)",
       		'blink-gradient-8': "radial-gradient(circle at 25% 80%, #5680E9 , #84CEEB, #5AB9EA, #C1C8E4)",
       		'bl-grad-black': "linear-gradient(45deg,#0B0C10,#1A1A1D)",
-      		'bl-grad-black-bottom': "linear-gradient(to bottom,#0B0C10,#272727)",
+      		'bl-grad-black-bottom': "linear-gradient(to bottom,rgba(0,0,0,0.8),rgba(0,0,0,0.6), rgba(0,0,0,0))",
           'bl-grad-black-top': "linear-gradient(to top,rgba(0,0,0,0.8),rgba(0,0,0,0.6), rgba(0,0,0,0))",
 
 

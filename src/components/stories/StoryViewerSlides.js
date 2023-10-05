@@ -1,23 +1,34 @@
-import {useState,useEffect} from 'react';
+import {useState} from 'react'
 
-import { useMediaQuery } from 'react-responsive';
-import {mobileMediaQuery} from '../../ReactResponsiveQueries';
+import { useMediaQuery } from 'react-responsive'
+import {mobileMediaQuery} from '../../ReactResponsiveQueries'
 
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom'
 
 
-const StoryViewerSlides = ({story,user}) => {
 
-	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+const StoryViewerSlides = ({story,user,swipeUserStory}) => {
 
-	const [storyNumber,setStoryNumber] = useState(0);
+	const isMobileOrTablet = useMediaQuery(mobileMediaQuery)
+
+	const [storyNumber,setStoryNumber] = useState(0)
+
 	const swipeStory = (swipeTo) =>{
 
-		if(swipeTo === 1 && storyNumber < story.length-1){
-			setStoryNumber(storyNumber+1 );
+		if(swipeTo === 1) {
+			if(storyNumber < story.length-1){
+				setStoryNumber(storyNumber+1 );
+			}else{
+				swipeUserStory(1)
+			}
 		}
-		else if(swipeTo === -1 && storyNumber > 0){
-			setStoryNumber(storyNumber-1);
+		else if(swipeTo === -1) {
+			if(storyNumber > 0){
+				setStoryNumber(storyNumber-1);
+			}
+			else{
+				swipeUserStory(-1)
+			}
 		}
 	}
 
@@ -92,7 +103,7 @@ const StoryViewerSlides = ({story,user}) => {
 
 							<img className="w-full" src={`https://res.cloudinary.com/dzaklkjrk/image/upload/v1684937670/${story[storyNumber]}`} alt="story" />
 
-							<div className="absolute left-0 w-full py-4 px-2 top-0 bg-bl-grad-black-top tablet-sm:px-0">
+							<div className="absolute left-0 w-full py-4 px-2 top-0 bg-bl-grad-black-bottom tablet-sm:px-0">
 
 								<div className="post-details px-4 py-1 rounded flex text-xs justify-between laptop-lg:px-2">
 
@@ -125,11 +136,11 @@ const StoryViewerSlides = ({story,user}) => {
 
 						<div className="absolute flex w-full overflow-hidden top-0 h-full">
 							<button className=" w-1/2 flex justify-center items-center" onClick={()=>swipeStory(-1)}>
-							{"<<"}
+							
 								
 							</button>
 							<button className=" w-1/2 flex justify-center items-center" onClick={()=>swipeStory(1)}>
-								{">>"}
+								
 							</button>
 						</div>
 						
