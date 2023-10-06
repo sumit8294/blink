@@ -1,32 +1,27 @@
-import HighlightItems from './HighlightItems';
+import HighlightItems from './HighlightItems'
 
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import {useParams} from 'react-router-dom';
+import { useState, useEffect } from 'react'
+import useAuth from '../../hooks/useAuth'
+import {useParams} from 'react-router-dom'
+
+import {useSelector,useDispatch} from 'react-redux'
+
+import {getStoriesByUserId,selectAllStories} from '../../reducers/storySlice'
 
 const StoryHighlights = () =>{
 
-	const [storiesHighlights,setStoriesHighlights] = useState([]);
+	//----> no specific APIs are present currently
 
-	const {userId} = useParams();
+	const {token} = useAuth()
+	const {userId} = useParams()
+
+	const dispatch = useDispatch()
+
+	const storiesHighlights = useSelector(selectAllStories)
 
 	const fetchStories = async () =>{
 
-		try{
-			const response = await axios.get(`http://localhost:5000/stories/user/${userId}`);
-
-			if(response.data){
-				setStoriesHighlights(response.data);
-			}
-		}
-		catch(error){
-			if(error.response && error.response.status === 404){
-				console.log(error.response.message);
-			}
-			else{
-				console.log("story highlights not fetched");
-			}
-		}
+		await dispatch(getStoriesByUserId({userId,token}))
 	}
 
 	useEffect(()=>{

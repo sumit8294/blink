@@ -59,9 +59,9 @@ const Messages = () =>{
 
 						<div className="flex justify-between">
 
-								{/*<Chats />*/}
+								{!activeChat && <Chats activeChat={activeChat} handleActiveChat={handleActiveChat} />}
 								
-								<ChatBox chatMessages={chatMessages}/>
+								{activeChat && <ChatBox chatMessages={chatMessages} handleActiveChat={handleActiveChat}/>}
 
 						</div>
 

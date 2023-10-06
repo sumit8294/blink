@@ -109,6 +109,17 @@ const storySlice = createSlice({
 		.addCase(createStory.rejected,(state,action)=>{
 			state.createStatus = 'failed'
 		})
+		.addCase(getStoriesByUserId.pending,(state,action)=>{
+			state.status = 'loading'
+		})
+		.addCase(getStoriesByUserId.fulfilled,(state,action)=>{
+			state.status = 'succeeded'
+			state.stories = action.payload
+		})
+		.addCase(getStoriesByUserId.rejected,(state,action)=>{
+			state.status = 'failed'
+			state.error = action.error.message
+		})
 	}
 })
 
@@ -119,8 +130,8 @@ export const selectStoryById = (state,id) => {
 	return state.stories.stories.find((storyItem)=> storyItem._id === id);
 }
 export const getStoryStatus = (state) => state.stories.status;
-export const getCreateStoryStatus = state => state.stories.createStatus
-export const getStoryDomIndex = state => state.stories.storyDomIndex
+export const getCreateStoryStatus = (state) => state.stories.createStatus
+export const getStoryDomIndex = (state) => state.stories.storyDomIndex
 
 export const {setStoryDomIndex} = storySlice.actions;
 export default storySlice.reducer;

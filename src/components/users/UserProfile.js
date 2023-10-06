@@ -24,11 +24,11 @@ const UserProfile = () =>{
 
 							<UserDetail  />
 
-							<div className="stories flex px-2 tablet-md:px-4 h-[80px] mobile-md:h-[100px] mobile-lg:h-[115px] overflow-x-auto scroll-smooth">
+							{/*<div className="stories flex px-2 tablet-md:px-4 h-[80px] mobile-md:h-[100px] mobile-lg:h-[115px] overflow-x-auto scroll-smooth">
 
 								<StoryHighlights />
 
-							</div>
+							</div>*/}
 
 
 							<UserPosts />
@@ -50,15 +50,15 @@ const UserProfile = () =>{
 									
 									<UserDetail />
 
-									<div className=" px-2 laptop-lg:px-6">
-							
-										<div className="stories h-32 flex my-auto overflow-x-auto scroll-smooth ">
+										{/*<div className=" px-2 laptop-lg:px-6">
+								
+											<div className="stories h-32 flex my-auto overflow-x-auto scroll-smooth ">
+												
+												<StoryHighlights />
 											
-											{/*<StoryHighlights />*/}
-										
-										</div>
+											</div>
 
-									</div>
+										</div>*/}
 
 									
 

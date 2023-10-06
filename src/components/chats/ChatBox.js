@@ -5,7 +5,7 @@ import ChatBoxInput from './ChatBoxInput';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-const ChatBox = ({chatMessages}) =>{
+const ChatBox = ({chatMessages,handleActiveChat}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 	
@@ -19,9 +19,9 @@ const ChatBox = ({chatMessages}) =>{
 				
 					<div className=" w-full py-1 bg-blink-black-1">
 
-						<ChatBoxHeader />
+						<ChatBoxHeader participant={chatMessages && chatMessages.participants[0]} handleActiveChat={handleActiveChat}/>
 
-						<ChatBoxBody />
+						<ChatBoxBody messages={chatMessages && chatMessages.messages} participant={chatMessages && chatMessages.participants[0]} />
 
 						<ChatBoxInput />
 

@@ -112,8 +112,8 @@ const UserDetail = ({setShowFollowers}) =>{
 
 						</div>
 
-						<div className="w-full ">
-							{userDetail._id !== loggedUserId && <button className="py-2 w-full bg-blink-gradient-1" onClick={()=>handleFollow(userDetail.isFollowing,userDetail._id)}>
+						<div className="w-full px-4 my-2">
+							{userDetail._id !== loggedUserId && <button className="py-2 rounded w-full bg-blink-gradient-1" onClick={()=>handleFollow(userDetail.isFollowing,userDetail._id)}>
 								{userDetail.isFollowing 
 									? "Following" 
 									: (userDetail.isFollower) ? "Follow Back" : "Follow"}

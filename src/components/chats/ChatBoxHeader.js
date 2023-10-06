@@ -7,7 +7,7 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
 import {Link} from 'react-router-dom';
 
-const ChatBoxHeader = ({participant}) =>{
+const ChatBoxHeader = ({participant,handleActiveChat}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
@@ -18,27 +18,37 @@ const ChatBoxHeader = ({participant}) =>{
 			{isMobileOrTablet
 				?
 				<>
+
 					<div className="w-full flex justify-between px-4 py-1 border-b border-blink-black-2 fixed top-0 bg-blink-black-1 tablet-sm:py-2 tablet-sm:text-[1.6rem]">
 
-						<Link to={participant && `/profile/${participant._id}`} >
 
-							<div className="user-info flex" >
+						<div className="flex" >
 
-								<div className=" post-image h-8 my-auto w-8 tablet-sm:h-12 tablet-sm:w-12 rounded-full text-center overflow-hidden" >
+							<button className="mr-2" onClick={()=>handleActiveChat(null)}>
+								{"<<"}
+							</button>
 
-									<img className="w-full"  src={participant && participant.profile} alt="user" />
+							<Link to={participant && `/profile/${participant._id}`} >
 
+								<div className="user-info flex" >
+
+									<div className=" post-image h-8 my-auto w-8 tablet-sm:h-12 tablet-sm:w-12 rounded-full text-center overflow-hidden" >
+
+										<img className="w-full"  src={participant && participant.profile} alt="user" />
+
+									</div>
+
+									<div className="ml-3 py-2 ">
+										
+										<span className="block tracking-wide font-normal text-white"> {participant && participant.username} </span>
+								
+									</div>					
+								
 								</div>
 
-								<div className="ml-3 py-2 ">
-									
-									<span className="block tracking-wide font-normal text-white"> {participant && participant.username} </span>
-							
-								</div>					
-							
-							</div>
+							</Link >
 
-						</Link >
+						</div>
 
 						<div className="contact-options cursor-pointer flex py-2">
 							
