@@ -7,7 +7,7 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
 import {Link} from 'react-router-dom';
 
-const ChatBoxHeader = ({participant,handleActiveChat}) =>{
+const ChatBoxHeader = ({participant,handleActiveChatId}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
@@ -19,28 +19,28 @@ const ChatBoxHeader = ({participant,handleActiveChat}) =>{
 				?
 				<>
 
-					<div className="w-full flex justify-between px-4 py-1 border-b border-blink-black-2 fixed top-0 bg-blink-black-1 tablet-sm:py-2 tablet-sm:text-[1.6rem]">
+					{participant && <div className="w-full flex justify-between px-4 py-1 border-b border-blink-black-2 fixed top-0 bg-blink-black-1 tablet-sm:py-2 tablet-sm:text-[1.6rem]">
 
 
 						<div className="flex" >
 
-							<button className="mr-2" onClick={()=>handleActiveChat(null)}>
+							<button className="mr-2" onClick={()=>handleActiveChatId(null)}>
 								{"<<"}
 							</button>
 
-							<Link to={participant && `/profile/${participant._id}`} >
+							<Link to={`/profile/${participant._id}`} >
 
 								<div className="user-info flex" >
 
 									<div className=" post-image h-8 my-auto w-8 tablet-sm:h-12 tablet-sm:w-12 rounded-full text-center overflow-hidden" >
 
-										<img className="w-full"  src={participant && participant.profile} alt="user" />
+										{participant && <img className="w-full"  src={participant.profile} alt="user" />}
 
 									</div>
 
 									<div className="ml-3 py-2 ">
 										
-										<span className="block tracking-wide font-normal text-white"> {participant && participant.username} </span>
+										<span className="block tracking-wide font-normal text-white"> {participant.username} </span>
 								
 									</div>					
 								
@@ -66,27 +66,27 @@ const ChatBoxHeader = ({participant,handleActiveChat}) =>{
 
 						</div>
 							
-					</div>
+					</div>}
 				</>
 
 				:
 
 				<>
-					<div className="flex justify-between px-4 py-1 border-b border-blink-black-2">
+					{participant && <div className="flex justify-between px-4 py-1 border-b border-blink-black-2">
 
-						<Link to={ participant && `/profile/${participant._id}`} >
+						<Link to={`/profile/${participant._id}`} >
 
 							<div className="user-info flex" >
 
 								<div className=" post-image h-8 my-auto w-8 rounded-full text-center overflow-hidden" >
 
-									<img className="w-full"  src={participant && participant.profile} alt="user" />
+									<img className="w-full"  src={participant.profile} alt="user" />
 
 								</div>
 
 								<div className="ml-3 py-2 ">
 									
-									<span className="block tracking-wide font-normal text-white"> {participant && participant.username} </span>
+									<span className="block tracking-wide font-normal text-white"> {participant.username} </span>
 							
 								</div>					
 							
@@ -110,7 +110,7 @@ const ChatBoxHeader = ({participant,handleActiveChat}) =>{
 
 						</div>
 							
-					</div>
+					</div>}
 				</>
 
 			}

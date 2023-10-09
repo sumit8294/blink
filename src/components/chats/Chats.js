@@ -9,7 +9,7 @@ import useAuth from '../../hooks/useAuth';
 import './chats.css'
 
 
-const Chats = ({activeChat, handleActiveChat}) =>{
+const Chats = ({activeChatId, handleActiveChatId}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
@@ -49,7 +49,9 @@ const Chats = ({activeChat, handleActiveChat}) =>{
 
 					<div className="rounded-l-2xl py-4">
 
-						<div className="suggestion-head border-b border-blink-black-2 px-4 py-2 text-sm flex justify-between">
+						<div className="suggestion-head border-b border-blink-black-2 px-4 py-2 text-sm flex justify-start">
+
+							<button className="mr-2" onClick={() => window.history.go(-1)} >{ "<<" }</button>
 
 							<button className="text-blink-gray-2" >chats</button>
 
@@ -59,7 +61,7 @@ const Chats = ({activeChat, handleActiveChat}) =>{
 
 							{userChats && userChats.map((chat,index)=>{
 
-								return <ChatItems key={index} chat={chat} activeChat={activeChat} handleActiveChat={handleActiveChat}/>
+								return <ChatItems key={index} chat={chat} activeChatId={activeChatId} handleActiveChatId={handleActiveChatId}/>
 
 							})}
 
@@ -81,11 +83,11 @@ const Chats = ({activeChat, handleActiveChat}) =>{
 
 						</div>
 
-						<div className="chats overflow-y-auto h-[500px]">
+						<div className="chats overflow-y-auto ">
 
 							{userChats && userChats.map((chat,index)=>{
 
-								return <ChatItems key={index} chat={chat} activeChat={activeChat} handleActiveChat={handleActiveChat}/>
+								return <ChatItems key={index} chat={chat} activeChatId={activeChatId} handleActiveChatId={handleActiveChatId}/>
 
 							})}
 

@@ -5,47 +5,38 @@ import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
 import {useState,useEffect} from 'react';
+import {useDispatch,useSelector} from 'react-redux';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
+
+import {getChatMessages,fetchChatMessages} from '../../reducers/chatSlice';
 
 
 const Messages = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
-	const [activeChat,setActiveChat] = useState(null);
+	const [activeChatId,setActiveChatId] = useState(null);
 
-	const [chatMessages,setChatMessages] = useState(null);
+	const chatMessages = useSelector(getChatMessages);
+	const {userId,token} = useAuth();
+	const dispatch = useDispatch();
 
-	const handleActiveChat = (messager) => setActiveChat(messager);
+	const handleActiveChatId = (messager) => setActiveChatId(messager);
 
-	const {userId} = useAuth();
 
-	const fetchChatMessages = async (chatId) =>{	
+	const fetchMessages = async (chatId) =>{	
 
-		try{
-			const response = await axios.get(`http://localhost:5000/chats/${userId}/${chatId}`);
-
-			if(response.data){
-				
-				setChatMessages(response.data);
-			}
-		}
-		catch(error){
-			if(error.response && error.response.status === 404){
-				console.log("messages not found");
-			}
-			else console.log("messages not fetched");
-		}
+		dispatch(fetchChatMessages({token,chatId,userId}))
 	}
 
 	useEffect(()=>{
 
-		if(activeChat !== null){
-			fetchChatMessages(activeChat);
+		if(activeChatId !== null){
+			fetchMessages(activeChatId);
 		} 
 		
-	},[activeChat])
+	},[activeChatId])
 
 	return (
 
@@ -59,9 +50,9 @@ const Messages = () =>{
 
 						<div className="flex justify-between">
 
-								{!activeChat && <Chats activeChat={activeChat} handleActiveChat={handleActiveChat} />}
+								{!activeChatId && <Chats activeChatId={activeChatId} handleActiveChatId={handleActiveChatId} />}
 								
-								{activeChat && <ChatBox chatMessages={chatMessages} handleActiveChat={handleActiveChat}/>}
+								{activeChatId && <ChatBox chatMessages={chatMessages} handleActiveChatId={handleActiveChatId} activeChatId={activeChatId}/>}
 
 						</div>
 
@@ -77,9 +68,9 @@ const Messages = () =>{
 
 						<div className="flex bg-blink-black-2 mx-2 my-2 drop-shadow-2xl rounded-2xl laptop-xl:px-6 laptop-xl:py-6 " >
 
-								<Chats activeChat={activeChat} handleActiveChat={handleActiveChat}/>
+								<Chats activeChatId={activeChatId} handleActiveChatId={handleActiveChatId}/>
 								
-								<ChatBox chatMessages={chatMessages}/>
+								<ChatBox chatMessages={chatMessages} activeChatId={activeChatId} />
 
 						</div>
 

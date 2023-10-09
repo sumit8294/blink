@@ -21,7 +21,6 @@ const Share = () =>{
 
 	const {userId,token} = useAuth()
 	const auth = useAuth()
-
 	const shareableUsers = useSelector(getChatsUsers)	
 	const chatsStatus = useSelector(getChatsStatus)
 	const shareableContent = useSelector(getShareableContent)
@@ -33,12 +32,29 @@ const Share = () =>{
 
 	const sendPost = (receiverId) =>{
 
-		const body = {
+		let body = {
 			sender: userId,
 			receiver: receiverId,
 			contentType:shareableType,
-			content: {imageUrl:shareableContent.imageUrl,_id:shareableContent._id}
+		};
+
+		if(shareableType === 'post'){
+
+			body = {
+				...body,
+				content: {imageUrl:shareableContent.imageUrl,_id:shareableContent._id}
+			}
+
+		}else if(shareableType === 'reel'){
+
+			body = {
+				...body,
+				content: {videoUrl:shareableContent.videoUrl,_id:shareableContent._id}
+			}
+
 		}
+		
+		
 		
 		setSendStatus( prev => ({ ...prev,[receiverId]: 'pending'}) )
 

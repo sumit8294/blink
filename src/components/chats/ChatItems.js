@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-const ChatItems = ({chat,handleActiveChat,activeChat}) => {
+const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 	
@@ -13,7 +13,7 @@ const ChatItems = ({chat,handleActiveChat,activeChat}) => {
 				?
 				<>
 
-					<div className={`cursor-pointer relative flex px-4 py-2 ${ activeChat === chat._id ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActiveChat(chat._id)} >
+					<div className={`cursor-pointer relative flex px-4 py-2 ${ activeChatId === chat._id ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActiveChatId(chat._id)} >
 
 						<div className="shrink-0 post-image h-12 my-auto w-12 rounded-full text-center overflow-hidden" >
 
@@ -35,7 +35,20 @@ const ChatItems = ({chat,handleActiveChat,activeChat}) => {
 
 								<span className="block text-[11px] "> 
 									
-									<span className="block text-blink-gray-1"> { chat.messages[0].content } .</span>
+									<span className="block text-blink-gray-1">
+
+										{ chat.messages[0].contentType === 'reel' || chat.messages[0].contentType === 'post' 
+
+											? (chat.messages[0].sender._id === chat.participants[0]._id)
+
+												? chat.participants[0].username + ' sent you a ' + chat.messages[0].contentType
+												: 'you sent a '+ chat.messages[0].contentType
+
+											: chat.messages[0].content
+
+										} .
+											
+									</span>
 
 									<span className="text-blink-gray-2 text-[11px]"> {format(new Date(chat.messages[0].sendAt), 'dd MMM yyyy hh:mm a')} </span>
 
@@ -52,7 +65,7 @@ const ChatItems = ({chat,handleActiveChat,activeChat}) => {
 
 				<>
 
-					<div className={`cursor-pointer relative flex px-4 py-2 laptop-sm:px-2 ${ activeChat === chat._id ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActiveChat(chat._id)} >
+					<div className={`cursor-pointer relative flex px-4 py-2 laptop-sm:px-2 ${ activeChatId === chat._id ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActiveChatId(chat._id)} >
 
 						<div className="shrink-0 post-image h-12 my-auto w-12 laptop-sm:h-10 laptop-sm:w-10 rounded-full text-center overflow-hidden" >
 
@@ -74,7 +87,20 @@ const ChatItems = ({chat,handleActiveChat,activeChat}) => {
 
 								<span className="block text-[11px] "> 
 									
-									<span className="block text-blink-gray-1"> { chat.messages[0].content } .</span>
+									<span className="block text-blink-gray-1">
+
+										{ chat.messages[0].contentType === 'reel' || chat.messages[0].contentType === 'post' 
+
+											? (chat.messages[0].sender._id === chat.participants[0]._id)
+
+												? chat.participants[0].username + ' sent you a ' + chat.messages[0].contentType
+												: 'you sent a '+ chat.messages[0].contentType
+
+											: chat.messages[0].content
+
+										} .
+
+									</span>
 
 									<span className="text-blink-gray-2 text-[11px]">  {format(new Date(chat.messages[0].sendAt), 'dd MMM yyyy hh:mm a')}  </span>
 

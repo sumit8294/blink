@@ -30,12 +30,16 @@ const Home = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 	const [isNoHeaderMobilePages,setNoHeaderMobilePages] = useState(false);
+	const [isNoNavigationMobilePages,setNoNavigationMobilePages] = useState(false);
+
 
 	const params = useParams();
 	
 	useEffect(()=>{
 		if(params['*'] === 'reels' || params['*'] === 'messages') setNoHeaderMobilePages(true);
 		else setNoHeaderMobilePages(false);
+
+		if(params['*'] === 'messages') setNoNavigationMobilePages(true)
 	},[params])
 
 	return (
@@ -59,7 +63,7 @@ const Home = () =>{
 
 						</Routes>
 					</div>
-					<BottomNavigation />
+					{!isNoHeaderMobilePages && <BottomNavigation />}
 				</>
 				:
 				<>
