@@ -33,7 +33,6 @@ const ChatBoxInput = ({participant,activeChatId}) =>{
 		}
 
 		await dispatch(sendMessage({body,token}))
-		console.log(shareStatus === 'succeeded',shareStatus)
 		
 		if(shareStatus === 'succeeded' || shareStatus === 'idle'){
 			setTextMessage("")

@@ -47,7 +47,7 @@ const Chats = ({activeChatId, handleActiveChatId}) =>{
 				?
 				<>
 
-					<div className="rounded-l-2xl py-4">
+					<div className="rounded-l-2xl py-4 w-full">
 
 						<div className="suggestion-head border-b border-blink-black-2 px-4 py-2 text-sm flex justify-start">
 

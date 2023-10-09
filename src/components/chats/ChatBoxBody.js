@@ -23,11 +23,9 @@ const ChatBoxBody = ({messages,participant}) =>{
 	useEffect(() => {
 	// Check if the divRef is defined and not null
 	if (divRef.current) {
-		console.log("i")
 	  // Scroll the div to the bottom
 	  divRef.current.scrollTop = divRef.current.scrollHeight;
 	}
-	console.log("o")
 	}, [messages]);
 
 	return (
