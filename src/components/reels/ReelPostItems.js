@@ -5,12 +5,12 @@ import ReelPostUser from './ReelPostUser';
 
 
 
-import {useEffect} from 'react';
+import React,{useEffect} from 'react';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-const ReelPostItems = ({reel,reelId,reelRef}) => {
+let ReelPostItems = ({reel,reelId,reelRef}) => {
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
@@ -45,7 +45,7 @@ const ReelPostItems = ({reel,reelId,reelRef}) => {
 
 				<>
 
-					<div className="post relative snap-always tablet-sm:h-screen tablet-sm:flex tablet-sm:justify-center snap-center" >
+					<div className="post relative snap-always snap-center tablet-sm:h-screen tablet-sm:flex tablet-sm:justify-center " >
 
 						<div className="relative tablet-sm:h-[40rem] tablet-sm:my-auto post-image h-screen flex justify-center text-center overflow-hidden" >
 
@@ -104,5 +104,5 @@ const ReelPostItems = ({reel,reelId,reelRef}) => {
 		</>
 	)
 }
-
-export default ReelPostItems;
+ReelPostItems = React.memo(ReelPostItems);
+export default ReelPostItems

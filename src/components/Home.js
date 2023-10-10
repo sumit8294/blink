@@ -11,6 +11,7 @@ import Notifications from './notifications/Notifications';
 import StoryViewer from './stories/StoryViewer';
 import UserProfile from './users/UserProfile';
 import CreatePost from './users/CreatePost';
+import ContentLoader from './others/ContentLoader';
 import {Outlet,Navigate,useLocation} from 'react-router-dom';
 import DialogProvider from '../store/DialogContext';
 
@@ -60,7 +61,7 @@ const Home = () =>{
 							<Route path="/notifications" element={<Notifications />} />
 							<Route path="/stories/following" element={<StoryViewer />} />
 							<Route path="/create" element={<CreatePost />} />
-
+							<Route path="/content" element={<DialogProvider><ContentLoader /></DialogProvider>} />
 						</Routes>
 					</div>
 					{!isNoHeaderMobilePages && <BottomNavigation />}
@@ -81,6 +82,7 @@ const Home = () =>{
 								<Route path="/notifications" element={<Notifications />} />
 								<Route path="/stories/following" element={<StoryViewer />} />
 								<Route path="/create" element={<CreatePost />} />
+								<Route path="/content" element={<DialogProvider><ContentLoader /></DialogProvider>} />
 							</Routes>
 						</div>
 						

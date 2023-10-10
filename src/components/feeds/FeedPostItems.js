@@ -20,7 +20,7 @@ let FeedPostItems = ({post}) =>{
 			{isMobileOrTablet 
 				?
 				<>
-					<div className="post relative bg-blink-black-1 " >
+					<div className="post relative bg-blink-black-1 snap-always snap-center" >
 
 						<FeedPostHeader post={post}/>
 
@@ -41,7 +41,7 @@ let FeedPostItems = ({post}) =>{
 				</>
 				:
 				<>
-					<div className="post relative mb-6 laptop-lg:bg-blink-black-1 laptop-lg:px-4 laptop-lg:border laptop-lg:border-blink-black-3" >
+					<div className="post snap-always snap-center relative mb-6 laptop-lg:bg-blink-black-1 laptop-lg:px-4 laptop-lg:border laptop-lg:border-blink-black-3" >
 
 						<FeedPostHeader post={post}/>
 
