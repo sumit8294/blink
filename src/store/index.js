@@ -1,13 +1,12 @@
 import {configureStore} from '@reduxjs/toolkit'
-import authSlice from '../reducers/authSlice'
-import postSlice from '../reducers/posts/postSlice'
-import userSlice from '../reducers/userSlice'
-import commentSlice from '../reducers/commentSlice'
-import chatSlice from '../reducers/chatSlice'
-import reelSlice from '../reducers/reels/reelSlice'
-import followerSlice from '../reducers/followerSlice'
-import storySlice from '../reducers/storySlice'
-
+import authSlice,{resetAuth} from '../reducers/authSlice'
+import postSlice,{resetPosts} from '../reducers/posts/postSlice'
+import userSlice,{resetUser} from '../reducers/userSlice'
+import commentSlice,{resetComments} from '../reducers/commentSlice'
+import chatSlice,{resetChats} from '../reducers/chatSlice'
+import reelSlice,{resetReels} from '../reducers/reels/reelSlice'
+import followerSlice,{resetFollowers} from '../reducers/followerSlice'
+import storySlice,{resetStories} from '../reducers/storySlice'
 
 
 export const store = configureStore({
@@ -22,3 +21,14 @@ export const store = configureStore({
 		stories:storySlice
 	}
 })
+
+export const resetStore = (dispatch) =>{
+	dispatch(resetAuth())
+	dispatch(resetPosts())
+	dispatch(resetUser())
+	dispatch(resetComments())
+	dispatch(resetChats())
+	dispatch(resetReels())
+	dispatch(resetFollowers())
+	dispatch(resetStories())
+}

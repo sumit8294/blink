@@ -21,6 +21,8 @@ import { userLogout } from '../reducers/authSlice';
 import {useDispatch} from 'react-redux';
 import useAuth from '../hooks/useAuth';
 
+import {resetStore} from '../store/index'
+
 const navItems = [
 
 	{name:"Feed",icon:faChartBar},
@@ -53,6 +55,8 @@ const Navigation = () =>{
 	const handleLogout = async () =>{
 
 		await dispatch(userLogout());
+		resetStore(dispatch)
+
 	}
 
 	return (

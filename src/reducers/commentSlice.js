@@ -60,9 +60,11 @@ const commentSlice = createSlice({
 	initialState,
 	reducers:{
 		resetComments:(state,action)=>{
-			state.comments = []
-			state.contentId = null
-			state.contentType = null
+			state.comments= []
+			state.contentId= null
+			state.contentType= null
+			state.status= 'idle'
+			state.error= null
 
 		}
 	},

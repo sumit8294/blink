@@ -5,15 +5,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleUp } from '@fortawesome/free-regular-svg-icons'
 import { faCircleDown } from '@fortawesome/free-regular-svg-icons'
 
-import {useEffect,useRef} from 'react';
+import React,{useEffect,useRef,useContext} from 'react';
+import {useParams} from 'react-router-dom';
 import {useSelector,useDispatch} from 'react-redux';
-import {getPosts, selectAllPosts,getPostStatus} from '../../reducers/posts/postSlice';
-import {getReels, selectAllReels,getReelsStatus} from '../../reducers/reels/reelSlice';
+import {getPosts, selectAllPosts,getPostStatus,getPostById,resetPosts} from '../../reducers/posts/postSlice';
+import {getReels, selectAllReels,getReelsStatus,getReelById,resetReels} from '../../reducers/reels/reelSlice';
 import {getAccessToken} from '../../reducers/authSlice';
 import useAuth from '../../hooks/useAuth';
 import PostLoading from '../loading/PostLoading'
 import ReelPostItems from '../reels/ReelPostItems'
 import FeedPostItems from '../feeds/FeedPostItems'
+
+import Share from '../others/Share';
+import Comment from '../others/Comment';
+import {DialogContext} from '../../store/DialogContext';
+
 
 
 
@@ -22,19 +28,26 @@ const ContentLoader = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
+	const {state} = useContext(DialogContext)
+
 	const token = useSelector(getAccessToken);
 	const posts = useSelector(selectAllPosts);
 	const reels = useSelector(selectAllReels);
-	const content = reels.concat(posts.slice(0,5))
+	
 	const {userId} = useAuth();
 	const dispatch = useDispatch();
+	const {contentType, contentId} = useParams();
+
 
 	const fetchContent = () => {
-		dispatch(getPosts({userId,token}));
-		dispatch(getReels({userId,token}));
+
+		if(contentType === 'post'){
+			dispatch(getPostById({token,userId,postId:contentId}))
+		}else if(contentType === 'reel'){
+			dispatch(getReelById({token,userId,reelId:contentId}))
+		}
+
 	}
-
-
 
 	const containerRef = useRef(null)
   	const reelRefsArray = useRef([])
@@ -42,9 +55,6 @@ const ContentLoader = () =>{
 
   	const reelsStatus = useSelector(getReelsStatus)
 
-  	const fetchReels = () => {
-  		dispatch(getReels({userId,token}))
-  	}
 
   	const scrollReelWithButton = (scrollTo) =>{
   		const container = containerRef.current
@@ -84,6 +94,11 @@ const ContentLoader = () =>{
 
 	useEffect(()=>{
 		fetchContent()
+
+		return ()=>{
+			dispatch(resetReels())
+			dispatch(resetPosts())
+		}
 	},[])
 
 	return (
@@ -95,22 +110,27 @@ const ContentLoader = () =>{
 					<div ref={containerRef} onScroll={playCurrentVideo} className="duration-700 reel-posts mx-auto h-screen snap-y snap-mandatory overflow-y-auto tablet-sm:w-[24rem]" >
 
 
-						{content && content.map((item,index)=>{
-
-								if(item.hasOwnProperty("videoUrl")){
-
-									return <ReelPostItems reelId={index+''} key={index} reel={item} reelRef={video => (reelRefsArray.current[index] = video)}/>
-								}
-								else if(item.hasOwnProperty("imageUrl")){
-
-									return <FeedPostItems key={index} post={item}/>
-								}
+						{reels.length > 0 && reels.map((item,index)=>{
+								
+							return <ReelPostItems reelId={index+''} key={index} reel={item} reelRef={video => (reelRefsArray.current[index] = video)}/>
+															
 							})
 
+						}
+
+						{posts.length > 0 && posts.map((item,index)=>{
+								
+								
+							return <FeedPostItems key={index} post={item}/>
+							
+							})
 
 						}
 
 					</div>
+
+					{state.commentsVisibility && <Comment />}
+					{state.sharesVisibility && <Share />}
 
 				</>
 
@@ -118,18 +138,20 @@ const ContentLoader = () =>{
 				<>
 					<div ref={containerRef} onScroll={playCurrentVideo} className="duration-700 reel-posts laptop-lg:py-10 laptop-lg:px-2 mx-auto laptop-lg:mb-10 h-screen snap-y snap-mandatory overflow-y-auto laptop-sm:w-[26rem] laptop-lg:w-[22rem]" >
 
-						{content && content.map((item,index)=>{
-
-								if(item.hasOwnProperty("videoUrl")){
-
-									return <ReelPostItems reelId={index+''} key={index} reel={item} reelRef={video => (reelRefsArray.current[index] = video)}/>
-								}
-								else if(item.hasOwnProperty("imageUrl")){
-
-									return <FeedPostItems key={index} post={item}/>
-								}
+						{reels.length > 0 && reels.map((item,index)=>{
+								
+							return <ReelPostItems reelId={index+''} key={index} reel={item} reelRef={video => (reelRefsArray.current[index] = video)}/>
+															
 							})
 
+						}
+
+						{posts.length > 0 && posts.map((item,index)=>{
+								
+								
+							return <FeedPostItems key={index} post={item}/>
+							
+							})
 
 						}
 
@@ -153,6 +175,9 @@ const ContentLoader = () =>{
 
 					</div>
 
+					{state.commentsVisibility && <Comment />}
+					{state.sharesVisibility && <Share />}
+
 				</>
 
 			}
@@ -163,4 +188,4 @@ const ContentLoader = () =>{
 
 }
 
-export default ContentLoader;
+export default React.memo(ContentLoader);

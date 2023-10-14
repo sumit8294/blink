@@ -53,6 +53,51 @@ export const getReels = createAsyncThunk('reels/getReels',async ({userId,token})
 	}
 })
 
+export const getReelById = createAsyncThunk('reels/getReelById', async ({reelId,userId,token})=>{
+	try{
+		const response1 = await axios.get(
+			`${baseApi}/reels/${reelId}/${userId}`,
+			{
+				withCredentials: true,
+				headers:{
+					'Authorization': `Bearer ${token}`
+				}
+			}
+		);
+		const response2 = await axios.get(
+			`${baseApi}/reels/${userId}`,
+			{
+				withCredentials:true,
+				headers:{
+					'Authorization': `Bearer ${token}`
+				}
+			}
+		)
+		if(response1 && response2){
+			return [response1.data,...response2.data];
+		}
+	}
+	catch(error){
+		throw new Error(error.response1.data.message);
+	}
+})
+
+const filterReels = (reels) =>{
+	const uniqueIds = new Set();
+
+	const uniqueReels = reels.filter((reelItem)=>{
+
+		if(!uniqueIds.has(reelItem._id)){
+			uniqueIds.add(reelItem._id)
+			return true
+		}
+		
+		return false;
+	})
+
+	return uniqueReels
+}
+
 const initialState = {
 	reels: [],
 	status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -65,7 +110,9 @@ const reelSlice = createSlice({
 	name:"reels",
 	initialState,
 	reducers:{
-
+		resetReels: (state,action)=>{
+			state = initialState
+		}
 	},
 	extraReducers:(builder)=>{
 		builder.addCase(getReels.pending,(state,action)=>{
@@ -76,6 +123,18 @@ const reelSlice = createSlice({
 			state.reels = action.payload
 		})
 		.addCase(getReels.rejected,(state,action)=>{
+			state.status = 'failed'
+			state.error = action.error.message
+		})
+		.addCase(getReelById.pending,(state,action)=>{
+			state.status = 'loading'
+			state.reels = []
+		})
+		.addCase(getReelById.fulfilled,(state,action)=>{
+			state.status = 'succeeded'
+			state.reels = filterReels(action.payload)	
+		})
+		.addCase(getReelById.rejected,(state,action)=>{
 			state.status = 'failed'
 			state.error = action.error.message
 		})
@@ -111,6 +170,8 @@ export const selectReelById = (state,id) => {
 	}
 }
 export const getCreateReelStatus = state => state.reels.createStatus
+
+export const {resetReels} = reelSlice.actions;
 
 
 export default reelSlice.reducer;

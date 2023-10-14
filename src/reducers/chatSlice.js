@@ -3,15 +3,6 @@ import {baseApi} from '../config.js';
 import axios from 'axios';
 
 
-const initialState = {
-	chats:[],
-	messages: null,
-	status: 'idle',
-	shareableContent: null,
-	shareableType: null,
-	shareableStatus: 'idle',
-	error: null,
-}
 
 export const getChatsByUserId = createAsyncThunk('chats/getChatsByUserId', async ({userId,token})=>{
 
@@ -101,12 +92,32 @@ export const fetchChatMessages = createAsyncThunk('chats/fetchChatMessages', asy
 	}
 })
 
+const initialState = {
+	chats:[],
+	messages: null,
+	status: 'idle',
+	shareableContent: null,
+	shareableType: null,
+	shareableStatus: 'idle',
+	error: null,
+}
 
 
-const authSlice = createSlice({
+const chatSlice = createSlice({
 	name: 'chats',
 	initialState,
-	reducer:{
+	reducers:{
+		resetChats:(state,action)=>{
+			state.chats=[]
+			state.messages= null
+			state.status= 'idle'
+			state.shareableContent= null
+			state.shareableType= null
+			state.shareableStatus= 'idle'
+			state.error= null
+			
+		}
+
 	},
 	extraReducers:(builder)=>{
 
@@ -153,4 +164,6 @@ export const getShareableType = state => state.chats.shareableType;
 export const getChatMessages = state => state.chats.messages;
 
 
-export default authSlice.reducer;
+export const {resetChats} = chatSlice.actions;
+
+export default chatSlice.reducer;

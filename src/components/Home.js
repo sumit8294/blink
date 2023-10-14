@@ -37,7 +37,7 @@ const Home = () =>{
 	const params = useParams();
 	
 	useEffect(()=>{
-		if(params['*'] === 'reels' || params['*'] === 'messages') setNoHeaderMobilePages(true);
+		if(params['*'] === 'reels' || params['*'] === 'messages' || params['*'] === 'content') setNoHeaderMobilePages(true);
 		else setNoHeaderMobilePages(false);
 
 		if(params['*'] === 'messages') setNoNavigationMobilePages(true)
@@ -61,10 +61,10 @@ const Home = () =>{
 							<Route path="/notifications" element={<Notifications />} />
 							<Route path="/stories/following" element={<StoryViewer />} />
 							<Route path="/create" element={<CreatePost />} />
-							<Route path="/content" element={<DialogProvider><ContentLoader /></DialogProvider>} />
+							<Route path="/content/:contentType/:contentId" element={<DialogProvider><ContentLoader /></DialogProvider>} />
 						</Routes>
 					</div>
-					{!isNoHeaderMobilePages && <BottomNavigation />}
+					{!isNoNavigationMobilePages && <BottomNavigation />}
 				</>
 				:
 				<>
@@ -82,7 +82,7 @@ const Home = () =>{
 								<Route path="/notifications" element={<Notifications />} />
 								<Route path="/stories/following" element={<StoryViewer />} />
 								<Route path="/create" element={<CreatePost />} />
-								<Route path="/content" element={<DialogProvider><ContentLoader /></DialogProvider>} />
+								<Route path="/content/:contentType/:contentId" element={<DialogProvider><ContentLoader /></DialogProvider>} />
 							</Routes>
 						</div>
 						

@@ -69,6 +69,35 @@ export const getPostsByUserId = createAsyncThunk('posts/getPostsByUserId', async
 	}
 })
 
+export const getPostById = createAsyncThunk('posts/getPostById', async ({postId,userId,token})=>{
+	try{
+		const response1 = await axios.get(
+			`${baseApi}/posts/${postId}/${userId}`,
+			{
+				withCredentials: true,
+				headers:{
+					'Authorization': `Bearer ${token}`
+				}
+			}
+		);
+		const response2 = await axios.get(
+			`${baseApi}/posts/${userId}`,
+			{
+				withCredentials:true,
+				headers:{
+					'Authorization': `Bearer ${token}`
+				}
+			}
+		)
+		if(response1 && response2){
+			return [response1.data,...response2.data];
+		}
+	}
+	catch(error){
+		throw new Error(error.response.data.message);
+	}
+})
+
 export const getFollowingPosts = createAsyncThunk('posts/getFollowingPosts', async (userId)=>{
 	try{
 		const posts = await axios.get(`${baseApi}/following/${userId}`);
@@ -92,6 +121,21 @@ export const deletePost = createAsyncThunk('posts/deletePost',async (userId,post
 })
 
 
+const filterPosts = (posts) => {
+
+	const uniqueIds = new Set();
+
+	const uniquePosts = posts.filter((postItem)=>{
+
+		if(!uniqueIds.has(postItem._id)){
+			uniqueIds.add(postItem._id)
+			return true
+		}
+		return false
+	})
+
+	return uniquePosts
+}
 
 
 
@@ -100,7 +144,14 @@ const postSlice = createSlice({
 	name: 'posts',
 	initialState,
 	reducers:{
-		
+		resetPosts:(state,action)=>{
+			state.posts = [] 
+			state.userPosts=[]
+			state.status = 'idle'
+			state.createStatus = 'idle'
+			state.error = null
+			
+		}
 	},
 	extraReducers:(builder)=>{
 		builder
@@ -124,6 +175,19 @@ const postSlice = createSlice({
 			state.userPosts = action.payload
 		})
 		.addCase(getPostsByUserId.rejected,(state,action)=>{
+			state.status = 'failed'
+			state.error = action.error.message
+		})
+		.addCase(getPostById.pending,(state,action)=>{
+			state.status = 'loading'
+			state.posts = []
+		})
+		.addCase(getPostById.fulfilled,(state,action)=>{
+			state.status = 'succeeded'
+			state.posts = filterPosts(action.payload)
+			
+		})
+		.addCase(getPostById.rejected,(state,action)=>{
 			state.status = 'failed'
 			state.error = action.error.message
 		})
@@ -159,6 +223,7 @@ export const selectUserPosts = (state) => state.posts.userPosts;
 export const getPostStatus = (state) => state.posts.status;
 export const getCreatePostStatus = state => state.posts.createStatus
 
+export const {resetPosts} = postSlice.actions
 
 export default postSlice.reducer;
 

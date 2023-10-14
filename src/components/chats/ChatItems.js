@@ -33,7 +33,7 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 
 								</span>
 
-								<span className="block text-[11px] "> 
+								{chat.messages.length > 0 && <span className="block text-[11px] "> 
 									
 									<span className="block text-blink-gray-1">
 
@@ -52,7 +52,7 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 
 									<span className="text-blink-gray-2 text-[11px]"> {format(new Date(chat.messages[0].sendAt), 'dd MMM yyyy hh:mm a')} </span>
 
-								</span>
+								</span>}
 						
 							</div>
 						
@@ -85,7 +85,7 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 
 								</span>
 
-								<span className="block text-[11px] "> 
+								{chat.messages.length > 0 && <span className="block text-[11px] "> 
 									
 									<span className="block text-blink-gray-1">
 
@@ -104,7 +104,7 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 
 									<span className="text-blink-gray-2 text-[11px]">  {format(new Date(chat.messages[0].sendAt), 'dd MMM yyyy hh:mm a')}  </span>
 
-								</span>
+								</span>}
 						
 							</div>
 						

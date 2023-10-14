@@ -57,6 +57,13 @@ const userSlice = createSlice({
 				}
 				return suggestionItem
 			})
+		},
+		resetUser:(state,action)=>{
+			state.users= []
+			state.userDetails= null
+			state.suggestions= []
+			state.status= 'idle'
+			state.error= null
 		}
 	},
 	extraReducers:(builder)=>{
@@ -88,5 +95,5 @@ export const selectAllSuggestions = state => state.users.suggestions
 export const selectUsersStatus = state => state.users.status
 export const selectUserDetails = state => state.users.userDetails
 
-export const { setIsFollowing,setIsFollowingSuggesstions } = userSlice.actions
+export const { setIsFollowing, setIsFollowingSuggesstions, resetUser } = userSlice.actions
 export default userSlice.reducer;

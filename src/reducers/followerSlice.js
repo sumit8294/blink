@@ -131,6 +131,9 @@ const followerSlice = createSlice({
 			}else if(action.payload === 'followers'){
 				state.followers = []
 			}
+		},
+		resetFollowers:(state,action)=>{
+			state = initialState
 		}
 	},
 	extraReducers:(builder)=>{
@@ -179,5 +182,5 @@ export const selectListStatus = state => state.followers.status
 export const selectListType = state => state.followers.type
 
 
-export const {setFollowersListType,resetList} = followerSlice.actions
+export const {setFollowersListType,resetList,resetFollowers} = followerSlice.actions
 export default followerSlice.reducer;

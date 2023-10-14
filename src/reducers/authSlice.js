@@ -3,11 +3,6 @@ import {baseApi} from '../config.js';
 import axios from 'axios';
 
 
-const initialState = {
-	token: null,
-	status: 'idle',
-	error: null,
-}
 
 export const userSignup = createAsyncThunk('auth/userSignup', async (body)=>{
 
@@ -64,11 +59,21 @@ export const getAccessTokenWithRefreshToken = createAsyncThunk('auth/refresh',as
 	}
 })
 
+const initialState = {
+	token: null,
+	status: 'idle',
+	error: null,
+}
 
 const authSlice = createSlice({
 	name: 'auth',
 	initialState,
-	reducer:{
+	reducers:{
+		resetAuth:(state,action)=>{
+			state.token = null
+			state.status = 'idle'
+			state.error = null
+		}
 
 	},
 	extraReducers:(builder)=>{
@@ -102,7 +107,6 @@ const authSlice = createSlice({
 		})
 		.addCase(userLogout.fulfilled,(state,action)=>{
 			state.status = 'idle'
-			state.token = null
 		})
 		.addCase(userLogout.rejected,(state,action)=>{
 			state.status = 'failed'
@@ -122,6 +126,6 @@ export const getAuthStatus = state => state.auth.status;
 export const getAuthError = state => state.auth.error;
 export const getAccessToken = state => state.auth.token;
 
-
+export const {resetAuth} = authSlice.actions;
 
 export default authSlice.reducer;

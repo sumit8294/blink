@@ -49,7 +49,7 @@ const UserPosts = () =>{
 						<div className=" py-2">
 			
 							<div className="image-gallery mx-auto py-px " >
-								{posts && posts.map((post,i)=>{
+								{posts.length > 0 && posts.map((post,i)=>{
 									return <PostsGrid key={i} post={post}/>
 								})}
 								
@@ -61,7 +61,7 @@ const UserPosts = () =>{
 					<>
 						<div className=" px-6 py-2">
 							<div className="explore-image-gallery-desktop py-px px-6 " >
-								{posts && posts.map((post,i)=>{
+								{posts.length > 0 && posts.map((post,i)=>{
 									return <PostsGrid key={i} post={post}/>
 								})}
 								

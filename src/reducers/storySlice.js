@@ -74,6 +74,9 @@ const storySlice = createSlice({
 	reducers:{
 		setStoryDomIndex: (state,action)=>{
 			state.storyDomIndex = action.payload;
+		},
+		resetStories:(state,action)=>{
+			state = initialState
 		}
 	},
 	extraReducers:(builder)=>{
@@ -133,7 +136,7 @@ export const getStoryStatus = (state) => state.stories.status;
 export const getCreateStoryStatus = (state) => state.stories.createStatus
 export const getStoryDomIndex = (state) => state.stories.storyDomIndex
 
-export const {setStoryDomIndex} = storySlice.actions;
+export const {setStoryDomIndex,resetStories} = storySlice.actions;
 export default storySlice.reducer;
 
 
