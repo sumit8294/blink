@@ -17,7 +17,7 @@ const HighlightItems = ({profile}) =>{
 
 						<div className="w-12 h-12 mobile-md:w-16 mobile-md:h-16 mobile-lg:w-20 mobile-lg:h-20 rounded-full shrink-0 overflow-hidden ">
 							
-							<img className=" my-image" src={profile} alt="user-story"/>		
+							<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=" my-image" src={profile} alt="user-story"/>		
 						
 						</div>
 
@@ -30,7 +30,7 @@ const HighlightItems = ({profile}) =>{
 
 						<div className="relative w-16 mx-auto rounded-full shrink-0 overflow-hidden h-16 outline outline-offset-[3px] outline-2 outline-blink-blue-1">
 							
-							<img className=" my-image" src={profile} alt="user-story"/>		
+							<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=" my-image" src={profile} alt="user-story"/>		
 						
 						</div>
 

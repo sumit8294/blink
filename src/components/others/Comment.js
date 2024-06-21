@@ -100,7 +100,7 @@ const Comment = () => {
 
 								<div className="inline-block w-5 h-5 rounded-full text-center  overflow-hidden" >
 
-									<img src={userContent.user.profile} alt="comments" />
+									<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={userContent.user.profile} alt="comments" />
 
 								</div>
 
@@ -125,7 +125,7 @@ const Comment = () => {
 
 										<div className="inline-block w-5 h-5 rounded-full text-center  overflow-hidden" >
 
-											<img src={commentItem.user.profile} alt="comments" />
+											<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={commentItem.user.profile} alt="comments" />
 
 										</div>
 										

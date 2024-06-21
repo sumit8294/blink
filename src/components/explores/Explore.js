@@ -17,7 +17,7 @@ const Explore = () =>{
 
 						<div className="text-white h-screen overflow-y-auto justify-center bg-blink-black-1   ">
 
-							<Search />
+							{/* <Search /> */}
 
 							<ExplorePosts />
 
@@ -33,7 +33,7 @@ const Explore = () =>{
 
 								<div className="custom-scroll h-screen overflow-y-auto laptop-lg:px-4">
 
-									<Search />
+									{/* <Search /> */}
 
 									<ExplorePosts />
 

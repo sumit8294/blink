@@ -30,7 +30,7 @@ const ReelPosts = () =>{
   	const {userId,token} = useAuth();
 
   	const fetchReels = () => {
-  		dispatch(getReels({userId,token}))
+  		dispatch(getReels({userId,count:10,token}))
   	}
 
   	const scrollReelWithButton = (scrollTo) =>{

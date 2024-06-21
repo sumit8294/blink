@@ -7,11 +7,13 @@ import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {Link} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {useDispatch,useSelector} from 'react-redux';
 import {userSignup, getAuthStatus, getAuthError} from '../../reducers/authSlice';
 
 import Alert from '../elements/Alert';
+import { useEffect } from 'react';
 
 
 const validationSchema = Yup.object().shape({
@@ -30,7 +32,7 @@ const validationSchema = Yup.object().shape({
 
 const UserSignup = () =>{
 
-
+	const navigate = useNavigate();
 	let dispatch = useDispatch();
 	let signupStatus = useSelector(getAuthStatus);
 	let signupError = useSelector(getAuthError);
@@ -41,7 +43,7 @@ const UserSignup = () =>{
 		dispatch(userSignup(body));
 	}
 
-
+	
 	const formik = useFormik({
 		initialValues: {
 		email: '',
@@ -55,6 +57,14 @@ const UserSignup = () =>{
 	});
 	const {handleChange, handleSubmit, touched, errors, values} = formik;
 
+		useEffect(()=>{
+			if(signupStatus === 'succeeded'){
+				setTimeout(()=>{
+					window.location.reload();
+					
+				},3000)
+			}
+		},[signupStatus])
 
 	return (
 

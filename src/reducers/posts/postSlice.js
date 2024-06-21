@@ -40,11 +40,11 @@ export const createPost = createAsyncThunk('posts/createPost',async ({userId,bod
 	}
 })
 
-export const getPosts = createAsyncThunk('posts/fetchPosts',async ({userId,token})=>{
+export const getPosts = createAsyncThunk('posts/fetchPosts',async ({userId,count,token})=>{
 	try{
 
 		const posts = await axios.get(
-			`${baseApi}/posts/${userId}`,
+			`${baseApi}/posts/random/${count}/${userId}`,
 			{
 				withCredentials: true,
 				headers:{
@@ -59,14 +59,18 @@ export const getPosts = createAsyncThunk('posts/fetchPosts',async ({userId,token
 	}
 })
 
-export const getPostsByUserId = createAsyncThunk('posts/getPostsByUserId', async (userId)=>{
-	try{
-		const posts = await axios.get(`${baseApi}/posts/user/${userId}`);
-		return posts.data;
-	}
-	catch(error){
-		throw new Error(error.response.data.message);
-	}
+export const getPostsByUserId = createAsyncThunk('posts/getPostsByUserId', async ({userId,token})=>{
+	
+	const posts = await axios.get(
+		`${baseApi}/posts/user/${userId}`,
+		{
+			withCredentials: true,
+			headers:{
+				'Authorization': `Bearer ${token}`
+			}
+		});
+	return posts.data;
+	
 })
 
 export const getPostById = createAsyncThunk('posts/getPostById', async ({postId,userId,token})=>{
@@ -222,7 +226,7 @@ export const selectPostById = (state,id) => {
 export const selectUserPosts = (state) => state.posts.userPosts;
 export const getPostStatus = (state) => state.posts.status;
 export const getCreatePostStatus = state => state.posts.createStatus
-
+export const selectUserPostsCount = state => state.posts.userPosts.length
 export const {resetPosts} = postSlice.actions
 
 export default postSlice.reducer;

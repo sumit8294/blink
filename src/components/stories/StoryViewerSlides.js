@@ -16,7 +16,7 @@ const StoryViewerSlides = ({story,user,swipeUserStory}) => {
 	const swipeStory = (swipeTo) =>{
 
 		if(swipeTo === 1) {
-			if(storyNumber < story.length-1){
+			if(story && storyNumber < story.length-1){
 				setStoryNumber(storyNumber+1 );
 			}else{
 				swipeUserStory(1)
@@ -45,8 +45,9 @@ const StoryViewerSlides = ({story,user,swipeUserStory}) => {
 
 							<div className="h-full flex">
 								
+								{story && story[storyNumber] && 
 								<img className="w-full my-auto" src={`https://res.cloudinary.com/dzaklkjrk/image/upload/v1684937670/${story[storyNumber]}`} alt="story" />
-							
+								}
 							</div>
 
 							<div className="absolute left-0 w-full py-4 px-2 top-0 tablet-sm:px-0 pb-20">
@@ -59,7 +60,7 @@ const StoryViewerSlides = ({story,user,swipeUserStory}) => {
 
 											<div className="post-image w-10 h-10 tablet-sm:w-12 tablet-sm:h-12 rounded-full text-center  overflow-hidden" >
 
-												<img className="" src={user.profile} alt="images" />
+												<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className="" src={user.profile} alt="images" />
 
 											</div>
 
@@ -101,25 +102,25 @@ const StoryViewerSlides = ({story,user,swipeUserStory}) => {
 						
 						<div className="post-image relative h-[46rem] laptop-lg:h-[32rem] flex justify-center text-center overflow-hidden rounded-2xl" >
 
-							<img className="w-full" src={`https://res.cloudinary.com/dzaklkjrk/image/upload/v1684937670/${story[storyNumber]}`} alt="story" />
+							{story && story[storyNumber] && <img className="w-full" src={`https://res.cloudinary.com/dzaklkjrk/image/upload/v1684937670/${story[storyNumber]}`} alt="story" />}
 
 							<div className="absolute left-0 w-full py-4 px-2 top-0 bg-bl-grad-black-bottom tablet-sm:px-0">
 
 								<div className="post-details px-4 py-1 rounded flex text-xs justify-between laptop-lg:px-2">
 
-									<Link to={`/profile/${user._id}`} >
+									<Link to={`/profile/${user?._id}`} >
 
 										<div className="user-info  flex align-middle content-center">
 
 											<div className="post-image w-12 h-12 rounded-full text-center  overflow-hidden laptop-lg:h-8 laptop-lg:w-8" >
 
-												<img className=""  src={user.profile} alt="images" />
+												{user && user.profile && <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=""  src={user?.profile} alt="images" />}
 
 											</div>
 
 											<div className="px-2 py-2">
 
-												<span className="block text-[1.3rem] laptop-lg:text-[1rem] font-semibold">{user.username}</span>
+												<span className="block text-[1.3rem] laptop-lg:text-[1rem] font-semibold">{user?.username}</span>
 
 											</div>
 

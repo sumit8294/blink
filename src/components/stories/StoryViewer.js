@@ -22,6 +22,7 @@ const StoryViewer = () =>{
 	const dispatch = useDispatch();
 
 	const stories = useSelector(selectAllStories)
+	
 
 	const userStoryindex = useSelector(getStoryDomIndex); // stories[userStoryindex].story
 
@@ -80,13 +81,13 @@ const StoryViewer = () =>{
 		const dom = [];
 
 		if (!isFirstMount.current && index > 0) {
-			dom.push(<StoryViewerSlides key={index - 1} story={stories[index - 1].story} user={stories[index - 1].user} swipeUserStory={swipeUserStory} />);
+			dom.push(<StoryViewerSlides key={index - 1} story={stories[index - 1]?.story} user={stories[index - 1]?.user} swipeUserStory={swipeUserStory} />);
 		}
 
-			dom.push(<StoryViewerSlides key={index} story={stories[index].story} user={stories[index].user} swipeUserStory={swipeUserStory} />);
+			dom.push(<StoryViewerSlides key={index} story={stories[index]?.story} user={stories[index]?.user} swipeUserStory={swipeUserStory} />);
 
 		if (index < stories.length - 1 && stories[index + 1]) {
-			dom.push(<StoryViewerSlides key={index + 1} story={stories[index + 1].story} user={stories[index + 1].user} swipeUserStory={swipeUserStory} />);
+			dom.push(<StoryViewerSlides key={index + 1} story={stories[index + 1]?.story} user={stories[index + 1]?.user} swipeUserStory={swipeUserStory} />);
 		}
 		
 		
@@ -101,7 +102,17 @@ const StoryViewer = () =>{
 	},[stories,userStoryindex])
 
 
-
+	useEffect(()=>{
+		if(stories.length === 0){
+			navigate(
+				"/create",
+				{ 
+					state: { from: location }, 
+					replace: true
+				})
+		}
+		
+	},[stories])
 
 
 

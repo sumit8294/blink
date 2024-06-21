@@ -33,7 +33,11 @@ const SuggestionItem = ({user}) =>{
 
 					<div className=" my-2 rounded-full w-10 h-10 overflow-hidden">
 
-						<img className="w-full"  src={user.profile} alt="images" />
+						{user && user.profile
+							? <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className="w-full" src={ user.profile} alt="user-profile" />
+
+							: <img className="w-full"src="https://res.cloudinary.com/dzaklkjrk/image/upload/v1709810476/posts-and-profile/temp-user_o7kzmj.png" alt="user-profile"/>
+						}
 
 					</div>
 

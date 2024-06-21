@@ -34,11 +34,11 @@ export const createReel = createAsyncThunk('reels/createReel',async ({userId,bod
 	}
 })
 
-export const getReels = createAsyncThunk('reels/getReels',async ({userId,token})=>{
+export const getReels = createAsyncThunk('reels/getReels',async ({userId,count,token})=>{
 
 	try{
 		const response = await axios.get(
-			`${baseApi}/reels/${userId}`,
+			`${baseApi}/reels/random/${count}/${userId}`,
 			{
 				withCredentials:true,
 				headers:{

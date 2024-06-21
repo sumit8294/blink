@@ -5,7 +5,7 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries'
 
 import {useEffect} from 'react'
 import {Link,useNavigate,useLocation,useHistory } from 'react-router-dom'
-import {setStoryDomIndex,getFollowingStories} from '../../reducers/storySlice'
+import {setStoryDomIndex, getFollowingStories, getStoriesByUserId} from '../../reducers/storySlice'
 import useAuth from '../../hooks/useAuth';
 
 import {useDispatch} from 'react-redux'
@@ -20,8 +20,14 @@ const StoryItems = ({profile,userStoryindex,loggedInUserId}) =>{
 	const {userId,token} = useAuth(); 
 
 	const handleNavigation = async () =>{
-		await dispatch(getFollowingStories({userId,token}))
-		await dispatch(setStoryDomIndex(userStoryindex))
+		if(profile._id === loggedInUserId){
+			await dispatch(getStoriesByUserId({userId,token}))
+			await dispatch(setStoryDomIndex(0))
+		}
+		else{
+			await dispatch(getFollowingStories({userId,token}))
+			await dispatch(setStoryDomIndex(userStoryindex))
+		}
 		navigate(
 			"/stories/following", 
 			{ 
@@ -43,7 +49,11 @@ const StoryItems = ({profile,userStoryindex,loggedInUserId}) =>{
 
 							<div onClick={handleNavigation} className="w-12 h-12 mobile-md:w-16 mobile-md:h-16 mobile-lg:w-20 mobile-lg:h-20 rounded-full shrink-0 overflow-hidden ">
 								
-								<img className=" my-image" src={profile.profile} alt="user-story"/>		
+								{profile && profile.profile
+									? <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=" my-image" src={ profile.profile} alt="user-story" />
+
+									: <img className=" my-image" src="https://res.cloudinary.com/dzaklkjrk/image/upload/v1709810476/posts-and-profile/temp-user_o7kzmj.png" alt="user-story"/>
+								}	
 							
 							</div>
 
@@ -78,8 +88,12 @@ const StoryItems = ({profile,userStoryindex,loggedInUserId}) =>{
 						{/*<Link to={`/stories/following/${loggedInUserId}/${userStoryindex}`} >*/}
 
 							<div onClick={handleNavigation} className="relative w-16 mx-auto rounded-full shrink-0 overflow-hidden h-16 outline outline-offset-[3px] outline-2 outline-blink-blue-1">
-								
-								<img className=" my-image" src={profile.profile} alt="user-story"/>		
+
+								{profile && profile.profile
+									? <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=" my-image" src={ profile.profile} alt="user-story" />
+
+									: <img className=" my-image" src="https://res.cloudinary.com/dzaklkjrk/image/upload/v1709810476/posts-and-profile/temp-user_o7kzmj.png" alt="user-story"/>
+								}	
 							
 							</div>
 

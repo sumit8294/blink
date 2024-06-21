@@ -1,14 +1,26 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import {Link} from 'react-router-dom';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../ReactResponsiveQueries';
 
+import { userLogout } from '../reducers/authSlice';
+import {useDispatch} from 'react-redux';
+
 const Header = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
+	const dispatch = useDispatch();
+	const handleLogout = async () =>{
+
+		await dispatch(userLogout());
+		//resetStore(dispatch)
+		window.location.reload();
+	}
 
 	return (
 		<>
@@ -23,7 +35,7 @@ const Header = () =>{
 							
 						<div className="flex">
 
-							<Link to={`/notifications`}>
+							{/* <Link to={`/notifications`}>
 
 								<span className="text-blink-blue-1 mr-4 text-2xl">
 
@@ -31,17 +43,27 @@ const Header = () =>{
 
 								</span>							
 
-							</Link>
+							</Link> */}
 
 							<Link to={`/messages`}>
 
-								<span className="text-blink-blue-1 mr-4 text-2xl">
+								<span className="text-blink-blue-1 mx-4 text-2xl">
 
 									<FontAwesomeIcon icon={faEnvelope} />
 
 								</span>							
 
 							</Link>
+
+							
+
+								<span onClick={handleLogout} className="text-blink-blue-1 mr-4 text-2xl">
+
+									<FontAwesomeIcon icon={faArrowRightFromBracket} />
+
+								</span>							
+
+							
 
 						</div>		
 						
@@ -57,7 +79,7 @@ const Header = () =>{
 							
 						<div className="flex">
 
-								<Link to={`/notifications`}>
+								{/* <Link to={`/notifications`}>
 
 									<span className="text-blink-blue-1 mr-4 text-2xl">
 
@@ -65,7 +87,7 @@ const Header = () =>{
 
 									</span>							
 
-								</Link>
+								</Link> */}
 								
 								<Link to={`/messages`}>
 

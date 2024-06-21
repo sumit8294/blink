@@ -20,7 +20,7 @@ const FeedPostLikes = ({mutualLikes,likeCount}) =>{
 
 									<div key={index} className="liker w-5 h-5 rounded-full text-center  overflow-hidden" >
 
-										<img src={likeItem.user.profile} alt="likers" />
+										<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={likeItem.user.profile} alt="likers" />
 
 									</div>
 								)
@@ -56,7 +56,7 @@ const FeedPostLikes = ({mutualLikes,likeCount}) =>{
 
 									<div key={index} className="liker w-5 h-5 rounded-full text-center  overflow-hidden" >
 
-										<img src={likeItem.user.profile} alt="likers" />
+										<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={likeItem.user.profile} alt="likers" />
 
 									</div>
 								)

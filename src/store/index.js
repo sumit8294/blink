@@ -7,6 +7,8 @@ import chatSlice,{resetChats} from '../reducers/chatSlice'
 import reelSlice,{resetReels} from '../reducers/reels/reelSlice'
 import followerSlice,{resetFollowers} from '../reducers/followerSlice'
 import storySlice,{resetStories} from '../reducers/storySlice'
+import settingSlice,{resetSettings} from '../reducers/userSettingSlice'
+
 
 
 export const store = configureStore({
@@ -18,7 +20,8 @@ export const store = configureStore({
 		chats:chatSlice,
 		reels:reelSlice,
 		followers:followerSlice,
-		stories:storySlice
+		stories:storySlice,
+		settings:settingSlice
 	}
 })
 
@@ -31,4 +34,5 @@ export const resetStore = (dispatch) =>{
 	dispatch(resetReels())
 	dispatch(resetFollowers())
 	dispatch(resetStories())
+	dispatch(resetSettings())
 }

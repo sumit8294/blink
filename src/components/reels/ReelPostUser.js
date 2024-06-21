@@ -22,7 +22,7 @@ const ReelPostUser = ({user}) =>{
 
 								<div className="post-image w-10 h-10 tablet-sm:w-12 tablet-sm:h-12 rounded-full text-center  overflow-hidden" >
 
-									<img className=""  src={user.profile} alt="images" />
+									<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=""  src={user.profile} alt="images" />
 
 								</div>
 
@@ -48,7 +48,7 @@ const ReelPostUser = ({user}) =>{
 
 								<div className="post-image w-12 h-12 rounded-full text-center  overflow-hidden laptop-lg:h-8 laptop-lg:w-8" >
 
-									<img className=""  src={user.profile} alt="images" />
+									<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=""  src={user.profile} alt="images" />
 
 								</div>
 

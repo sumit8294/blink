@@ -26,7 +26,7 @@ let FeedPostItems = ({post}) =>{
 
 						<div className="post-image px-2 text-center overflow-hidden" >
 
-							<img className="w-full rounded-xl"  src={post.imageUrl} alt="images" />
+							<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className="w-full rounded-xl"  src={post.imageUrl} alt="images" />
 
 						</div>
 
@@ -47,7 +47,7 @@ let FeedPostItems = ({post}) =>{
 
 						<div className="post-image rounded-xl text-center overflow-hidden" >
 
-							<img className="rounded-xl w-full"  src={post.imageUrl} alt="images" />
+							<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className="rounded-xl w-full"  src={post.imageUrl} alt="images" />
 
 						</div>
 

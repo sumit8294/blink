@@ -11,9 +11,33 @@ import RequiredAuth from './components/auth/RequiredAuth';
 import {getAccessToken} from './reducers/authSlice';
 import {useSelector} from 'react-redux';
 
+import React, { useEffect, useState } from 'react';
+import io from 'socket.io-client';
 
 function App() {
+
+	const ENDPOINT = "http://localhost:5000";
+
 	const token = useSelector(getAccessToken);
+
+	
+	const socket = io.connect(ENDPOINT);
+
+	socket.emit('hello_message',{data:"hello from frontend",room:"123"})
+
+	const joinRoom = () => {
+		
+		  socket.emit("join_room", "123");
+		
+	  };
+
+	useEffect(()=>{
+		socket.on('server_message',(data)=>{
+			console.log(data.message);
+		});
+	},[socket]);
+    
+
 	return (
 	    <>
 			<Routes>

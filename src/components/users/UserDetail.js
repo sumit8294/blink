@@ -8,6 +8,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {DialogContext} from '../../store/DialogContext'
 import {setFollowersListType, unfollowUser, followUser} from '../../reducers/followerSlice'
 import {selectUserDetails, selectUsersStatus, getUserDetails, setIsFollowing} from '../../reducers/userSlice'
+import {selectUserPostsCount,getPostsByUserId} from '../../reducers/posts/postSlice';
 import useAuth from '../../hooks/useAuth'
 
 
@@ -19,16 +20,17 @@ const UserDetail = ({setShowFollowers}) =>{
 
 	const userDetail = useSelector(selectUserDetails);
 	const userStatus = useSelector(selectUsersStatus);
-
+	
 	const dispatch = useDispatch();
 
 	const {userId} = useParams();
 
 	const {userId: loggedUserId, token} = useAuth()
 
-
+	const postsCount = useSelector(selectUserPostsCount);
 	const fetchUserDetail = () =>{
 		dispatch(getUserDetails({userId,loggedUserId}));
+		dispatch(getPostsByUserId({userId,token}));
 	}
 
 	const handleFollowerVisibility = (type) =>{
@@ -64,7 +66,11 @@ const UserDetail = ({setShowFollowers}) =>{
 
 							<div className=" rounded-full shrink-0 w-16 h-16 overflow-hidden mobile-md:w-20 mobile-md:h-20 mobile-lg:w-24 mobile-lg:h-24 tablet-sm:w-28 tablet-sm:h-28">
 								
-								<img src={userDetail.profile} alt="profile"/>
+							{userDetail.profile
+									? <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={userDetail.profile} alt="profile"/>
+
+									: <img src="https://res.cloudinary.com/dzaklkjrk/image/upload/v1709810476/posts-and-profile/temp-user_o7kzmj.png" alt="profile"/>
+								}
 							
 							</div>
 							
@@ -72,7 +78,7 @@ const UserDetail = ({setShowFollowers}) =>{
 								
 								<div className="posts">
 
-									<span className="  font-semibold relative ">{userDetail.posts}</span>
+									<span className="  font-semibold relative ">{postsCount}</span>
 									<span className="block text-[0.8rem] text-blink-gray-1 ">posts</span>
 
 								</div>
@@ -132,16 +138,18 @@ const UserDetail = ({setShowFollowers}) =>{
 						<div className="flex py-2 px-5" >
 
 							<div className="images-container rounded-full shrink-0  w-32 h-32 overflow-hidden outline outline-offset-[3px] outline-2 outline-blink-blue-1">
-								
-								<img src={userDetail.profile} alt="profile"/>
-							
+								{userDetail.profile
+									? <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={userDetail.profile} alt="profile"/>
+
+									: <img src="https://res.cloudinary.com/dzaklkjrk/image/upload/v1709810476/posts-and-profile/temp-user_o7kzmj.png" alt="profile"/>
+								}
 							</div>
 							
 							<div className="profile-actions text-[1.8rem] w-full mt-5 px-10 py-5 flex justify-between text-center">
 								
 								<div className="posts" >
 
-									<span className="  font-semibold relative ">{userDetail.posts}</span>
+									<span className="  font-semibold relative ">{postsCount}</span>
 									<span className="block text-sm text-blink-gray-1 ">posts</span>
 
 								</div>

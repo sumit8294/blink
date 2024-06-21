@@ -12,8 +12,7 @@ const UserSuggestions = () =>{
 	const dispatch = useDispatch()
 	const users = useSelector(selectAllSuggestions)
 	const usersStatus = useSelector(selectUsersStatus)
-
-
+	
 	const fetchUsers = () =>{
 		dispatch(getSuggestions({token,userId}))
 	}

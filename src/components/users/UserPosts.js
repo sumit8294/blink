@@ -6,39 +6,54 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {useParams} from 'react-router-dom';
+import {selectUserPosts,getPostsByUserId} from '../../reducers/posts/postSlice';
+import {useDispatch,useSelector} from 'react-redux';
+import useAuth from '../../hooks/useAuth'
 
 
 
 const UserPosts = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+	const {token} = useAuth();
 
-	const [posts,setPosts] = useState([]);
+	//const [posts,setPosts] = useState([]);
 
 	const {userId} = useParams();
 
-	const fetchPosts = async () =>{
+	const dispatch = useDispatch();
 
-		try{
-			const response = await axios.get(`http://localhost:5000/posts/user/${userId}`);
+	const posts = useSelector(selectUserPosts);
 
-			if(response.data){
+	// const fetchPosts = async () =>{
+
+	// 	try{
+	// 		const response = await axios.get(`http://localhost:5000/posts/user/${userId}`);
+
+	// 		if(response.data){
 				
-				setPosts(response.data);
-			}
-		}
-		catch(error){
-			if(error.response && error.response.status === 404){
-				console.log(error.response.message);
-			}
-			else{
-				console.log("posts not fetched");
-			}
-		}
+	// 			setPosts(response.data);
+	// 		}
+	// 	}
+	// 	catch(error){
+	// 		if(error.response && error.response.status === 404){
+	// 			console.log(error.response.message);
+	// 		}
+	// 		else{
+	// 			console.log("posts not fetched");
+	// 		}
+	// 	}
+	// }
+
+	const elements = [];
+
+	for (let i = 0; i <= 8; i++) {
+		elements.push(<div key={i} className="post relative rounded-xl image-box" style={{opacity:"0"}} >	</div>);
 	}
 
 	useEffect(()=>{
-		fetchPosts();
+		// fetchPosts();
+		dispatch(getPostsByUserId({userId,token}))
 	},[])
 
 	return (
@@ -52,7 +67,7 @@ const UserPosts = () =>{
 								{posts.length > 0 && posts.map((post,i)=>{
 									return <PostsGrid key={i} post={post}/>
 								})}
-								
+								{elements}
 							</div>
 
 						</div>
@@ -64,7 +79,7 @@ const UserPosts = () =>{
 								{posts.length > 0 && posts.map((post,i)=>{
 									return <PostsGrid key={i} post={post}/>
 								})}
-								
+								{elements}
 							</div>
 						</div>
 					</>

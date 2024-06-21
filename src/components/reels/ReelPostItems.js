@@ -9,6 +9,7 @@ import React,{useEffect} from 'react';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
+import FeedPostLikes from '../feeds/FeedPostLikes';
 
 let ReelPostItems = ({reel,reelId,reelRef}) => {
 
@@ -61,7 +62,9 @@ let ReelPostItems = ({reel,reelId,reelRef}) => {
 
 								<ReelPostUser user={reel.user}/>
 
-								<ReelPostDiscription reel={reel} />
+								{/* <ReelPostDiscription reel={reel} /> */}
+						{reel.mutualLikes.length > 0 && <FeedPostLikes mutualLikes={reel.mutualLikes} likeCount={reel.reactions.likes}/>}
+
 
 							</div>
 
@@ -91,7 +94,10 @@ let ReelPostItems = ({reel,reelId,reelRef}) => {
 
 								<ReelPostUser user={reel.user}/>
 
-								<ReelPostDiscription reel={reel} />
+								{/* <ReelPostDiscription reel={reel} /> */}
+
+						{reel.mutualLikes.length > 0 && <FeedPostLikes mutualLikes={reel.mutualLikes} likeCount={reel.reactions.likes}/>}
+
 
 							</div>
 

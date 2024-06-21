@@ -19,11 +19,11 @@ const FeedPosts = () =>{
 	const token = useSelector(getAccessToken)
 	const postStatus = useSelector(getPostStatus)
 	const {userId} = useAuth();
-
+	
 	const dispatch = useDispatch();
 	const fetchPosts = async () =>{
 
-		dispatch(getPosts({token,userId}));
+		dispatch(getPosts({token,userId,count:10}));
 		
 	} 
 

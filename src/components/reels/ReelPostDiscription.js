@@ -24,13 +24,13 @@ const ReelPostDiscription = ({reel}) =>{
 
 								<div className="liker w-4 h-4 mobile-md:h-5 mobile-md:w-5 rounded-full text-center  overflow-hidden" >
 
-									<img className=""  src="./assets/images/users/harry.jpg" alt="likers" />
+									<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=""  src="./assets/images/users/harry.jpg" alt="likers" />
 
 								</div>
 
 								<div className="liker w-4 h-4 mobile-md:h-5 mobile-md:w-5 rounded-full text-center  overflow-hidden" >
 
-									<img className=""  src="./assets/images/users/badshah.jpg" alt="likers" />
+									<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=""  src="./assets/images/users/badshah.jpg" alt="likers" />
 
 								</div>
 
@@ -66,13 +66,13 @@ const ReelPostDiscription = ({reel}) =>{
 
 							<div className="liker w-4 h-4 mobile-md:h-5 mobile-md:w-5 rounded-full text-center  overflow-hidden" >
 
-								<img className=""  src="./assets/images/users/harry.jpg" alt="likers" />
+								<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=""  src="./assets/images/users/harry.jpg" alt="likers" />
 
 							</div>
 
 							<div className="liker w-4 h-4 mobile-md:h-5 mobile-md:w-5 rounded-full text-center  overflow-hidden" >
 
-								<img className=""  src="./assets/images/users/badshah.jpg" alt="likers" />
+								<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=""  src="./assets/images/users/badshah.jpg" alt="likers" />
 
 							</div>
 

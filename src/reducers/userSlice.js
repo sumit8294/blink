@@ -5,7 +5,7 @@ import {baseApi} from '../config'
 export const getSuggestions = createAsyncThunk('users/getSuggestions', async ({userId,token})=>{
 	
 	const response = await axios.get(
-		`${baseApi}/users/all/${userId}`,
+		`${baseApi}/suggestions/random/${userId}`,
 		{
 			withCredentials:true,
 			headers:{

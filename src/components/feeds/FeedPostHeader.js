@@ -22,7 +22,7 @@ const FeedPostHeader = ({post}) =>{
 
 								<div className="post-image w-8 h-8 rounded-full text-center  overflow-hidden" >
 
-									<img className=""  src={post.user.profile} alt="user" />
+									<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=""  src={post.user.profile} alt="user" />
 
 								</div>
 
@@ -50,7 +50,7 @@ const FeedPostHeader = ({post}) =>{
 
 								<div className="post-image w-10 h-10 rounded-full text-center  overflow-hidden" >
 
-									<img className=""  src={post.user.profile} alt="user" />
+									<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} className=""  src={post.user.profile} alt="user" />
 
 								</div>
 
