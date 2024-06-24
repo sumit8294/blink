@@ -4,39 +4,48 @@ import ChatBox from './ChatBox';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-import {useState,useEffect} from 'react';
+import {useState,useEffect, useContext} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
-import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
 
-import {getChatMessages,fetchChatMessages} from '../../reducers/chatSlice';
-
+import {
+	getChatMessages,
+	fetchChatMessages,
+	getActiveChatId,
+	setActiveChatId,
+	getChatsByUserId
+} from '../../reducers/chatSlice';
+import { SocketContext } from '../../store/SocketContext';
 
 const Messages = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
-	const [activeChatId,setActiveChatId] = useState(null);
+	const socket = useContext(SocketContext);
 
-	const chatMessages = useSelector(getChatMessages);
 	const {userId,token} = useAuth();
+	
+	const activeChatId = useSelector(getActiveChatId);
+	
 	const dispatch = useDispatch();
 
-	const handleActiveChatId = (messager) => setActiveChatId(messager);
-
-
-	const fetchMessages = async (chatId) =>{	
-
-		dispatch(fetchChatMessages({token,chatId,userId}))
-	}
-
 	useEffect(()=>{
+		if (socket) {	
+			socket.on('send_message', (data) => {
+			  if (activeChatId) {
+				dispatch(fetchChatMessages({ token, chatId: activeChatId, userId }));
+				
+			  } else {
+				console.log('no active chat id')
+			  }
+			  dispatch(getChatsByUserId({ userId, token }));
+			});
 
-		if(activeChatId !== null){
-			fetchMessages(activeChatId);
-		} 
-		
-	},[activeChatId])
+			return () => socket.off('send_message')
+		}
+	},[socket, activeChatId])
+	  
+	const handleActiveChatId = (messager) => dispatch(setActiveChatId(messager));
 
 	return (
 
@@ -52,7 +61,7 @@ const Messages = () =>{
 
 								{!activeChatId && <Chats activeChatId={activeChatId} handleActiveChatId={handleActiveChatId} />}
 								
-								{activeChatId && <ChatBox chatMessages={chatMessages} handleActiveChatId={handleActiveChatId} activeChatId={activeChatId}/>}
+								{activeChatId && <ChatBox activeChatId={activeChatId} handleActiveChatId={handleActiveChatId} />}
 
 						</div>
 
@@ -70,7 +79,7 @@ const Messages = () =>{
 
 								<Chats activeChatId={activeChatId} handleActiveChatId={handleActiveChatId}/>
 								
-								<ChatBox chatMessages={chatMessages} activeChatId={activeChatId} />
+								<ChatBox activeChatId={activeChatId} />
 
 						</div>
 

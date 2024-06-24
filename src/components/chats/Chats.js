@@ -6,37 +6,25 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
 
-import './chats.css'
+import { useSelector, useDispatch } from 'react-redux';
+import { getChatsByUserId, getChatsUsers } from '../../reducers/chatSlice'
 
+import './chats.css'
+import io from 'socket.io-client';
 
 const Chats = ({activeChatId, handleActiveChatId}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
-	const [userChats,setUserChats] = useState([]);
+	const userChats= useSelector(getChatsUsers);
+	
+	const {userId,token} = useAuth();
 
-	const {userId} = useAuth();
+	const dispatch = useDispatch();
 
-	const fetchUserChats = async () =>{		
-
-		try{
-			const response = await axios.get(`http://localhost:5000/chats/${userId}`);
-
-			if(response.data){
-				
-				setUserChats(response.data);
-			}
-		}
-		catch(error){
-			if(error.response && error.response.status === 404){
-				console.log("chats not found");
-			}
-			else console.log("chats not fetched");
-		}
-	}
 
 	useEffect(()=>{
-		fetchUserChats();
+		dispatch(getChatsByUserId({userId,token}));
 	},[])
 
 

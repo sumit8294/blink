@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
  
 import {sendMessage, getShareableContentStatus, fetchChatMessages} from '../../reducers/chatSlice';
 import useAuth from '../../hooks/useAuth';
+	
 
 
 const ChatBoxInput = ({participant,activeChatId}) =>{
@@ -31,7 +32,7 @@ const ChatBoxInput = ({participant,activeChatId}) =>{
 			content: textMessage,
 			contentType: 'text'
 		}
-
+		
 		await dispatch(sendMessage({body,token}))
 		
 		if(shareStatus === 'succeeded' || shareStatus === 'idle'){

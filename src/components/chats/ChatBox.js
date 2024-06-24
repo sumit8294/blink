@@ -5,9 +5,29 @@ import ChatBoxInput from './ChatBoxInput';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-const ChatBox = ({chatMessages,handleActiveChatId,activeChatId}) =>{
+import {
+	getChatMessages,
+	fetchChatMessages,
+} from '../../reducers/chatSlice';
+
+
+import {useState,useEffect} from 'react';
+import {useDispatch,useSelector} from 'react-redux';
+import useAuth from '../../hooks/useAuth';
+
+const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
+	const chatMessages = useSelector(getChatMessages);
+	const {userId,token} = useAuth();
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (activeChatId !== null) {
+		  dispatch(fetchChatMessages({ token, chatId: activeChatId, userId }));
+		}
+	}, [activeChatId]);
 
 	return (
 		<>

@@ -23,9 +23,7 @@ import { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../ReactResponsiveQueries';
 
-
 import './home.css'
-
 
 const Home = () =>{
 
@@ -49,6 +47,7 @@ const Home = () =>{
 				? 
 				<>
 					{!isNoHeaderMobilePages && <Header />}
+
 					<div className="h-full min-h-screen bg-blink-black-1">
 						<Routes>
 							<Route path="/explore" element={<Explore />} />

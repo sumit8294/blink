@@ -13,7 +13,7 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 				?
 				<>
 
-					<div className={`cursor-pointer relative flex px-4 py-2 ${ activeChatId === chat._id ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActiveChatId(chat._id)} >
+					<div className={`cursor-pointer relative flex px-4 py-2 ${ activeChatId === chat._id ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActiveChatId(chat._id,chat.receiversRoomId)} >
 
 						<div className="shrink-0 post-image h-12 my-auto w-12 rounded-full text-center overflow-hidden" >
 
@@ -65,7 +65,7 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 
 				<>
 
-					<div className={`cursor-pointer relative flex px-4 py-2 laptop-sm:px-2 ${ activeChatId === chat._id ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActiveChatId(chat._id)} >
+					<div className={`cursor-pointer relative flex px-4 py-2 laptop-sm:px-2 ${ activeChatId === chat._id ? 'border-y border-blink-black-2' : ''} `} onClick={()=>handleActiveChatId(chat._id,chat.receiversRoomId)} >
 
 						<div className="shrink-0 post-image h-12 my-auto w-12 laptop-sm:h-10 laptop-sm:w-10 rounded-full text-center overflow-hidden" >
 

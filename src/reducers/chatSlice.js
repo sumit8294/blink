@@ -95,11 +95,13 @@ export const fetchChatMessages = createAsyncThunk('chats/fetchChatMessages', asy
 const initialState = {
 	chats:[],
 	messages: null,
+	receiversRoomIds: null,
 	status: 'idle',
 	shareableContent: null,
 	shareableType: null,
 	shareableStatus: 'idle',
 	error: null,
+	activeChatId: null,
 }
 
 
@@ -108,14 +110,10 @@ const chatSlice = createSlice({
 	initialState,
 	reducers:{
 		resetChats:(state,action)=>{
-			state.chats=[]
-			state.messages= null
-			state.status= 'idle'
-			state.shareableContent= null
-			state.shareableType= null
-			state.shareableStatus= 'idle'
-			state.error= null
-			
+			state = initialState
+		},
+		setActiveChatId:(state,action)=>{
+			state.activeChatId = action.payload;
 		}
 
 	},
@@ -129,7 +127,8 @@ const chatSlice = createSlice({
 			state.status = 'succeeded'
 			state.shareableContent = action.meta.arg.shareableContent
 			state.shareableType = action.meta.arg.shareableType
-			state.chats = action.payload
+			state.chats = action.payload.chats
+			state.receiversRoomIds = action.payload.receiversRoomIds
 		})
 		.addCase(sendMessage.pending,(state,action)=>{
 			state.shareableStatus = 'loading'
@@ -162,8 +161,9 @@ export const getShareableContent = state => state.chats.shareableContent;
 export const getShareableContentStatus = state => state.chats.shareableStatus;
 export const getShareableType = state => state.chats.shareableType;
 export const getChatMessages = state => state.chats.messages;
+export const getActiveChatId = state => state.chats.activeChatId;
+export const getReceiversRoomIds = state => state.chats.receiversRoomIds
 
-
-export const {resetChats} = chatSlice.actions;
+export const {resetChats,setActiveChatId} = chatSlice.actions;
 
 export default chatSlice.reducer;
