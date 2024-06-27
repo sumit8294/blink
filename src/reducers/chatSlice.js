@@ -24,6 +24,26 @@ export const getChatsByUserId = createAsyncThunk('chats/getChatsByUserId', async
 	
 })
 
+export const getChatsFromSearch = createAsyncThunk('chats/getChatsFromSearch', async ({queryName,userId,token})=>{
+
+	try{
+		const response = await axios.get(
+			`${baseApi}/chats/search/${queryName}/${userId}`,
+			{
+				withCredentials: true,
+				headers:{
+					'Authorization': `Bearer ${token}`
+				}
+			});		
+		return response.data;
+	}
+	catch(error){
+		const errorMessage = error.response ? error.response.data.message : 'Unknown error occurred';
+    	throw new Error(errorMessage);
+	}
+	
+})
+
 export const shareContent = createAsyncThunk('chats/shareContent', async ({body,token})=>{
 	
 	try{
@@ -95,13 +115,15 @@ export const fetchChatMessages = createAsyncThunk('chats/fetchChatMessages', asy
 const initialState = {
 	chats:[],
 	messages: null,
-	receiversRoomIds: null,
 	status: 'idle',
 	shareableContent: null,
 	shareableType: null,
 	shareableStatus: 'idle',
 	error: null,
 	activeChatId: null,
+	chatInfo: null,
+	newChatUserId: null,
+	newChatId: null,
 }
 
 
@@ -114,8 +136,13 @@ const chatSlice = createSlice({
 		},
 		setActiveChatId:(state,action)=>{
 			state.activeChatId = action.payload;
+		},
+		setChatInfo:(state,action)=>{
+			state.chatInfo = action.payload
+		},
+		setChatMessages:(state,action)=>{
+			state.messages = null
 		}
-
 	},
 	extraReducers:(builder)=>{
 
@@ -127,14 +154,20 @@ const chatSlice = createSlice({
 			state.status = 'succeeded'
 			state.shareableContent = action.meta.arg.shareableContent
 			state.shareableType = action.meta.arg.shareableType
-			state.chats = action.payload.chats
-			state.receiversRoomIds = action.payload.receiversRoomIds
+			state.chats = action.payload
+		})
+		.addCase(getChatsFromSearch.fulfilled,(state,action)=>{
+			state.status = 'succeeded'
+			state.shareableContent = action.meta.arg.shareableContent
+			state.shareableType = action.meta.arg.shareableType
+			state.chats = action.payload
 		})
 		.addCase(sendMessage.pending,(state,action)=>{
 			state.shareableStatus = 'loading'
 		})
 		.addCase(sendMessage.fulfilled,(state,action)=>{
 			state.shareableStatus = 'succeeded'
+			state.newChatId = action.payload.newChatId
 
 		})
 		.addCase(sendMessage.rejected,(state,action)=>{
@@ -146,7 +179,8 @@ const chatSlice = createSlice({
 		})
 		.addCase(fetchChatMessages.fulfilled,(state,action)=>{
 			state.status = 'succeeded'
-			state.messages = action.payload
+			state.messages = action.payload.messages
+			state.chatInfo = action.payload.chat
 		})
 		.addCase(fetchChatMessages.rejected,(state,action)=>{
 			state.status = 'failed'
@@ -162,8 +196,10 @@ export const getShareableContentStatus = state => state.chats.shareableStatus;
 export const getShareableType = state => state.chats.shareableType;
 export const getChatMessages = state => state.chats.messages;
 export const getActiveChatId = state => state.chats.activeChatId;
-export const getReceiversRoomIds = state => state.chats.receiversRoomIds
+export const getChatInfo = state => state.chats.chatInfo
+export const getNewChatUserId = state => state.chats.newChatUserId
+export const getNewChatId = state => state.chats.newChatId
 
-export const {resetChats,setActiveChatId} = chatSlice.actions;
+export const {resetChats, setActiveChatId, setChatInfo, setChatMessages} = chatSlice.actions;
 
 export default chatSlice.reducer;

@@ -5,28 +5,43 @@ import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
+import Search from '../elements/Search'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getChatsByUserId, getChatsUsers } from '../../reducers/chatSlice'
+import { getChatInfo, getChatMessages, getChatsByUserId, 
+		getChatsFromSearch, 
+		getChatsUsers,
+		setChatInfo,
+		setChatMessages,
+
+	
+} from '../../reducers/chatSlice'
 
 import './chats.css'
-import io from 'socket.io-client';
 
 const Chats = ({activeChatId, handleActiveChatId}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
+	const [queryName,setQueryName] = useState(""); 
+
 	const userChats= useSelector(getChatsUsers);
+	const messages = useSelector(getChatMessages)
+	const chat = useSelector(getChatInfo)
 	
+
 	const {userId,token} = useAuth();
+
 
 	const dispatch = useDispatch();
 
-
 	useEffect(()=>{
-		dispatch(getChatsByUserId({userId,token}));
-	},[])
+		if(messages) dispatch(setChatMessages(null))
+		if(chat) dispatch(setChatInfo(null))
+		if(queryName === "") dispatch(getChatsByUserId({userId,token}))
 
+		if(queryName) dispatch(getChatsFromSearch({userId,token,queryName}))
+	},[queryName])
 
 	return (
 		<>
@@ -44,9 +59,9 @@ const Chats = ({activeChatId, handleActiveChatId}) =>{
 							<button className="text-blink-gray-2" >chats</button>
 
 						</div>
-
+						<Search queryName={queryName} setQueryName={setQueryName}/>
 						<div className="chats overflow-y-auto h-[500px]">
-
+							
 							{userChats && userChats.map((chat,index)=>{
 
 								return <ChatItems key={index} chat={chat} activeChatId={activeChatId} handleActiveChatId={handleActiveChatId}/>
@@ -71,7 +86,10 @@ const Chats = ({activeChatId, handleActiveChatId}) =>{
 
 						</div>
 
+						<Search queryName={queryName} setQueryName={setQueryName}/>
+
 						<div className="chats overflow-y-auto ">
+
 
 							{userChats && userChats.map((chat,index)=>{
 

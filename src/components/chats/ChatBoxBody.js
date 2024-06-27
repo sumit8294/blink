@@ -116,7 +116,7 @@ const ChatBoxBody = ({messages,participant}) =>{
 
 						{messages && messages.map((messageItem,index)=>{
 							
-							if(messageItem.sender._id === userId){
+							if(messageItem.sender === userId){
 
 								return (
 

@@ -8,6 +8,7 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 import {
 	getChatMessages,
 	fetchChatMessages,
+	getChatInfo,
 } from '../../reducers/chatSlice';
 
 
@@ -19,12 +20,15 @@ const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
-	const chatMessages = useSelector(getChatMessages);
+	const messages = useSelector(getChatMessages);
+	const chat = useSelector(getChatInfo)
+
 	const {userId,token} = useAuth();
+
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (activeChatId !== null) {
+		if (activeChatId) {
 		  dispatch(fetchChatMessages({ token, chatId: activeChatId, userId }));
 		}
 	}, [activeChatId]);
@@ -38,11 +42,11 @@ const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 				
 					<div className=" w-full py-1 bg-blink-black-1">
 
-						<ChatBoxHeader participant={chatMessages && chatMessages.participants[0]} handleActiveChatId={handleActiveChatId}/>
+						<ChatBoxHeader participant={chat && chat.participants[0]} handleActiveChatId={handleActiveChatId}/>
 
-						<ChatBoxBody messages={chatMessages && chatMessages.messages} participant={chatMessages && chatMessages.participants[0]} />
+						<ChatBoxBody messages={messages} participant={chat && chat.participants[0]} />
 
-						<ChatBoxInput activeChatId={activeChatId} participant={chatMessages && chatMessages.participants[0]}/>
+						<ChatBoxInput activeChatId={activeChatId} participant={chat && chat.participants[0]}/>
 
 					</div>		
 					
@@ -55,11 +59,11 @@ const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 
 						<div className="w-full py-1 border-l border-blink-black-2 bg-blink-black-1 rounded-r-2xl">
 
-							<ChatBoxHeader participant={chatMessages && chatMessages.participants[0]} />
+							<ChatBoxHeader participant={chat && chat.participants[0]} />
 
-							<ChatBoxBody messages={chatMessages && chatMessages.messages} participant={chatMessages && chatMessages.participants[0]}/>
+							<ChatBoxBody messages={messages} participant={chat && chat.participants[0]}/>
 
-							<ChatBoxInput activeChatId={activeChatId} participant={chatMessages && chatMessages.participants[0]}/>
+							<ChatBoxInput activeChatId={activeChatId} participant={chat && chat.participants[0]} />
 
 						</div>
 						

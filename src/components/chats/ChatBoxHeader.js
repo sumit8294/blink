@@ -34,7 +34,11 @@ const ChatBoxHeader = ({participant,handleActiveChatId}) =>{
 
 									<div className=" post-image h-8 my-auto w-8 tablet-sm:h-12 tablet-sm:w-12 rounded-full text-center overflow-hidden" >
 
-										{participant && <img className="w-full"  src={participant.profile} alt="user" />}
+										{participant.profile
+									? <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={participant.profile} alt="profile"/>
+
+									: <img src="https://res.cloudinary.com/dzaklkjrk/image/upload/v1709810476/posts-and-profile/temp-user_o7kzmj.png" alt="profile"/>
+								}
 
 									</div>
 
@@ -80,7 +84,11 @@ const ChatBoxHeader = ({participant,handleActiveChatId}) =>{
 
 								<div className=" post-image h-8 my-auto w-8 rounded-full text-center overflow-hidden" >
 
-									<img className="w-full"  src={participant.profile} alt="user" />
+									{participant.profile
+									? <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={participant.profile} alt="profile"/>
+
+									: <img src="https://res.cloudinary.com/dzaklkjrk/image/upload/v1709810476/posts-and-profile/temp-user_o7kzmj.png" alt="profile"/>
+								}
 
 								</div>
 

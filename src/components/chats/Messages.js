@@ -4,12 +4,11 @@ import ChatBox from './ChatBox';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-import {useState,useEffect, useContext} from 'react';
+import {useEffect, useContext} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import useAuth from '../../hooks/useAuth';
 
 import {
-	getChatMessages,
 	fetchChatMessages,
 	getActiveChatId,
 	setActiveChatId,
@@ -21,7 +20,7 @@ const Messages = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
-	const socket = useContext(SocketContext);
+	const {socket} = useContext(SocketContext);
 
 	const {userId,token} = useAuth();
 	

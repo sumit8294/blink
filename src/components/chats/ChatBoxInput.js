@@ -8,12 +8,20 @@ import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 import {useState,useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
  
-import {sendMessage, getShareableContentStatus, fetchChatMessages} from '../../reducers/chatSlice';
+import {
+	sendMessage, 
+	getShareableContentStatus, 
+	fetchChatMessages, 
+	getChatInfo, 
+	getNewChatId, 
+	setActiveChatId,
+	getChatsByUserId
+} from '../../reducers/chatSlice';
 import useAuth from '../../hooks/useAuth';
 	
 
 
-const ChatBoxInput = ({participant,activeChatId}) =>{
+const ChatBoxInput = ({participant,activeChatId,handleActiveChatId}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
@@ -22,25 +30,39 @@ const ChatBoxInput = ({participant,activeChatId}) =>{
 	const [disableSend,setDisableSend] = useState(true);
 
 	const dispatch = useDispatch();
+	
 	const shareStatus = useSelector(getShareableContentStatus)
+	const newChatId = useSelector(getNewChatId);
+	const chat = useSelector(getChatInfo)
+
 	const {token,userId} = useAuth();
 
-	const handleSend = async () => {
+	const handleSend = () => {
 		const body = {
 			sender: userId,
 			receiver: participant._id,
 			content: textMessage,
-			contentType: 'text'
+			contentType: 'text',
+			chatId: chat?._id
 		}
 		
-		await dispatch(sendMessage({body,token}))
-		
-		if(shareStatus === 'succeeded' || shareStatus === 'idle'){
-			setTextMessage("")
-			dispatch(fetchChatMessages({userId,token,chatId:activeChatId}))
-		}
+		dispatch(sendMessage({body,token}))
 
 	}
+
+	useEffect(()=>{
+		if(shareStatus === 'succeeded' || shareStatus === 'idle'){
+			setTextMessage("")
+			if(newChatId){
+				dispatch(fetchChatMessages({userId,token,chatId:newChatId}))
+				dispatch(setActiveChatId(newChatId))
+				dispatch(getChatsByUserId({userId,token}))
+			}else if(activeChatId){
+
+				dispatch(fetchChatMessages({userId,token,chatId:activeChatId}))
+			}
+		}
+	},[shareStatus])
 
 	useEffect(()=>{
 		if(textMessage.length > 0 && disableSend === true){
