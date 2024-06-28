@@ -11,7 +11,7 @@ import useAuth from '../../hooks/useAuth';
 
 
 
-const ChatBoxBody = ({messages,participant}) =>{
+const ChatBoxBody = ({messages,participant,seen}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
@@ -103,7 +103,11 @@ const ChatBoxBody = ({messages,participant}) =>{
 							}
 						})}
 
+							{seen && <div  className="flex justify-end right-0">
+										
+									<p className="text-start text-sm bold mx-4 my-2">seen</p>
 
+								</div>}
 					</div>
 
 				</>
@@ -182,6 +186,12 @@ const ChatBoxBody = ({messages,participant}) =>{
 								)
 							}
 						})}
+
+						{seen && <div  className="flex justify-end right-0">
+										
+										<p className="text-start text-sm bold mx-4 my-2">seen</p>
+
+								</div>}
 
 						
 					</div>

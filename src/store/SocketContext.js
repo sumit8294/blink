@@ -18,7 +18,6 @@ const SocketProvider = ({children}) =>{
 		setSocket(newSocket)
 
 		return () => {
-			// setOnlineUsers(onlineUsers.delete(userId))
 			newSocket.close();
 		}
 	},[])
@@ -42,7 +41,11 @@ const SocketProvider = ({children}) =>{
 		}
 	},[socket])
 
-    return <SocketContext.Provider value={{socket,onlineUsers}}>
+	const fun = (chatId,sender) =>{
+		socket.emit('lastMessageSeened',{chatId,sender})
+	}
+
+    return <SocketContext.Provider value={{socket,onlineUsers,fun}}>
         {children}
     </SocketContext.Provider>
 }

@@ -15,22 +15,51 @@ import {
 import {useState,useEffect} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import useAuth from '../../hooks/useAuth';
+import { useSocket } from '../../store/SocketContext';
 
 const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+	const dispatch = useDispatch();
+	const {socket,fun} = useSocket();
+
 
 	const messages = useSelector(getChatMessages);
 	const chat = useSelector(getChatInfo)
 
 	const {userId,token} = useAuth();
+	const [seen,setSeen] = useState(false);
 
-	const dispatch = useDispatch();
+
+	useEffect(()=>{
+		if(socket && chat && chat.lastSeen.seen === false && chat.lastSeen.sender !== userId){
+			fun(chat._id,chat.lastSeen.sender)
+		}
+
+		if(socket){
+			socket.on('notifyMessageSeened',(data)=>{
+				setSeen(true)
+			})
+
+			return () => socket.off('notifyMessageSeened')
+		}
+
+	},[chat,socket])
+	
+
+	useEffect(()=>{
+
+		if(chat?.lastSeen.seen === true && chat.lastSeen.sender === userId) setSeen(true);
+
+		else setSeen(false);
+		
+	},[chat,userId])
+
 
 	useEffect(() => {
-		if (activeChatId) {
-		  dispatch(fetchChatMessages({ token, chatId: activeChatId, userId }));
-		}
+
+		if (activeChatId) dispatch(fetchChatMessages({ token, chatId: activeChatId, userId }));
+		
 	}, [activeChatId]);
 
 	return (
@@ -44,7 +73,7 @@ const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 
 						<ChatBoxHeader participant={chat && chat.participants[0]} handleActiveChatId={handleActiveChatId}/>
 
-						<ChatBoxBody messages={messages} participant={chat && chat.participants[0]} />
+						<ChatBoxBody messages={messages} participant={chat && chat.participants[0]} seen={seen}/>
 
 						<ChatBoxInput activeChatId={activeChatId} participant={chat && chat.participants[0]}/>
 
@@ -61,7 +90,7 @@ const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 
 							<ChatBoxHeader participant={chat && chat.participants[0]} />
 
-							<ChatBoxBody messages={messages} participant={chat && chat.participants[0]}/>
+							<ChatBoxBody messages={messages} participant={chat && chat.participants[0]} seen={seen}/>
 
 							<ChatBoxInput activeChatId={activeChatId} participant={chat && chat.participants[0]} />
 
