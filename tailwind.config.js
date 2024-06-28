@@ -11,6 +11,7 @@ module.exports = {
           'blink-gray-1': '#dbdbdb',
           'blink-gray-2': '#737373',
           'blink-red-1': '#eb3349',
+          'blink-red-2': '#f45c43',
 
       	},
       	backgroundImage: {

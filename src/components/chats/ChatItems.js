@@ -5,6 +5,7 @@ import { getChatMessages, setChatInfo, setChatMessages } from '../../reducers/ch
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useSocket } from '../../store/SocketContext';
+import useAuth from '../../hooks/useAuth';
 
 const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 	
@@ -12,13 +13,18 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 
 	const dispatch = useDispatch()
 
+	const {userId} = useAuth();
+
 	const {onlineUsers} = useSocket();
 	const [isOnline,setIsOnline] = useState(false);
+	const [seenedChat,setSeenedChat] = useState(true);
 	const messages = useSelector(getChatMessages)
 
 	const handleOnClick = () =>{ 
+		
 		if(chat.chatId){
-			handleActiveChatId(chat.chatId)
+			handleActiveChatId(new String(chat.chatId))
+			setSeenedChat(true)
 		}
 		else{
 			if(messages) dispatch(setChatMessages(null))
@@ -31,6 +37,16 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 			else if(isOnline === true) setIsOnline(false)
 	},[onlineUsers,chat.participants[0]._id])
 
+	useEffect(()=>{
+		if(chat?.message && chat?.seen.sender !== userId){
+			if(chat?.seen.seen) setSeenedChat(true)
+			else setSeenedChat(false)
+		}
+
+		return ()=>{
+			setSeenedChat(true)
+		}
+	},[chat])
 
 	
 	return (
@@ -59,7 +75,7 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 
 							<div className="px-3 ">
 								
-								<span className="block tracking-wide font-normal text-white"> 
+								<span className={seenedChat ? "block tracking-wide font-normal text-white" : "font-bold tracking-wide block text-white"}> 
 									
 									{chat.participants[0].username}
 
@@ -67,7 +83,7 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 
 								{chat.message && <span className="block text-[11px] "> 
 									
-									<span className="block text-blink-gray-1">
+									<span className={seenedChat ? "block text-blink-gray-1" : "font-bold block text-white"}>
 
 										{ chat.message.contentType === 'reel' || chat.message.contentType === 'post' 
 
@@ -83,6 +99,8 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 									</span>
 
 									<span className="text-blink-gray-2 text-[11px]"> {format(new Date(chat.message.sendAt), 'dd MMM yyyy hh:mm a')} </span>
+									
+									{!seenedChat && <span className="text-blink-gradient-5 text-[11px]"> unseen </span>}
 
 								</span>}
 						
@@ -112,11 +130,11 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 						
 						{isOnline && <span className="absolute left-14 bottom-5 w-2 h-2 laptop-sm:left-10 rounded-full bg-blink-gradient-1"></span>}
 
-						<div className="">
+						<div className="w-full">
 
 							<div className="px-3 laptop-sm:px-3">
 								
-								<span className="block tracking-wide font-normal text-white"> 
+								<span className={seenedChat ? "block tracking-wide font-normal text-white" : "font-bold tracking-wide block text-white"}> 
 									
 									{chat.participants[0].username}
 
@@ -124,7 +142,7 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 
 								{chat.message && <span className="block text-[11px] "> 
 									
-									<span className="block text-blink-gray-1">
+									<span className={seenedChat ? "block text-blink-gray-1" : "font-bold block text-white"}>
 
 										{ chat.message.contentType === 'reel' || chat.message.contentType === 'post' 
 
@@ -145,7 +163,9 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 						
 							</div>
 						
-						</div>	
+						</div>
+						
+						{!seenedChat && <span className="shrink-0 relative top-6 w-2 h-2 rounded-full bg-blink-gradient-5 right-0 "></span>}
 						
 					</div>
 				</>

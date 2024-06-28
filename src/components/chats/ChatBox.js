@@ -32,7 +32,7 @@ const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 
 
 	useEffect(()=>{
-		if(socket && chat && chat.lastSeen.seen === false && chat.lastSeen.sender !== userId){
+		if(socket && chat && chat.lastSeen?.seen === false && chat.lastSeen?.sender !== userId){
 			fun(chat._id,chat.lastSeen.sender)
 		}
 
@@ -49,7 +49,7 @@ const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 
 	useEffect(()=>{
 
-		if(chat?.lastSeen.seen === true && chat.lastSeen.sender === userId) setSeen(true);
+		if(chat?.lastSeen?.seen === true && chat.lastSeen?.sender === userId) setSeen(true);
 
 		else setSeen(false);
 		
@@ -57,7 +57,7 @@ const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 
 
 	useEffect(() => {
-
+		
 		if (activeChatId) dispatch(fetchChatMessages({ token, chatId: activeChatId, userId }));
 		
 	}, [activeChatId]);

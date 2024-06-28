@@ -36,6 +36,7 @@ const Chats = ({activeChatId, handleActiveChatId}) =>{
 	const dispatch = useDispatch();
 
 	useEffect(()=>{
+		handleActiveChatId(null)
 		if(messages) dispatch(setChatMessages(null))
 		if(chat) dispatch(setChatInfo(null))
 		if(queryName === "") dispatch(getChatsByUserId({userId,token}))
@@ -62,9 +63,9 @@ const Chats = ({activeChatId, handleActiveChatId}) =>{
 						<Search queryName={queryName} setQueryName={setQueryName}/>
 						<div className="chats overflow-y-auto h-[500px]">
 							
-							{userChats && userChats.map((chat,index)=>{
+							{userChats && userChats.map((userChat,index)=>{
 
-								return <ChatItems key={index} chat={chat} activeChatId={activeChatId} handleActiveChatId={handleActiveChatId}/>
+								return <ChatItems key={index} chat={userChat} activeChatId={activeChatId} handleActiveChatId={handleActiveChatId}/>
 
 							})}
 
@@ -91,9 +92,9 @@ const Chats = ({activeChatId, handleActiveChatId}) =>{
 						<div className="chats overflow-y-auto ">
 
 
-							{userChats && userChats.map((chat,index)=>{
+							{userChats && userChats.map((userChat,index)=>{
 
-								return <ChatItems key={index} chat={chat} activeChatId={activeChatId} handleActiveChatId={handleActiveChatId}/>
+								return <ChatItems key={index} chat={userChat} activeChatId={activeChatId} handleActiveChatId={handleActiveChatId}/>
 
 							})}
 
