@@ -18,10 +18,12 @@ import { NotificationContext } from '../store/NotificationContext';
 import {useParams} from 'react-router-dom';
 
 import { userLogout } from '../reducers/authSlice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import useAuth from '../hooks/useAuth';
 
 import {resetStore} from '../store/index'
+import {selectUnseenChatsCount,fetchUnseenChatsCount} from '../reducers/chatSlice';
+
 
 const navItems = [
 
@@ -42,7 +44,7 @@ const Navigation = () =>{
 
 	const params = useParams();
 
-	const {userId: loggedUserId} = useAuth();
+	const {userId: loggedUserId,token} = useAuth();
 
 	useEffect( () => setActiveItem(params['*']) , [params] );
 
@@ -51,6 +53,15 @@ const Navigation = () =>{
 	const handleNotifyBarVisibility = () => setNotifyBarVisibility(!notifyBarVisibility);
 
 	const dispatch = useDispatch();
+
+	const unseenChatsCount = useSelector(selectUnseenChatsCount);
+	const fetchUnseencount = () =>{
+		dispatch(fetchUnseenChatsCount({userId:loggedUserId,token}));
+	}
+	useEffect(()=>{
+		fetchUnseencount()
+	},[])
+
 
 	const handleLogout = async () =>{
 
@@ -91,15 +102,21 @@ const Navigation = () =>{
 										`}	
 									>
 
-										<div className="flex px-5 py-2  border-blink-black-3 content-center text-center">
+										<div className="flex px-5 py-2 border-blink-black-3 content-center text-center">
 
-											<span className="mr-4">
+											<span className="mr-4 relative">
 
 												<FontAwesomeIcon icon={item.icon} />
 
+												{item.name === 'Messages' && unseenChatsCount > 0 && 
+													<span className=" absolute bottom-4 w-6 h-6 left-4 rounded-xl text-base bg-red-600 text-white">{unseenChatsCount}</span>
+												}
+
 											</span>
 
-											<span className="text-[1.2rem] my-auto font-semibold">{item.name}</span>
+											<span className="text-[1.2rem] w-full text-start my-auto font-semibold">{item.name}</span>
+
+											
 
 										</div>
 

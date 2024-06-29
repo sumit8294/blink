@@ -4,45 +4,20 @@ import ChatBox from './ChatBox';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
-import {useEffect, useContext} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
-import useAuth from '../../hooks/useAuth';
 
 import {
-	fetchChatMessages,
 	getActiveChatId,
 	setActiveChatId,
-	getChatsByUserId
 } from '../../reducers/chatSlice';
-import { SocketContext } from '../../store/SocketContext';
 
 const Messages = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
-
-	const {socket} = useContext(SocketContext);
-
-	const {userId,token} = useAuth();
 	
 	const activeChatId = useSelector(getActiveChatId);
 	
 	const dispatch = useDispatch();
-
-	useEffect(()=>{
-		if (socket) {	
-			socket.on('send_message', (data) => {
-			  if (activeChatId) {
-				dispatch(fetchChatMessages({ token, chatId: activeChatId, userId }));
-				
-			  } else {
-				console.log('no active chat id')
-			  }
-			  dispatch(getChatsByUserId({ userId, token }));
-			});
-
-			return () => socket.off('send_message')
-		}
-	},[socket, activeChatId])
 	  
 	const handleActiveChatId = (messager) => dispatch(setActiveChatId(messager));
 

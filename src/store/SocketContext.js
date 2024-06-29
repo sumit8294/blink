@@ -2,6 +2,14 @@ import { createContext, useContext, useEffect, useState } from "react"
 
 import useAuth from '../hooks/useAuth';
 import makeConnection from '../services/socketService';
+import {useDispatch,useSelector} from 'react-redux';
+import {
+	fetchChatMessages,
+	getActiveChatId,
+	setActiveChatId,
+	getChatsByUserId,
+	fetchUnseenChatsCount
+} from '../reducers/chatSlice';
 
 export const SocketContext = createContext();
 
@@ -9,9 +17,11 @@ export const useSocket = () => useContext(SocketContext);
 
 const SocketProvider = ({children}) =>{
 
-    const {userId} = useAuth();
+    const {userId,token} = useAuth();
 	const [socket,setSocket] = useState(null)
 	const [onlineUsers,setOnlineUsers] = useState(new Map())
+	const activeChatId = useSelector(getActiveChatId);
+	const dispatch = useDispatch()
  
     useEffect(()=>{
 		const newSocket = makeConnection(userId);
@@ -33,19 +43,31 @@ const SocketProvider = ({children}) =>{
 			onlineUsers.delete(data)
 			setOnlineUsers(new Map(onlineUsers))
 		})
+		socket.on('send_message', (data) => {
+		  if (activeChatId) {
+			dispatch(fetchChatMessages({ token, chatId: activeChatId, userId }));
+			
+		  } else {
+			console.log('no active chat id')
+		  }
+		  dispatch(getChatsByUserId({ userId, token }));
+		  dispatch(fetchUnseenChatsCount({userId,token}))
+		});
+
 		return () => {
 			socket.off('getOnlineUser')
 			socket.off('getOfflineUser')
+			socket.off('send_message')
 		}
 
 		}
-	},[socket])
+	},[socket,activeChatId])
 
-	const fun = (chatId,sender) =>{
+	const emitLastMessageSeened = (chatId,sender) =>{
 		socket.emit('lastMessageSeened',{chatId,sender})
 	}
 
-    return <SocketContext.Provider value={{socket,onlineUsers,fun}}>
+    return <SocketContext.Provider value={{socket,onlineUsers,emitLastMessageSeened}}>
         {children}
     </SocketContext.Provider>
 }

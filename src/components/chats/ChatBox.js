@@ -9,6 +9,7 @@ import {
 	getChatMessages,
 	fetchChatMessages,
 	getChatInfo,
+	setUnseenChatCount
 } from '../../reducers/chatSlice';
 
 
@@ -21,7 +22,7 @@ const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 	const dispatch = useDispatch();
-	const {socket,fun} = useSocket();
+	const {socket,emitLastMessageSeened} = useSocket();
 
 
 	const messages = useSelector(getChatMessages);
@@ -33,12 +34,14 @@ const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 
 	useEffect(()=>{
 		if(socket && chat && chat.lastSeen?.seen === false && chat.lastSeen?.sender !== userId){
-			fun(chat._id,chat.lastSeen.sender)
+			emitLastMessageSeened(chat._id,chat.lastSeen.sender)
+			dispatch(setUnseenChatCount())
 		}
 
 		if(socket){
 			socket.on('notifyMessageSeened',(data)=>{
 				setSeen(true)
+				
 			})
 
 			return () => socket.off('notifyMessageSeened')

@@ -6,15 +6,26 @@ import {Link} from 'react-router-dom';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../ReactResponsiveQueries';
-
+import { useEffect } from 'react';
 import { userLogout } from '../reducers/authSlice';
-import {useDispatch} from 'react-redux';
+import {useDispatch,useSelector} from 'react-redux';
+import useAuth from '../hooks/useAuth';
+import {selectUnseenChatsCount,fetchUnseenChatsCount} from '../reducers/chatSlice';
+
 
 const Header = () =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
 	const dispatch = useDispatch();
+	const {userId,token} = useAuth();
+
+	const unseenChatsCount = useSelector(selectUnseenChatsCount);
+
+	useEffect(()=>{
+		dispatch(fetchUnseenChatsCount({userId,token}));
+	},[])
+
 	const handleLogout = async () =>{
 
 		await dispatch(userLogout());
@@ -47,9 +58,13 @@ const Header = () =>{
 
 							<Link to={`/messages`}>
 
-								<span className="text-blink-blue-1 mx-4 text-2xl">
+								<span className="text-blink-blue-1 mx-4 text-2xl relative">
 
 									<FontAwesomeIcon icon={faEnvelope} />
+
+									{unseenChatsCount > 0 && 
+										<span className=" absolute bottom-4 w-5 h-5 left-4 rounded-xl text-center text-sm bg-red-600 text-white">{unseenChatsCount}</span>
+									}
 
 								</span>							
 
@@ -89,7 +104,7 @@ const Header = () =>{
 
 								</Link> */}
 								
-								<Link to={`/messages`}>
+								{/* <Link to={`/messages`}>
 
 									<span className="text-blink-blue-1 mr-4 text-2xl">
 
@@ -97,7 +112,7 @@ const Header = () =>{
 
 									</span>							
 
-								</Link>
+								</Link> */}
 
 						</div>
 						

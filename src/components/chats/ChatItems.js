@@ -1,7 +1,11 @@
 import { format } from 'date-fns';
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
-import { getChatMessages, setChatInfo, setChatMessages } from '../../reducers/chatSlice';
+import { 
+	getChatMessages, 
+	setChatInfo, 
+	setChatMessages,
+} from '../../reducers/chatSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useSocket } from '../../store/SocketContext';
@@ -40,7 +44,7 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 	useEffect(()=>{
 		if(chat?.message && chat?.seen.sender !== userId){
 			if(chat?.seen.seen) setSeenedChat(true)
-			else setSeenedChat(false)
+			else if(String(activeChatId) !== chat.chatId) setSeenedChat(false)
 		}
 
 		return ()=>{

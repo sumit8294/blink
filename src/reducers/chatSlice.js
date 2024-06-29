@@ -112,6 +112,29 @@ export const fetchChatMessages = createAsyncThunk('chats/fetchChatMessages', asy
 	}
 })
 
+
+export const fetchUnseenChatsCount = createAsyncThunk('chats/fetchUnseenChatsCount', async ({userId,token}) =>{
+
+	try {
+
+		const response = await axios.get(
+			`${baseApi}/chats/unseenCount/${userId}`,
+			{
+				withCredentials: true,
+				headers:{
+					'Authorization': `Bearer ${token}`
+				}
+			}
+		)
+
+		return response.data;
+	}
+	catch(error) {
+		const errorMessage = error.response ? error.response.data.message : 'Unknown error occurred';
+		throw new Error(errorMessage); 
+	}
+})
+
 const initialState = {
 	chats:[],
 	messages: null,
@@ -124,6 +147,7 @@ const initialState = {
 	chatInfo: null,
 	newChatUserId: null,
 	newChatId: null,
+	unseenChatsCount: 0,
 }
 
 
@@ -142,6 +166,9 @@ const chatSlice = createSlice({
 		},
 		setChatMessages:(state,action)=>{
 			state.messages = null
+		},
+		setUnseenChatCount:(state,action)=>{
+			if(state.unseenChatsCount > 0) state.unseenChatsCount = state.unseenChatsCount - 1
 		}
 	},
 	extraReducers:(builder)=>{
@@ -185,6 +212,9 @@ const chatSlice = createSlice({
 		.addCase(fetchChatMessages.rejected,(state,action)=>{
 			state.status = 'failed'
 		})
+		.addCase(fetchUnseenChatsCount.fulfilled,(state,action)=>{
+			state.unseenChatsCount = action.payload.count;
+		})
 	}
 })
 
@@ -199,7 +229,14 @@ export const getActiveChatId = state => state.chats.activeChatId;
 export const getChatInfo = state => state.chats.chatInfo
 export const getNewChatUserId = state => state.chats.newChatUserId
 export const getNewChatId = state => state.chats.newChatId
+export const selectUnseenChatsCount = state => state.chats.unseenChatsCount
 
-export const {resetChats, setActiveChatId, setChatInfo, setChatMessages} = chatSlice.actions;
+export const {
+	resetChats,
+	setActiveChatId,
+	setChatInfo, 
+	setChatMessages,
+	setUnseenChatCount
+} = chatSlice.actions;
 
 export default chatSlice.reducer;
