@@ -3,16 +3,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquareXmark } from '@fortawesome/free-solid-svg-icons'
 
 import {NotificationContext} from '../../store/NotificationContext';
-import {useContext} from 'react';
+import {useContext, useEffect} from 'react';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
+import { useDispatch, useSelector } from 'react-redux';
+import { getNotifications, selectAllNotifications } from '../../reducers/notificationSlice';
+import useAuth from '../../hooks/useAuth';
 
 const Notifications = () =>{
 	
 	const {setNotifyBarVisibility} = useContext(NotificationContext);
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
+	const {userId,token} = useAuth()
+
+	const notifications = useSelector(selectAllNotifications)
+	
+	const dispatch = useDispatch();
+
+	useEffect(()=>{
+		dispatch(getNotifications({token, userId}))
+	},[])
 
 	return (
 		<>
@@ -58,13 +71,12 @@ const Notifications = () =>{
 
 							<div className="notifications py-4 h-[80vh] overflow-y-auto">
 
-								<NotificationItem />
-								<NotificationItem />
-								
-
+								{notifications?.length > 0 && notifications.map((notification,item)=>{
+									<NotificationItem notification />
+								})}
+							
 							</div>
 
-				
 						</div>
 
 					</div>

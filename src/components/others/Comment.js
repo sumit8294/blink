@@ -13,28 +13,33 @@ import {
 	selectCommentStatus,
 	selectCommentError,
 	addComment,
-	removeComment
+	removeComment,
+	selectContentAuthor
 } from '../../reducers/commentSlice'
 import {selectPostById} from '../../reducers/posts/postSlice'
 import useAuth from '../../hooks/useAuth'
 import Loading from '../elements/Loading'
 import {selectReelById} from '../../reducers/reels/reelSlice'
+import { createNotification } from '../../reducers/notificationSlice';
 
 
 const Comment = () => {
 	const {setCommentsVisibility} = useContext(DialogContext);
+	
+	const [newComment,setNewComment] = useState("")
+	const [deleteButtonMap,setDeleteButtonMap] = useState({});
 
-	const {userId:LoggedInUser,token} = useAuth()
+	const {userId:LoggedInUser,token,username} = useAuth()
 	const auth = useAuth();
-
+	
 	const dispatch = useDispatch()
-
+	
 	const comments = useSelector(selectAllComments)
 	const contentId = useSelector(selectCommentContentId)
 	const contentType = useSelector(selectCommentContentType)
 	const userPost = useSelector((state)=>selectPostById(state,contentId))
 	const userReel = useSelector((state)=>selectReelById(state,contentId))
-
+	
 	let userContent = null;
 	if(contentType === 'reel'){
 		userContent = userReel
@@ -44,14 +49,24 @@ const Comment = () => {
 	
 	const commentStatus = useSelector(selectCommentStatus)
 	const commentError = useSelector(selectCommentError)
-
-
+	const author = useSelector(selectContentAuthor)
+	
 
 	const postComment = async (e) =>{
 		e.preventDefault();
 		
+		const body = {
+			sender : LoggedInUser,
+			receiver : author._id,
+			type : 'comment',
+			content : {contentId, type: contentType},
+			comment: newComment
+		}
+		
+		
 		if(newComment !== ""){
-			 dispatch(addComment({contentId,contentType,userId:LoggedInUser,token,content:newComment,auth}))//auth is for increseCount 
+			dispatch(addComment({contentId,contentType,userId:LoggedInUser,token,content:newComment,auth}))//auth is for increseCount 
+			dispatch(createNotification({body,token}))
 		}
 		
 		if(commentError === null ){
@@ -61,8 +76,6 @@ const Comment = () => {
 	}
 
 
-	const [newComment,setNewComment] = useState("")
-	const [deleteButtonMap,setDeleteButtonMap] = useState({});
 	const setDeleteButtonVisible = (commentId,status) =>{
 		setDeleteButtonMap((prev)=>{
 			return {

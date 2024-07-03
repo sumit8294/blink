@@ -6,22 +6,34 @@ import {
 } from '../../reducers/followerSlice'
 import { setIsFollowingSuggesstions } from '../../reducers/userSlice'
 import {Link} from 'react-router-dom'
+import { createNotification } from '../../reducers/notificationSlice'
 
 
 
 const SuggestionItem = ({user}) =>{
 	const dispatch = useDispatch()
-	const {userId: loggedUserId, token} = useAuth()
+	const {userId: loggedUserId, token, username} = useAuth()
+
+	
 
 	const handleFollow = (event,isFollowingStatus,toUserId) =>{
+
 		event.preventDefault()
 		event.stopPropagation()
+
+		const body = {
+			sender: loggedUserId,
+			receiver: toUserId,
+			type:'follow',
+		}
+
 		if(isFollowingStatus){	
 			dispatch(setIsFollowingSuggesstions({userId:toUserId,status:isFollowingStatus}))
 			dispatch(unfollowUser({userId:toUserId,loggedUserId,token}))
 		}else{
 			dispatch(setIsFollowingSuggesstions({userId:toUserId,status:isFollowingStatus}))
 			dispatch(followUser({userId:toUserId,loggedUserId,token}))
+			dispatch(createNotification({body,token}))
 		}
 	}
 	return (

@@ -14,7 +14,7 @@ import { useMediaQuery } from 'react-responsive'
 import { mobileMediaQuery } from '../../ReactResponsiveQueries'
 import { useDispatch } from 'react-redux';
 import useAuth from '../../hooks/useAuth';
-import { getComments,resetComments } from '../../reducers/commentSlice'
+import { getComments, resetComments, setContentAuthor } from '../../reducers/commentSlice'
 import { getChatsByUserId } from '../../reducers/chatSlice'
 import {
 	addPostLike,
@@ -22,22 +22,26 @@ import {
 	addPostBookmark,
 	removePostBookmark,
 } from '../../reducers/posts/reactionAsyncThunks'
-
+import { createNotification } from '../../reducers/notificationSlice'
 
 const FeedPostActions = ({post}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 	const { setCommentsVisibility, setSharesVisibility } = useContext(DialogContext);
-	
-
 
 	const auth = useAuth() //passing to addLike
-	const {userId,token} = useAuth();
+	const {userId,token,username} = useAuth();
 
 	const dispatch = useDispatch();
 
-
 	const handleLike = async (currentState,postId) =>{
+
+		const body = {
+			sender : userId,
+			receiver : post.user._id,
+			type : 'like',
+			content : {contentId: post._id, type: 'post'}
+		}
 
 		try{
 			if(currentState){
@@ -45,6 +49,8 @@ const FeedPostActions = ({post}) =>{
 
 			}else{
 				await dispatch(addPostLike({userId,postId,auth,token})) // "auth" for add mutualLike of loggedInUser
+
+				dispatch(createNotification({body,token}))
 			}
 		}
 		catch(error){
@@ -75,6 +81,7 @@ const FeedPostActions = ({post}) =>{
 			setCommentsVisibility( true );
 			dispatch(resetComments());
 			dispatch(getComments({contentId:post._id,contentType:'post',token}));
+			dispatch(setContentAuthor(post.user))
 		}
 		else if(type === 'share'){
 			setSharesVisibility( true )

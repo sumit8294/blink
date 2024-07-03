@@ -8,6 +8,7 @@ import reelSlice,{resetReels} from '../reducers/reels/reelSlice'
 import followerSlice,{resetFollowers} from '../reducers/followerSlice'
 import storySlice,{resetStories} from '../reducers/storySlice'
 import settingSlice,{resetSettings} from '../reducers/userSettingSlice'
+import notificationSlice from '../reducers/notificationSlice'
 
 
 
@@ -21,7 +22,8 @@ export const store = configureStore({
 		reels:reelSlice,
 		followers:followerSlice,
 		stories:storySlice,
-		settings:settingSlice
+		settings:settingSlice,
+		notifications:notificationSlice
 	}
 })
 

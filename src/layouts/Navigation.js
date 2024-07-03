@@ -34,7 +34,7 @@ const navItems = [
 	{name:"Create",icon:faFilm},
 	{name:"Settings",icon:faGear},
 	{name:"Messages",icon:faEnvelope},
-	// {name:"Notifications",icon:faCommentDots},
+	{name:"Notifications",icon:faCommentDots},
 
 ]
 

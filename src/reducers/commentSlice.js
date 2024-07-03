@@ -52,7 +52,8 @@ const initialState = {
 	contentId: null,
 	contentType: null,
 	status: 'idle',
-	error: null
+	error: null,
+	contentAuthor: null,
 }
 
 const commentSlice = createSlice({
@@ -65,7 +66,9 @@ const commentSlice = createSlice({
 			state.contentType= null
 			state.status= 'idle'
 			state.error= null
-
+		},
+		setContentAuthor:(state,action)=>{
+			state.contentAuthor = action.payload
 		}
 	},
 	extraReducers:(builder)=>{
@@ -104,7 +107,8 @@ export const selectCommentContentId = (state) => state.comments.contentId
 export const selectCommentContentType = (state) => state.comments.contentType
 export const selectCommentStatus = (state) => state.comments.status
 export const selectCommentError = (state) => state.comments.error
+export const selectContentAuthor = (state) => state.comments.contentAuthor
 
 
-export const {resetComments} = commentSlice.actions
+export const {resetComments, setContentAuthor} = commentSlice.actions
 export default commentSlice.reducer

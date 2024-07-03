@@ -1,5 +1,5 @@
 
-const NotificationItem = () =>{
+const NotificationItem = ({notification}) =>{
 
 	return (
 		<>
@@ -7,7 +7,7 @@ const NotificationItem = () =>{
 
 				<div className="post-image shrink-0 h-10 w-10 rounded-full overflow-hidden" >
 
-					<img className="w-full"  src="./assets/images/users/karanaujla.jpg" alt="images" />
+					<img className="w-full"  src={notification.sender.profile} alt="images" />
 
 				</div>
 
@@ -17,15 +17,23 @@ const NotificationItem = () =>{
 						
 						<span className="text-[12px] tracking-wide font-normal text-white"> 
 							
-							Karan Aujla
+							{notification.sender.username}
 
 						</span>
 
 						<span className=" text-[11px] "> 
-							
-							<span className=" text-blink-gray-1"> Thanks for having me on stage </span>
 
-							<span className="block text-blink-gray-2 text-[11px]"> 12:55pm </span>
+							{notification.type === 'like' && <span className=" text-blink-gray-1"> liked your {notification.content.type} </span>}
+							
+							{notification.type === 'comment' && <div>
+									<span className=" text-blink-gray-1"> Commented on your {notification.content.type} </span>
+									<span className=" text-white font-bold"> {notification.comment.content} </span>
+								</div>
+							}
+							
+							{notification.type === 'follow' && <span className=" text-blink-gray-1"> started following you </span>}
+
+							<span className="block text-blink-gray-2 text-[11px]"> {notification.createdAt} </span>
 
 						</span>
 				
