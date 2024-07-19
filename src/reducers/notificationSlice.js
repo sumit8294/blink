@@ -25,11 +25,57 @@ export const  createNotification = createAsyncThunk('createNotificaiton', async 
     
 })
 
-export const getNotifications = createAsyncThunk('getNotifications',async({token,userId})=>{
+export const  setNotificationsRead = createAsyncThunk('setNotificationsRead', async ({token,userId}) =>{
 
+    try{
+        const response = await axios.put(
+            `${baseApi}/notifications/read/${userId}`,
+            {},
+            {
+                withCredentials: true,
+                headers:{
+                    'Authentication': `Bearer ${token}`
+                }
+            }
+        )
+
+        return response.data
+    }
+    catch(error){
+        const errorMessage = error.response ? error.response.data.message : 'Unknown error occurred';
+    	throw new Error(errorMessage);
+    }
+    
+})
+
+export const getNotifications = createAsyncThunk('getNotifications',async({token,userId})=>{
+    
+    const url = `${baseApi}/notifications/${userId}`;
+    
     try {
         const response = await axios.get(
-            `${baseApi}/notifications/${userId}`,
+            url,
+            {
+                withCredentials:true,
+                headers:{
+                    'Authentication': `Bearer ${token}`
+                }
+            }
+        )
+        return response.data
+    } catch (error) {
+        const  errorMessage = error.response ? error.response.data.message : 'Unknown error occurred';
+        throw new Error(errorMessage)
+    }
+})
+
+export const fetchUnreadNotificationCount = createAsyncThunk('fetchUnreadNotificationCount',async({token,userId})=>{
+    
+    const url = `${baseApi}/notifications/count/${userId}`;
+    
+    try {
+        const response = await axios.get(
+            url,
             {
                 withCredentials:true,
                 headers:{
@@ -46,7 +92,8 @@ export const getNotifications = createAsyncThunk('getNotifications',async({token
 
 const initialState = {
     notifications: [],
-    status: 'idle' // 'idle' 'succeeded' 'failed'
+    status: 'idle', // 'idle' 'succeeded' 'failed'
+    unreadNotificationCount: 0
 }
 
 const notificationSlice = createSlice({
@@ -62,9 +109,16 @@ const notificationSlice = createSlice({
             .addCase(getNotifications.fulfilled, (state,action)=>{
                 state.notifications = action.payload
             })
+            .addCase(fetchUnreadNotificationCount.fulfilled, (state,action)=>{
+                state.unreadNotificationCount = action.payload
+            })
+            .addCase(setNotificationsRead.fulfilled, (state,action)=>{
+                state.unreadNotificationCount = 0
+            })
     }
 })
 
 export const selectAllNotifications = state => state.notifications.notifications;
+export const selectUnreadNotificationCount = state => state.notifications.unreadNotificationCount;
 
 export default notificationSlice.reducer;

@@ -103,14 +103,14 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 									</span>
 
 									<span className="text-blink-gray-2 text-[11px]"> {format(new Date(chat.message.sendAt), 'dd MMM yyyy hh:mm a')} </span>
-									
-									{!seenedChat && <span className="text-blink-gradient-5 text-[11px]"> unseen </span>}
 
 								</span>}
 						
 							</div>
 						
 						</div>	
+
+						{!seenedChat && <span className="shrink-0 relative top-6 w-2 h-2 rounded-full bg-blink-gradient-5 right-0 "></span>}
 						
 					</div>
 				</>

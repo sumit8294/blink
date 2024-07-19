@@ -237,11 +237,11 @@ const CreatePost = () =>{
 	return (
 		<>
 			
-			<div className="w-full text-white  ">
+			<div className="w-full text-white">
 
-				<div className="w-[98%] mx-3 my-2  h-screen overflow-hidden bg-blink-black-2 drop-shadow-xl rounded-2xl py-4 ">
+				<div className="w-[98%] mx-3 my-2  h-screen overflow-hidden bg-blink-black-2 drop-shadow-xl rounded-2xl tablet-md:py-4">
 					
-					<div className="right-container mx-6 px-4 justify-center bg-blink-black-1 rounded-2xl h-[97vh] overflow-y-auto  ">
+					<div className="right-container tablet-md:mx-6 px-4 justify-center bg-blink-black-1 rounded-2xl h-[97vh] overflow-y-auto">
 
 						<div className="">
 
@@ -272,9 +272,9 @@ const CreatePost = () =>{
 
 								{(createType === 'post' || createType === 'story')
 								?
-								<div className="flex">
+								<div className="tablet-md:flex">
 									
-									<div className="w-1/2 p-5">
+									<div className="tablet-md:w-1/2 p-5">
 										{previewImage
 											?
 
@@ -286,7 +286,7 @@ const CreatePost = () =>{
 													>Reset Image</button>
 												</div>
 											:
-											<div className="pb-4 w-11/12 bg-blink-black-2 h-[22rem] rounded-2xl flex justify-center items-center" >		
+											<div className="pb-4 tablet-md:w-11/12 bg-blink-black-2 h-[22rem] rounded-2xl flex justify-center items-center" >		
 
 												<label className="mx-auto text-blink-black-1 h-56 w-44 my-auto px-3 cursor-pointer" htmlFor="profile-input">
 													<span className=" text-[9rem] text-center rounded-full ">
@@ -308,7 +308,7 @@ const CreatePost = () =>{
 
 																
 
-									<div className="w-1/2 px-3 py-3">
+									<div className="tablet-md:w-1/2 px-3 py-3 tablet-md:mb-0 mb-16">
 									
 										<div className="mb-4">
 
@@ -327,7 +327,7 @@ const CreatePost = () =>{
 
 										</div>
 
-										{!uploading && <div className=" relative mt-16 h-10">
+										{!uploading && <div className="relative mt-16 h-10">
 
 											<button className="w-full bg-blink-gradient-1 font-bold rounded-xl px-3 h-10 py-2" type="submit" ></button>
 											<button className="left-0 absolute w-full font-bold rounded-xl px-3 py-2" >{!error ? "Upload" : error}</button>
@@ -348,9 +348,9 @@ const CreatePost = () =>{
 
 								:
 
-								<div className="flex">
+								<div className="tablet-md:flex">
 									
-									<div className="w-1/2 p-5">
+									<div className="tablet-md:w-1/2 p-5">
 										{previewVideo
 											?
 
@@ -372,7 +372,7 @@ const CreatePost = () =>{
 
 												</div>
 											:
-											<div className="pb-4 w-11/12 bg-blink-black-2 h-[22rem] rounded-2xl flex justify-center items-center" >		
+											<div className="pb-4 tablet-md:w-11/12 bg-blink-black-2 h-[22rem] rounded-2xl flex justify-center items-center" >		
 
 												<label className="mx-auto text-blink-black-1 h-56 w-44 my-auto px-3 cursor-pointer" htmlFor="profile-input">
 													<span className=" text-[9rem] text-center rounded-full ">
@@ -394,7 +394,7 @@ const CreatePost = () =>{
 
 																
 
-									<div className="w-1/2 px-3 py-3">
+									<div className="tablet-md:w-1/2 px-3 py-3 mb-16 tablet-md:mb-0">
 
 										<div className="mb-4">
 

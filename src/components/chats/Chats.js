@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLeftLong } from '@fortawesome/free-solid-svg-icons'
+
 import ChatItems from './ChatItems';
 import {useState,useEffect} from 'react';
 
@@ -55,12 +58,14 @@ const Chats = ({activeChatId, handleActiveChatId}) =>{
 
 						<div className="suggestion-head border-b border-blink-black-2 px-4 py-2 text-sm flex justify-start">
 
-							<button className="mr-2" onClick={() => window.history.go(-1)} >{ "<<" }</button>
+							<button className="mr-2" onClick={() => window.history.go(-1)} ><FontAwesomeIcon icon={faLeftLong} /></button> &nbsp;
 
 							<button className="text-blink-gray-2" >chats</button>
 
 						</div>
+
 						<Search queryName={queryName} setQueryName={setQueryName}/>
+
 						<div className="chats overflow-y-auto h-[500px]">
 							
 							{userChats && userChats.map((userChat,index)=>{

@@ -1,6 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVideo } from '@fortawesome/free-solid-svg-icons'
 import { faPhone } from '@fortawesome/free-solid-svg-icons'
+import { faLeftLong } from '@fortawesome/free-solid-svg-icons'
+
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
@@ -25,8 +27,8 @@ const ChatBoxHeader = ({participant,handleActiveChatId}) =>{
 						<div className="flex" >
 
 							<button className="mr-2" onClick={()=>handleActiveChatId(null)}>
-								{"<<"}
-							</button>
+								<FontAwesomeIcon icon={faLeftLong} />
+							</button> &nbsp;
 
 							<Link to={`/profile/${participant._id}`} >
 

@@ -1,4 +1,4 @@
-import {createContext,useState,useReducer} from 'react'
+import {createContext,useReducer} from 'react'
 
 export const DialogContext = createContext()
 
@@ -11,6 +11,8 @@ const reducer = (state,action) =>{
 			return {...state , sharesVisibility:action.payload};
 		case 'FOLLOWERS':
 			return {...state, followersVisibility:action.payload};
+		case 'SETTING_MENU':
+			return {...state, settingMenuVisibility:action.payload};
 		default:
 			return state;
 
@@ -20,6 +22,7 @@ const initialState = {
 	commentsVisibility:false,
 	sharesVisibility: false,
 	followersVisibility: false,
+	settingMenuVisibility: false,
 }
 
 const DialogProvider = ({children}) => {
@@ -42,11 +45,17 @@ const DialogProvider = ({children}) => {
 		dispatch({type:'FOLLOWERS',payload:visibility})
 	}
 
+	const setSettingMenuVisibility = (visibility) =>{
+
+		dispatch({type:'SETTING_MENU',payload:visibility})
+	}
+
 	return(
 		<DialogContext.Provider value={{ 
 			setCommentsVisibility,
 			setSharesVisibility,
 			setfollowersVisibility,
+			setSettingMenuVisibility,
 			state 
 		}}>
 			{children}

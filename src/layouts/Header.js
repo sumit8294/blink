@@ -1,17 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../ReactResponsiveQueries';
-import { useEffect } from 'react';
-import { userLogout } from '../reducers/authSlice';
+import { useContext, useEffect } from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import useAuth from '../hooks/useAuth';
 import {selectUnseenChatsCount,fetchUnseenChatsCount} from '../reducers/chatSlice';
-
+import {fetchUnreadNotificationCount, selectUnreadNotificationCount} from '../reducers/notificationSlice'
+import {DialogContext} from '../store/DialogContext';
 
 const Header = () =>{
 
@@ -19,18 +19,22 @@ const Header = () =>{
 
 	const dispatch = useDispatch();
 	const {userId,token} = useAuth();
+	const param = useParams();
+	const {setSettingMenuVisibility,state} = useContext(DialogContext)
+
+	const page = param['*'].split('/')[0];
 
 	const unseenChatsCount = useSelector(selectUnseenChatsCount);
+	const unreadNotificationCount = useSelector(selectUnreadNotificationCount)
 
 	useEffect(()=>{
 		dispatch(fetchUnseenChatsCount({userId,token}));
+		dispatch(fetchUnreadNotificationCount({userId,token}));
 	},[])
 
-	const handleLogout = async () =>{
-
-		await dispatch(userLogout());
-		//resetStore(dispatch)
-		window.location.reload();
+	const openSettingMenu = () =>{
+		
+		setSettingMenuVisibility(!state.settingMenuVisibility)
 	}
 
 	return (
@@ -56,6 +60,25 @@ const Header = () =>{
 
 							</Link> */}
 
+
+							{page !== 'profile' &&
+
+							<Link to={`/notifications`}>
+
+								<span className="text-blink-blue-1 mx-4 text-2xl relative">
+
+									<FontAwesomeIcon icon={faCommentDots} />
+
+									{unreadNotificationCount > 0 && 
+										<span className=" absolute bottom-4 w-5 h-5 left-4 rounded-xl text-center text-sm bg-red-600 text-white">{unreadNotificationCount}</span>
+									}
+
+								</span>							
+
+							</Link>
+
+							}
+							
 							<Link to={`/messages`}>
 
 								<span className="text-blink-blue-1 mx-4 text-2xl relative">
@@ -70,13 +93,11 @@ const Header = () =>{
 
 							</Link>
 
-							
+							{page === 'profile'	&& <span onClick={openSettingMenu} className="text-blink-blue-1 mr-4 text-2xl">
 
-								<span onClick={handleLogout} className="text-blink-blue-1 mr-4 text-2xl">
+									<FontAwesomeIcon icon={faBars} />
 
-									<FontAwesomeIcon icon={faArrowRightFromBracket} />
-
-								</span>							
+								</span>	}						
 
 							
 

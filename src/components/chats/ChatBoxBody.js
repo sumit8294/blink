@@ -43,15 +43,16 @@ const ChatBoxBody = ({messages,participant,seen}) =>{
 						{messages && messages.map((messageItem,index)=>{
 							
 							if(messageItem.sender._id === userId){
-
-
+								let showProfile = (index < messages.length-1 && messages[index].sender._id === messages[index+1].sender._id ) ? false : true;
+								
 								return (
+									
 									<>
 										{messageItem.contentType === 'post' || messageItem.contentType === 'reel' ? (
-											
-											<PostsChats key={index} message={messageItem} userId={userId} />
 
-										) : (
+											<PostsChats key={index} message={messageItem} userId={userId} showProfile={showProfile}/>
+											
+										 ) : (
 
 										<>
 											<div key={index} className="flex justify-end right-0">
@@ -84,11 +85,11 @@ const ChatBoxBody = ({messages,participant,seen}) =>{
 
 											<div key={index} className="flex px-2 my-4" >
 
-												<div className=" post-image flex flex-col justify-start  px-2  overflow-hidden" >
+												{/* <div className=" post-image flex flex-col justify-start  px-2  overflow-hidden" >
 
 													<img className="w-7 h-7  rounded-2xl"  src={participant.profile} alt="images" />
 
-												</div>
+												</div> */}
 
 												<p className=" text-start bg-blink-gradient-5 px-2 rounded-2xl py-2">
 												{messageItem.content}</p>
@@ -120,7 +121,7 @@ const ChatBoxBody = ({messages,participant,seen}) =>{
 
 						{messages && messages.map((messageItem,index)=>{
 							
-							if(messageItem.sender === userId){
+							if(messageItem.sender._id === userId){
 
 								return (
 
@@ -165,11 +166,11 @@ const ChatBoxBody = ({messages,participant,seen}) =>{
 
 											<div key={index} className="flex px-2 my-4" >
 
-												<div className=" post-image flex flex-col justify-start  px-2  overflow-hidden" >
+												{/* <div className=" post-image flex flex-col justify-start  px-2  overflow-hidden" >
 
 													<img className="w-7 h-7  rounded-2xl"  src={participant.profile} alt="images" />
 
-												</div>
+												</div> */}
 
 												<p className=" text-start bg-blink-gradient-5 px-2 rounded-2xl py-2">
 												{messageItem.content}</p>

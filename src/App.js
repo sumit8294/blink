@@ -12,7 +12,7 @@ import {getAccessToken} from './reducers/authSlice';
 import {useSelector} from 'react-redux';
 import React from 'react';
 import SocketProvider from './store/SocketContext';
-
+import DialogProvider from './store/DialogContext';
 
 
 function App() {
@@ -25,11 +25,17 @@ function App() {
 					
 				<Route element={<PersistLogin />} >
 
-					<Route path="/signup" element={token ? <Navigate to="/" /> : <UserSignup />} />
-					<Route path="/login" element={token ? <Navigate to="/" /> : <UserLogin />} />
+					<Route path="/signup" element={token ? <Navigate to="/feed" /> : <UserSignup />} />
+					<Route path="/login" element={token ? <Navigate to="/feed" /> : <UserLogin />} />
 
 					<Route element={<RequiredAuth />}>
-						<Route path="*" element={<SocketProvider><Home /></SocketProvider>} />
+						<Route path="*" element={
+							<SocketProvider>
+								<DialogProvider>
+									<Home />
+								</DialogProvider>
+							</SocketProvider>} 
+						/>
 					</Route>
 
 				</Route>

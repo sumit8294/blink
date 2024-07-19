@@ -33,9 +33,9 @@ const UserProfile = () =>{
 
 							<UserPosts />
 
-							{state.followersVisibility && <Followers />}
-
 						</div>
+
+						{state.followersVisibility && <Followers />}
 
 					</>
 

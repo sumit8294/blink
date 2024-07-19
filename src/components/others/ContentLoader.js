@@ -8,17 +8,17 @@ import { faCircleDown } from '@fortawesome/free-regular-svg-icons'
 import React,{useEffect,useRef,useContext} from 'react';
 import {useParams} from 'react-router-dom';
 import {useSelector,useDispatch} from 'react-redux';
-import {getPosts, selectAllPosts,getPostStatus,getPostById,resetPosts} from '../../reducers/posts/postSlice';
-import {getReels, selectAllReels,getReelsStatus,getReelById,resetReels} from '../../reducers/reels/reelSlice';
+import { selectAllPosts,getPostById,resetPosts} from '../../reducers/posts/postSlice';
+import { selectAllReels,getReelsStatus,getReelById,resetReels} from '../../reducers/reels/reelSlice';
 import {getAccessToken} from '../../reducers/authSlice';
 import useAuth from '../../hooks/useAuth';
-import PostLoading from '../loading/PostLoading'
 import ReelPostItems from '../reels/ReelPostItems'
 import FeedPostItems from '../feeds/FeedPostItems'
 
 import Share from '../others/Share';
 import Comment from '../others/Comment';
 import {DialogContext} from '../../store/DialogContext';
+import { getComments } from '../../reducers/commentSlice';
 
 
 
@@ -29,6 +29,7 @@ const ContentLoader = () =>{
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
 	const {state} = useContext(DialogContext)
+	const {setCommentsVisibility} = useContext(DialogContext);
 
 	const token = useSelector(getAccessToken);
 	const posts = useSelector(selectAllPosts);
@@ -36,8 +37,7 @@ const ContentLoader = () =>{
 	
 	const {userId} = useAuth();
 	const dispatch = useDispatch();
-	const {contentType, contentId} = useParams();
-
+	const {contentType, contentId, notificationType} = useParams();
 
 	const fetchContent = () => {
 
@@ -94,8 +94,13 @@ const ContentLoader = () =>{
 
 	useEffect(()=>{
 		fetchContent()
+		if(notificationType === 'comment') {
+			dispatch(getComments({token,contentId,contentType}))
+			setCommentsVisibility(true)
+		}
 
 		return ()=>{
+			
 			dispatch(resetReels())
 			dispatch(resetPosts())
 		}

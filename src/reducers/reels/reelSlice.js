@@ -110,8 +110,11 @@ const reelSlice = createSlice({
 	name:"reels",
 	initialState,
 	reducers:{
-		resetReels: (state,action)=>{
-			state = initialState
+		resetReels: (state,action )=> {
+			state.reels = []
+			state.status = 'idle'
+			state.createStatus = 'idle'
+			state.error = null
 		}
 	},
 	extraReducers:(builder)=>{

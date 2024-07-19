@@ -2,13 +2,14 @@ import {Link} from 'react-router-dom';
 
 
 
-const PostsChats = ({message,userId}) =>{
-
+const PostsChats = ({message,userId,showProfile}) =>{
+	
 	return (
 		<>
 			{userId === message.sender._id
 
 			?
+			<div>
 				<div className=" flex justify-end px-2 py-1 right-0" >
 
 					<div className=" post-image my-auto w-32 rounded-xl text-center overflow-hidden" >
@@ -27,40 +28,45 @@ const PostsChats = ({message,userId}) =>{
 
 					</div>
 
-					<div className="flex flex-col justify-end  px-2  overflow-hidden" >
-
-						<img className="w-6 h-6 mobile-md:w-8 mobile-md:h-8 rounded-full tablet-sm:w-12 tablet-sm:h-12"  src={message.sender.profile} alt="images" />
-						
-					</div>					
+									
 				
 				</div>
 
-			:
+				{/* <div className="flex flex-col justify-end  px-2  overflow-hidden" >
 
-				<div className="tablet-sm:flex" >
+				{showProfile && <img className="w-6 h-6 mobile-md:w-8 mobile-md:h-8 rounded-full tablet-sm:w-12 tablet-sm:h-12"  src={message.sender.profile} alt="images" />}
+
+				</div>	 */}
+			</div>
+			:
+				<div>
 
 					<div className=" post-image flex flex-col justify-start mb-1 overflow-hidden" >
 
-						<img className="w-6 h-6 mobile-md:w-8 mobile-md:h-8 rounded-full tablet-sm:w-12 tablet-sm:h-12"  src={message.sender.profile} alt="images" />
+					{showProfile && <img className="w-6 h-6 mobile-md:w-8 mobile-md:h-8 rounded-full tablet-sm:w-12 tablet-sm:h-12"  src={message.sender.profile} alt="images" /> }
 
-					</div>					
+					</div>
 
-					<div className=" post-image my-auto w-24 rounded-xl text-center overflow-hidden mb-2 mobile-md:w-32 tablet-sm:mx-2 tablet-sm:w-40" >
+					<div className="tablet-sm:flex" >			
 
-						<Link to={`/content/${message.contentType}/${message.contentId}`}>
+						<div className=" post-image my-auto w-24 rounded-xl text-center overflow-hidden mb-2 mobile-md:w-32 tablet-sm:mx-2 tablet-sm:w-40" >
 
-						{message.contentType === 'post'
+							<Link to={`/content/${message.contentType}/${message.contentId}`}>
 
-						? <img className="w-full h-40 mobile-md:h-52 tablet-sm:h-64"  src={message.content} alt="images" />
+							{message.contentType === 'post'
 
-						: <video className="w-full h-40 mobile-md:h-52 tablet-sm:h-64" src={message.content}></video> 
+							? <img className="w-full h-40 mobile-md:h-52 tablet-sm:h-64"  src={message.content} alt="images" />
 
-						}
+							: <video className="w-full h-40 mobile-md:h-52 tablet-sm:h-64" src={message.content}></video> 
 
-						</Link>
+							}
 
-					</div>	
+							</Link>
 
+						</div>	
+
+
+					</div>
 
 				</div>
 

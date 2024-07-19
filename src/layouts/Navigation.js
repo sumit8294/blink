@@ -23,6 +23,7 @@ import useAuth from '../hooks/useAuth';
 
 import {resetStore} from '../store/index'
 import {selectUnseenChatsCount,fetchUnseenChatsCount} from '../reducers/chatSlice';
+import { fetchUnreadNotificationCount, selectUnreadNotificationCount } from '../reducers/notificationSlice'
 
 
 const navItems = [
@@ -55,11 +56,16 @@ const Navigation = () =>{
 	const dispatch = useDispatch();
 
 	const unseenChatsCount = useSelector(selectUnseenChatsCount);
-	const fetchUnseencount = () =>{
+	const unreadNotificationCount = useSelector(selectUnreadNotificationCount);
+
+
+	const fetchUnseencounts = () =>{
 		dispatch(fetchUnseenChatsCount({userId:loggedUserId,token}));
+		dispatch(fetchUnreadNotificationCount({userId:loggedUserId,token}));
 	}
+
 	useEffect(()=>{
-		fetchUnseencount()
+		fetchUnseencounts()
 	},[])
 
 
@@ -110,6 +116,10 @@ const Navigation = () =>{
 
 												{item.name === 'Messages' && unseenChatsCount > 0 && 
 													<span className=" absolute bottom-4 w-6 h-6 left-4 rounded-xl text-base bg-red-600 text-white">{unseenChatsCount}</span>
+												}
+
+												{item.name === 'Notifications' && unreadNotificationCount > 0 && 
+													<span className=" absolute bottom-4 w-6 h-6 left-4 rounded-xl text-base bg-red-600 text-white">{unreadNotificationCount}</span>
 												}
 
 											</span>

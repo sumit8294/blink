@@ -17,7 +17,7 @@ const BottomNavigation = () =>{
 
 	const params = useParams();
 
-	const {userId} = useAuth();
+	const {userId,profile} = useAuth();
 
 	useEffect( () => setActiveItem(params['*']) , [params] );
 
@@ -61,9 +61,9 @@ const BottomNavigation = () =>{
 
 						<span>
 
-							<div className="border-2 border-blink-blue-1 mx-auto w-8 h-8 rounded-full overflow-hidden">
+							<div className="mx-auto w-8 h-8 rounded-full overflow-hidden">
 					
-								<img className="" src='https://res.cloudinary.com/dzaklkjrk/image/upload/v1684937670/posts-and-profile/zyan.jpg' alt="user-story"/>		
+								<img className="" src={profile}  alt="user-story"/>		
 				
 							</div>
 
