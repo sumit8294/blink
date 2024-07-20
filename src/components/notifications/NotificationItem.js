@@ -12,7 +12,7 @@ const NotificationItem = ({notification}) =>{
 	const dispatch = useDispatch();
 
 	const setRead = () =>{
-		console.log("dfsd")
+		
 		dispatch(setNotificationsRead({userId,token}))
 	}
 
