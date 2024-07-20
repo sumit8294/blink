@@ -34,8 +34,6 @@ const Home = () =>{
 	const [isNoHeaderMobilePages,setNoHeaderMobilePages] = useState(false);
 	const [isNoNavigationMobilePages,setNoNavigationMobilePages] = useState(false);
 
-	console.log(state,state.settingMenuVisibility)
-
 	const params = useParams();
 	
 	useEffect(()=>{
