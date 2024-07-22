@@ -38,15 +38,18 @@ const Home = () =>{
 	
 	useEffect(()=>{
 		if(
-			params['*'] === 'reels' || 
+			params['*'] === 'reels' ||
 			params['*'] === 'messages' || 
 			params['*'] === 'content'
 
 		) setNoHeaderMobilePages(true);
 
 		else setNoHeaderMobilePages(false);
+		
 
 		if(params['*'] === 'messages') setNoNavigationMobilePages(true)
+
+		else setNoNavigationMobilePages(false)
 
 	},[params])
 

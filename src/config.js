@@ -1,11 +1,7 @@
-<<<<<<< HEAD
-export const baseApi = "https://blink-backend.onrender.com"
-=======
-// production
 
+// production
 export const baseApi = "https://blink-backend.onrender.com"
+
 
 // development
-
->>>>>>> develop
-// export const baseApi = "http://localhost:5000"
+// export const baseApi = "https://blink-backend.onrender.com"
