@@ -15,6 +15,7 @@ import useAuth from '../../hooks/useAuth'
 
 import { useMediaQuery } from 'react-responsive'
 import { mobileMediaQuery } from '../../ReactResponsiveQueries'
+import Loading from '../elements/Loading'
 
 
 const ReelPosts = () =>{
@@ -89,7 +90,7 @@ const ReelPosts = () =>{
 
 						})}
 
-						{reelsStatus === 'loading' && <p className="text-white">Loading</p>}
+						{reelsStatus === 'loading' && <Loading size={"50px"}/>}
 							
 					</div>
 
@@ -106,7 +107,7 @@ const ReelPosts = () =>{
 
 						})}
 
-						{reelsStatus === 'loading' && <p className="text-white">Loading</p>}
+						{reelsStatus === 'loading' && <Loading size={"50px"}/>}
 							
 					</div>
 

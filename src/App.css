@@ -46,4 +46,6 @@ body::-webkit-scrollbar{
   text-align: center;
 }
 
-
+video{
+  object-fit: cover;
+}

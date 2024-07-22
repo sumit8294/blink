@@ -4,7 +4,7 @@ import { useSelector,useDispatch } from 'react-redux'
 import { getSuggestions,selectAllSuggestions,selectUsersStatus } from '../../reducers/userSlice'
 import useAuth from '../../hooks/useAuth'
 import { useEffect } from 'react'
-
+import Loading from '../elements/Loading'
 
 
 const UserSuggestions = () =>{
@@ -38,7 +38,7 @@ const UserSuggestions = () =>{
 
 				})}
 
-				{usersStatus === 'loading' && <p>Loading...</p>}
+				{usersStatus === 'loading' && <Loading size={"50px"}/>}
 
 
 			</div>
