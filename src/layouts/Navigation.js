@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChartBar } from '@fortawesome/free-regular-svg-icons'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { faBell } from '@fortawesome/free-regular-svg-icons'
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
 import { faFilm } from '@fortawesome/free-solid-svg-icons'
 import { faGear } from '@fortawesome/free-solid-svg-icons'
@@ -24,7 +25,8 @@ import useAuth from '../hooks/useAuth';
 import {resetStore} from '../store/index'
 import {selectUnseenChatsCount,fetchUnseenChatsCount} from '../reducers/chatSlice';
 import { fetchUnreadNotificationCount, selectUnreadNotificationCount } from '../reducers/notificationSlice'
-
+import {selectPostsCount} from '../reducers/posts/postSlice'
+import { selectUserSuggestionCount } from '../reducers/userSlice'
 
 const navItems = [
 
@@ -32,10 +34,10 @@ const navItems = [
 	{name:"Reels",icon:faFilm},
 	{name:"Profile",icon:faUser},
 	{name:"Explore",icon:faMagnifyingGlass},
-	{name:"Create",icon:faFilm},
+	{name:"Create",icon:faCirclePlus},
 	{name:"Settings",icon:faGear},
 	{name:"Messages",icon:faEnvelope},
-	{name:"Notifications",icon:faCommentDots},
+	{name:"Notifications",icon:faBell},
 
 ]
 
@@ -49,24 +51,28 @@ const Navigation = () =>{
 
 	useEffect( () => setActiveItem(params['*']) , [params] );
 
-	const {notifyBarVisibility,setNotifyBarVisibility} = useContext(NotificationContext);
-
-	const handleNotifyBarVisibility = () => setNotifyBarVisibility(!notifyBarVisibility);
 
 	const dispatch = useDispatch();
 
 	const unseenChatsCount = useSelector(selectUnseenChatsCount);
 	const unreadNotificationCount = useSelector(selectUnreadNotificationCount);
+	const postCount = useSelector(selectPostsCount);
+	const suggestionCount = useSelector(selectUserSuggestionCount);
 
 
 	const fetchUnseencounts = () =>{
+		
 		dispatch(fetchUnseenChatsCount({userId:loggedUserId,token}));
 		dispatch(fetchUnreadNotificationCount({userId:loggedUserId,token}));
+		
 	}
 
 	useEffect(()=>{
-		fetchUnseencounts()
-	},[])
+		
+		if(postCount > 0 && suggestionCount > 0){
+			fetchUnseencounts()
+		}
+	},[postCount,suggestionCount])
 
 
 	const handleLogout = async () =>{

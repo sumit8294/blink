@@ -12,6 +12,7 @@ import useAuth from '../hooks/useAuth';
 import {selectUnseenChatsCount,fetchUnseenChatsCount} from '../reducers/chatSlice';
 import {fetchUnreadNotificationCount, selectUnreadNotificationCount} from '../reducers/notificationSlice'
 import {DialogContext} from '../store/DialogContext';
+import { selectUserPostsCount } from '../reducers/posts/postSlice';
 
 const Header = () =>{
 
@@ -26,11 +27,14 @@ const Header = () =>{
 
 	const unseenChatsCount = useSelector(selectUnseenChatsCount);
 	const unreadNotificationCount = useSelector(selectUnreadNotificationCount)
+	const postCount = useSelector(selectUserPostsCount)
 
 	useEffect(()=>{
-		dispatch(fetchUnseenChatsCount({userId,token}));
-		dispatch(fetchUnreadNotificationCount({userId,token}));
-	},[])
+		if(isMobileOrTablet && postCount > 0){
+			dispatch(fetchUnseenChatsCount({userId,token}));
+			dispatch(fetchUnreadNotificationCount({userId,token}));
+		}
+	},[postCount,isMobileOrTablet])
 
 	const openSettingMenu = () =>{
 		

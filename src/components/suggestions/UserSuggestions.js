@@ -4,7 +4,7 @@ import { useSelector,useDispatch } from 'react-redux'
 import { getSuggestions,selectAllSuggestions,selectUsersStatus } from '../../reducers/userSlice'
 import useAuth from '../../hooks/useAuth'
 import { useEffect } from 'react'
-import Loading from '../elements/Loading'
+import SuggestionLoading from '../loading/SuggestionLoading'
 
 
 const UserSuggestions = () =>{
@@ -22,7 +22,7 @@ const UserSuggestions = () =>{
 	},[])
 	return (
 		<>
-			<div className=" mr-2 ml-1 my-2 bg-blink-black-2 rounded-2xl">
+			<div className=" mr-2 ml-1 my-2 bg-blink-black-2 rounded-2xl pb-4">
 
 				<div className="suggestion-head py-3 px-3 text-sm flex justify-between">
 
@@ -38,7 +38,7 @@ const UserSuggestions = () =>{
 
 				})}
 
-				{usersStatus === 'loading' && <Loading size={"50px"}/>}
+				{usersStatus === 'loading' && <SuggestionLoading />}
 
 
 			</div>

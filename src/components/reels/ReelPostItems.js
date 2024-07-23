@@ -62,9 +62,11 @@ let ReelPostItems = ({reel,reelId,reelRef}) => {
 
 								<ReelPostUser user={reel.user}/>
 
-								{/* <ReelPostDiscription reel={reel} /> */}
-						{reel.mutualLikes.length > 0 && <FeedPostLikes mutualLikes={reel.mutualLikes} likeCount={reel.reactions.likes}/>}
+								{reel.mutualLikes.length > 0 &&
+									<FeedPostLikes mutualLikes={reel.mutualLikes} likeCount={reel.reactions.likes}/>
+								}
 
+								<ReelPostDiscription reel={reel} />
 
 							</div>
 
@@ -94,9 +96,12 @@ let ReelPostItems = ({reel,reelId,reelRef}) => {
 
 								<ReelPostUser user={reel.user}/>
 
-								{/* <ReelPostDiscription reel={reel} /> */}
+								{reel.mutualLikes.length > 0 && 
+									<FeedPostLikes mutualLikes={reel.mutualLikes} likeCount={reel.reactions.likes}/>
+								}
 
-						{reel.mutualLikes.length > 0 && <FeedPostLikes mutualLikes={reel.mutualLikes} likeCount={reel.reactions.likes}/>}
+								<ReelPostDiscription reel={reel} />
+
 
 
 							</div>

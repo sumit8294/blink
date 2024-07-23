@@ -227,6 +227,7 @@ export const selectUserPosts = (state) => state.posts.userPosts;
 export const getPostStatus = (state) => state.posts.status;
 export const getCreatePostStatus = state => state.posts.createStatus
 export const selectUserPostsCount = state => state.posts.userPosts.length
+export const selectPostsCount = state => state.posts.posts.length
 export const {resetPosts} = postSlice.actions
 
 export default postSlice.reducer;

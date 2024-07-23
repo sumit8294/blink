@@ -3,12 +3,20 @@ import { faPaperPlane } from '@fortawesome/free-regular-svg-icons'
 
 import { useMediaQuery } from 'react-responsive'
 import {mobileMediaQuery} from '../../ReactResponsiveQueries'
+import { useContext, useState } from 'react'
+import { DialogContext } from '../../store/DialogContext'
 
 
 const FeedPostComments = ({post}) =>{
 
-
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery)
+	const { setCommentsVisibility } = useContext(DialogContext)
+
+	const handleCommentVisibility = () =>{
+		setCommentsVisibility(true)
+	}
+
+	
 
 	return (
 		
@@ -16,7 +24,7 @@ const FeedPostComments = ({post}) =>{
 			{isMobileOrTablet 
 				?
 				<>
-						<div className="mb-1 ">
+						<div className="mb-1 pb-4">
 
 							<div className="likes relative text-[0.8rem] px-2 mobile-md:text-[0.950rem] mobile-md:px-3 mobile-lg:text-[1.1rem] tablet-sm:text-[0.950rem]">
 								
@@ -34,32 +42,42 @@ const FeedPostComments = ({post}) =>{
 
 								</span>
 
-								<span className="block text-blink-gray-1"> 
+								<ul>
+								{post.comments && post.comments.map((commentItem,index)=>{
 
-									<button className="opacity-50">View all comments</button>
+									return(
+										<li key={index}>
+											<div  className="mb-0.5 text-blink-gray-1 flex">
 
-								</span>
+												<div className="inline-block w-4 h-4 rounded-full overflow-hidden" >
 
-								<span className="block  text-blink-gray-1"> 
-									
-									<span className="font-bold text-white"> ranveersingh </span>
+													<img className="" style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={commentItem.user.profile} alt="comments" />
 
-									<span>	silence is just... </span>
+												</div>
+												
+												<div>
+													<span className="font-semibold text-white"> {commentItem.user.username} </span>
 
-								</span>
-								
-								<span className="block  text-blink-gray-1"> 
-									
-									<span className="font-bold text-white"> yoyohoneysingh </span>
+													<span>	{commentItem.content} </span>
+												</div>
 
-									<span>	Unforgettable. Thank you for having </span>
+											</div>
+										</li>
+									)
 
-								</span>
+								})}
+								</ul>
+
+								{post.comments?.length > 0 && <span className="block text-blink-gray-1"> 
+
+									<button className="opacity-50" onClick={handleCommentVisibility}>View all comments</button>
+
+								</span>}
 						
 							</div>
 						
 
-							<div className="add-comment hidden rounded  justify-between">
+							{/* <div className="add-comment rounded justify-between">
 
 								<div className="text-[12px] ">
 
@@ -81,14 +99,14 @@ const FeedPostComments = ({post}) =>{
 								
 								</div>
 							
-							</div>
+							</div> */}
 
 						</div>
 
 				</>
 				:
 				<>
-				<div className="post-comments rounded  justify-between">
+				<div className="post-comments rounded  justify-between pb-4">
 
 						<div className="text-[0.950rem]">
 
@@ -105,12 +123,6 @@ const FeedPostComments = ({post}) =>{
 										<button className="opacity-50"> more </button>			
 								
 									</span>
-
-								</span>
-
-								<span className="block text-blink-gray-1"> 
-
-									<button className="opacity-50">View all comments</button>
 
 								</span>
 
@@ -138,11 +150,17 @@ const FeedPostComments = ({post}) =>{
 								})}
 								</ul>
 
+								{post.comments?.length > 0 && <span className="block text-blink-gray-1"> 
+
+									<button className="opacity-50" onClick={handleCommentVisibility} >View all comments</button>
+
+								</span>}
+
 							</div>
 						
 						</div>
 
-						<div className="add-comment rounded justify-between laptop-lg:pb-3">
+						{/* <div className="add-comment rounded justify-between laptop-lg:pb-3">
 
 							<div className="text-[1rem] ">
 
@@ -150,9 +168,14 @@ const FeedPostComments = ({post}) =>{
 									
 									<div className=" w-full text-[#dbdbdb] flex overflow-x-auto ">
 										
-										<input className="px-1 py-1 w-10/12 bg-blink-black-1 focus:outline-none " type="text" placeholder="Add a comment..."/>
+										<input 
+											className="px-1 py-1 w-10/12 bg-blink-black-1 focus:outline-none " 
+											type="text" 
+											placeholder="Add a comment..."
+											
+											/>
 										
-										<button className="px-3 w-2/12">
+										<button className="px-3 w-2/12" >
 											
 											<FontAwesomeIcon icon={faPaperPlane} />
 										
@@ -164,7 +187,7 @@ const FeedPostComments = ({post}) =>{
 							
 							</div>
 						
-						</div>
+						</div> */}
 
 					</div>
 				</>

@@ -94,6 +94,7 @@ const userSlice = createSlice({
 export const selectAllSuggestions = state => state.users.suggestions
 export const selectUsersStatus = state => state.users.status
 export const selectUserDetails = state => state.users.userDetails
+export const selectUserSuggestionCount = state => state.users.suggestions.length
 
 export const { setIsFollowing, setIsFollowingSuggesstions, resetUser } = userSlice.actions
 export default userSlice.reducer;

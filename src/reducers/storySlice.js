@@ -44,9 +44,17 @@ export const getFollowingStories = createAsyncThunk('story/getFollowingStories',
 	}
 })
 
-export const getFollowingActiveStories = createAsyncThunk('story/getFollowingActiveStories', async ({loggedInUser,tokend})=>{
+export const getFollowingActiveStories = createAsyncThunk('story/getFollowingActiveStories', async ({loggedInUser,token})=>{
 	try{
-		const response = await axios.get(`${baseApi}/stories/following/active/${loggedInUser}`);
+		const response = await axios.get(
+			`${baseApi}/stories/following/active/${loggedInUser}`,
+			{
+				withCredentials:true,
+				headers: {
+					Authorization : `Bearer ${token}`
+				}
+			}
+		);
 		return response.data;
 	}
 	catch(error){

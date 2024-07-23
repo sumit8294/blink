@@ -37,7 +37,7 @@ const ChatBoxBody = ({messages,participant,seen}) =>{
 				?
 				<>
 
-					<div ref={divRef} className=" w-full h-[500px] overflow-y-auto px-1 text-[0.9rem] py-14 mobile-md:px-2 mobile-md:text-[1rem] mobile-lg:text-[1.2rem] tablet-sm:py-24 tablet-sm:px-4 tablet-sm:text-[1.4rem]">
+					<div ref={divRef} className=" w-full h-[100vh] overflow-y-auto px-1 text-[0.9rem] py-14 mobile-md:px-2 mobile-md:text-[1rem] mobile-lg:text-[1.2rem] tablet-sm:py-24 tablet-sm:px-4 tablet-sm:text-[1.4rem]">
 
 						
 						{messages && messages.map((messageItem,index)=>{
