@@ -75,7 +75,11 @@ const BottomNavigation = () =>{
 
 							<div className="mx-auto w-8 h-8 rounded-full overflow-hidden">
 					
-								<img className="" src={profile}  alt="user-story"/>		
+	{profile 
+		? <img className="" src={profile}  alt="user-story"/>	
+	        : <img src="https://res.cloudinary.com/dzaklkjrk/image/upload/v1709810476/posts-and-profile/temp-user_o7kzmj.png" alt="profile"/>
+												}
+	
 				
 							</div>
 
