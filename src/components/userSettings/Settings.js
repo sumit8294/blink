@@ -203,7 +203,7 @@ const Settings = () =>{
 
 											<label className="text-blink-blue-1 my-auto px-3 cursor-pointer" htmlFor="profile-input">Change Profile</label>
 
-											<input type="file" id="profile-input" style={{ display: 'none' }} />
+											<input type="file" id="profile-input" onChange={handleFileInput} style={{ display: 'none' }} />
 
 										</div>
 
