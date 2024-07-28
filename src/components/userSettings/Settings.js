@@ -141,11 +141,15 @@ const Settings = () =>{
 	useEffect(()=>{
 		
 		if (!userSettings) return;
-		dispatch(getSettings({userId,token}))
+		
 		setBio(userSettings.bio);
 		setName(userSettings.username)
 		setPreview(userSettings.profile)
 	},[userSettings])
+
+	useEffect(()=>{
+		dispatch(getSettings({userId,token}))
+	},[])
 
 	useEffect(()=>{
 		if(status !== 'updated') return;
