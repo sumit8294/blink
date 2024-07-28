@@ -38,7 +38,7 @@ const Messages = () =>{
 
 								{!activeChatId && !chatInfo && <Chats activeChatId={activeChatId} handleActiveChatId={handleActiveChatId} />}
 								
-								{activeChatId && !chatInfo && <ChatBox activeChatId={activeChatId} handleActiveChatId={handleActiveChatId} />}
+								{activeChatId && <ChatBox activeChatId={activeChatId} handleActiveChatId={handleActiveChatId} />}
 
 		                                                {!activeChatId && chatInfo && <ChatBox chatInfo={chatInfo} activeChatId={null} handleActiveChatId={handleActiveChatId} />}			
 						</div>
