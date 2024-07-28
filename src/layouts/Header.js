@@ -34,7 +34,7 @@ const Header = () =>{
 			dispatch(fetchUnseenChatsCount({userId,token}));
 			dispatch(fetchUnreadNotificationCount({userId,token}));
 		}
-	},[postCount,isMobileOrTablet])
+	},[postCount])
 
 	const openSettingMenu = () =>{
 		
