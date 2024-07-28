@@ -106,8 +106,10 @@ const Share = () =>{
 
 									<div className=" my-2 rounded-full w-12 h-12 overflow-hidden">
 
-										<img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={receiver.profile} alt="user" />
-
+		{ receiver.profile 
+								? <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={receiver.profile} alt="user" />
+: <img src="https://res.cloudinary.com/dzaklkjrk/image/upload/v1709810476/posts-and-profile/temp-user_o7kzmj.png" alt="profile"/>
+												}
 									</div>
 
 									<div className="flex-grow px-6 py-4 text-[18px] font-semibold">
