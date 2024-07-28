@@ -27,14 +27,14 @@ const Header = () =>{
 
 	const unseenChatsCount = useSelector(selectUnseenChatsCount);
 	const unreadNotificationCount = useSelector(selectUnreadNotificationCount)
-	const postCount = useSelector(selectUserPostsCount)
+	//const postCount = useSelector(selectUserPostsCount)
 
 	useEffect(()=>{
-		if(isMobileOrTablet && postCount > 0){
+		
 			dispatch(fetchUnseenChatsCount({userId,token}));
 			dispatch(fetchUnreadNotificationCount({userId,token}));
-		}
-	},[postCount])
+		
+	},[])
 
 	const openSettingMenu = () =>{
 		
