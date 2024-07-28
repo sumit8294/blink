@@ -9,6 +9,7 @@ import {useDispatch,useSelector} from 'react-redux';
 import {
 	getActiveChatId,
 	setActiveChatId,
+	getChatInfo
 } from '../../reducers/chatSlice';
 
 const Messages = () =>{
@@ -16,6 +17,8 @@ const Messages = () =>{
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 	
 	const activeChatId = useSelector(getActiveChatId);
+
+	const chatInfo = useSelector(getChatInfo)
 	
 	const dispatch = useDispatch();
 	  
@@ -33,10 +36,11 @@ const Messages = () =>{
 
 						<div className="flex justify-between">
 
-								{!activeChatId && <Chats activeChatId={activeChatId} handleActiveChatId={handleActiveChatId} />}
+								{!activeChatId && !chatInfo && <Chats activeChatId={activeChatId} handleActiveChatId={handleActiveChatId} />}
 								
-								{activeChatId && <ChatBox activeChatId={activeChatId} handleActiveChatId={handleActiveChatId} />}
+								{activeChatId && !chatInfo && <ChatBox activeChatId={activeChatId} handleActiveChatId={handleActiveChatId} />}
 
+		                                                {!activeChatId && chatInfo && <ChatBox chatInfo={chatInfo} activeChatId={null} handleActiveChatId={handleActiveChatId} />}			
 						</div>
 
 					</div>
