@@ -26,13 +26,19 @@ const Feed = () =>{
 	const postsRef = useRef();
 	const { userId, token } = useAuth();
 
-	const handleScroll = (event) => {
-		const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
-			
-		if (scrollHeight - scrollTop <= clientHeight){
-			dispatch(getPosts({token,userId,count:10}));
-		}
-	}
+	const [loading, setLoading] = useState(false);
+
+  const handleScroll = useCallback((event) => {
+    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+
+    if (scrollHeight - scrollTop <= clientHeight + 800) { // Added buffer for preloading
+      if (!loading) {
+        setLoading(true);
+        dispatch(getPosts({ token, userId, count: 10 }))
+          .finally(() => setLoading(false)); // Reset loading state after fetch
+      }
+    }
+  }, [dispatch, token, userId, loading]);
 	
 	return (
 		<>
