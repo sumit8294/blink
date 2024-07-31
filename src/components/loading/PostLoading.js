@@ -1,3 +1,4 @@
+import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
 const PostLoading = () =>{
