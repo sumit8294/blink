@@ -12,7 +12,7 @@ import { useContext, useCallback } from 'react';
 import {DialogContext} from '../../store/DialogContext';
 
 import { getPosts, getPostStatus } from  '../../reducers/posts/postSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../../hooks/useAuth';
 
 
