@@ -8,7 +8,7 @@ import Comment from '../others/Comment';
 import Share from '../others/Share';
 
 
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useCallback } from 'react';
 import {DialogContext} from '../../store/DialogContext';
 
 import { getPosts } from  '../../reducers/posts/postSlice';
