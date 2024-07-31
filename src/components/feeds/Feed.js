@@ -8,10 +8,10 @@ import Comment from '../others/Comment';
 import Share from '../others/Share';
 
 
-import { useContext, useRef, useCallback } from 'react';
+import { useContext, useCallback } from 'react';
 import {DialogContext} from '../../store/DialogContext';
 
-import { getPosts } from  '../../reducers/posts/postSlice';
+import { getPosts, getPostStatus } from  '../../reducers/posts/postSlice';
 import { useDispatch } from 'react-redux';
 import useAuth from '../../hooks/useAuth';
 
@@ -23,22 +23,22 @@ const Feed = () =>{
 	const {state} = useContext(DialogContext);
 
 	const dispatch = useDispatch();
-	const postsRef = useRef();
+	
 	const { userId, token } = useAuth();
 
-	const [loading, setLoading] = useState(false);
+	const postStatus = useSelector(getPostStatus)
 
   const handleScroll = useCallback((event) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
 
     if (scrollHeight - scrollTop <= clientHeight + 800) { // Added buffer for preloading
-      if (!loading) {
-        setLoading(true);
+      if (postStatus !== 'loading' ) {
+        
         dispatch(getPosts({ token, userId, count: 10 }))
-          .finally(() => setLoading(false)); // Reset loading state after fetch
+          
       }
     }
-  }, [dispatch, token, userId, loading]);
+  }, [dispatch, token, userId, postStatus]);
 	
 	return (
 		<>
