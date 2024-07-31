@@ -8,9 +8,13 @@ import Comment from '../others/Comment';
 import Share from '../others/Share';
 
 
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import {DialogContext} from '../../store/DialogContext';
- 
+
+import { getPosts } from  '../../reducers/posts/postSlice';
+import { useDispatch } from 'react-redux';
+import useAuth from '../../hooks/useAuth';
+
 
 const Feed = () =>{
 	
@@ -18,11 +22,23 @@ const Feed = () =>{
 
 	const {state} = useContext(DialogContext);
 
+	const dispatch = useDispatch();
+	const postsRef = useRef();
+	const { userId, token } = useAuth();
+
+	const handleScroll = (event) => {
+		const { scrollTop, scrollHeight, clientHeight } = event.currentTarget
+			
+		if (scrollHeight - scrollTop <= clientHeight){
+			dispatch(getPosts({token,userId,count:10}));
+		}
+	}
+	
 	return (
 		<>
 			{isMobileOrTablet ?
 				<> 
-					<div className="mobile text-white justify-center bg-blink-black-1 h-screen overflow-y-auto tablet-sm:px-3 tablet-md:px-6">
+					<div onScroll={handleScroll} className="mobile text-white justify-center bg-blink-black-1 h-screen overflow-y-auto tablet-sm:px-3 tablet-md:px-6">
 
 						<Stories />
 
@@ -42,7 +58,7 @@ const Feed = () =>{
 
 						<div className=" mx-2 my-2 overflow-hidden laptop-lg:bg-blink-black-2 laptop-lg:py-4 drop-shadow-2xl rounded-2xl ">
 
-							<div className="custom-scroll justify-center h-screen overflow-y-auto laptop-lg:py-4 ">
+							<div onScroll={handleScroll} className="custom-scroll justify-center h-screen overflow-y-auto laptop-lg:py-4 ">
 
 								<Stories />
 
