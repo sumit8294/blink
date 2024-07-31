@@ -45,7 +45,8 @@ const ReelPosts = () =>{
   		}
   	}
 
-  	let previousVideo = reelRefsArray.current[0]
+  	//let previousVideo = reelRefsArray.current[0]
+	const previousVideoRef = useRef(null); 
   	const playCurrentVideo = () => {
   		
 	    const container = containerRef.current
@@ -57,15 +58,15 @@ const ReelPosts = () =>{
 	    
 	    
 		    if (currentVideo && currentVideo.currentTime === 0) {
-		    	if(previousVideo){
-			    	previousVideo.pause()
-					previousVideo.currentTime = 0
+		    	if(previousVideoRef.current){
+			    	previousVideoRef.current.pause()
+					previousVideoRef.current.currentTime = 0
 		    	}
 		    	currentVideo.play()
 		    	.then(success => {})
 				.catch(error => {})
 
-		    	previousVideo = currentVideo
+		    	previousVideoRef.current = currentVideo
 		    }
 
 	}
@@ -81,12 +82,17 @@ const ReelPosts = () =>{
           
       }
     }
-  }, [dispatch, token, userId, reelsStatus]);
+  }, [dispatch, token, userId, reelsStatus, playCurrentVideo]);
 
 	useEffect(()=>{
 		fetchReels()
-  		playCurrentVideo()
   	},[]);
+
+	useEffect(() => {
+    if (reels.length > 0) {
+      playCurrentVideo();
+    }
+  }, [reels, playCurrentVideo]);
 
 	return (
 
