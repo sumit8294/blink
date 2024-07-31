@@ -14,7 +14,7 @@ const PostLoading = () =>{
 					<div className="rounded-2xl my-auto bg-slate-200 h-6 w-1/2"></div>
 				</div>
 
-				<div className="rounded-2xl flex bg-slate-200 space-x-10 w-[80%] tablet-sm:w-[22rem] h-[22rem]" >	
+				<div className="rounded-2xl flex bg-slate-200 space-x-10 w-full tablet-sm:w-[22rem] h-[22rem]" >	
 					
 				</div>
 
