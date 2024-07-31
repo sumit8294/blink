@@ -123,7 +123,7 @@ const reelSlice = createSlice({
 		})
 		.addCase(getReels.fulfilled,(state,action)=>{
 			state.status = 'succeeded'
-			state.reels = action.payload
+			state.reels.push(...action.payload)
 		})
 		.addCase(getReels.rejected,(state,action)=>{
 			state.status = 'failed'
