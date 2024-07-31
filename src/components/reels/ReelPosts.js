@@ -3,7 +3,7 @@ import { faCircleUp } from '@fortawesome/free-regular-svg-icons'
 import { faCircleDown } from '@fortawesome/free-regular-svg-icons'
 
 import ReelPostItems from './ReelPostItems'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 import axios from 'axios'
 import { useSelector,useDispatch } from 'react-redux'
 import { 
@@ -70,6 +70,19 @@ const ReelPosts = () =>{
 
 	}
 
+	const handleScroll = useCallback((event) => {
+		playCurrentVideo();
+    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+
+    if (scrollHeight - scrollTop <= clientHeight + 800) { // Added buffer for preloading
+      if (reelsStatus !== 'loading' ) {
+        
+        fetchReels()
+          
+      }
+    }
+  }, [dispatch, token, userId, reelsStatus]);
+
 	useEffect(()=>{
 		fetchReels()
   		playCurrentVideo()
@@ -82,7 +95,7 @@ const ReelPosts = () =>{
 
 				<>
 
-					<div ref={containerRef} onScroll={playCurrentVideo} className=" duration-700 reel-posts mx-auto h-screen snap-y snap-mandatory overflow-y-auto tablet-sm:w-[24rem]" >
+					<div ref={containerRef} onScroll={handleScroll} className=" duration-700 reel-posts mx-auto h-screen snap-y snap-mandatory overflow-y-auto tablet-sm:w-[24rem]" >
 
 						{reels?.length > 0 && reels.map((reel,index)=>{
 
@@ -99,7 +112,7 @@ const ReelPosts = () =>{
 				:
 
 				<>
-					<div ref={containerRef} onScroll={playCurrentVideo} className="duration-700 reel-posts laptop-lg:py-10 laptop-lg:px-2 mx-auto laptop-lg:mb-10 h-screen snap-y snap-mandatory overflow-y-auto laptop-sm:w-[26rem] laptop-lg:w-[22rem]" >
+					<div ref={containerRef} onScroll={handleScroll} className="duration-700 reel-posts laptop-lg:py-10 laptop-lg:px-2 mx-auto laptop-lg:mb-10 h-screen snap-y snap-mandatory overflow-y-auto laptop-sm:w-[26rem] laptop-lg:w-[22rem]" >
 
 						{reels?.length > 0 && reels.map((reel,index)=>{
 
