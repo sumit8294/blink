@@ -20,7 +20,7 @@ const ExplorePosts = () =>{
 	const explorePosts = useSelector(selectAllPosts)
 
 	const fetchPosts = () => {
-		dispatch(getPosts({userId,token}))
+		dispatch(getPosts({userId,token,count:25}))
 	}
 
 	useEffect(()=>{
