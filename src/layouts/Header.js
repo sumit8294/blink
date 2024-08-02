@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
+import { faBell } from '@fortawesome/free-regular-svg-icons'
 import {Link, useParams} from 'react-router-dom';
 
 import { useMediaQuery } from 'react-responsive';
@@ -71,7 +71,7 @@ const Header = () =>{
 
 								<span className="text-blink-blue-1 mx-4 text-2xl relative">
 
-									<FontAwesomeIcon icon={faCommentDots} />
+									<FontAwesomeIcon icon={faBell} />
 
 									{unreadNotificationCount > 0 && 
 										<span className=" absolute bottom-4 w-5 h-5 left-4 rounded-xl text-center text-sm bg-red-600 text-white">{unreadNotificationCount}</span>
@@ -87,7 +87,7 @@ const Header = () =>{
 
 								<span className="text-blink-blue-1 mx-4 text-2xl relative">
 
-									<FontAwesomeIcon icon={faEnvelope} />
+									<FontAwesomeIcon icon={faCommentDots} />
 
 									{unseenChatsCount > 0 && 
 										<span className=" absolute bottom-4 w-5 h-5 left-4 rounded-xl text-center text-sm bg-red-600 text-white">{unseenChatsCount}</span>
