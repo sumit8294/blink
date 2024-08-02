@@ -10,7 +10,7 @@ const ReelPostDiscription = ({reel}) =>{
 			{isMobileOrTablet
 				?
 					<>
-						<div className="likes flex px-2 mobile-md:px-3 mb-4 tablet-sm:px-4  tablet-sm:text-[1rem] text-start">
+						<div className="likes text-[12px] flex px-2 mobile-md:px-3 mb-4 tablet-sm:px-4  tablet-sm:text-[1rem] text-start">
 							<span className=" font-semibold text-white">
 
 								{reel.title}
