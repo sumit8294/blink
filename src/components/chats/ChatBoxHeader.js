@@ -7,11 +7,22 @@ import { faLeftLong } from '@fortawesome/free-solid-svg-icons'
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
+import { 
+	setChatInfo,
+} from '../../reducers/chatSlice';
+import { useDispatch } from 'react-redux';
+
 import {Link} from 'react-router-dom';
 
 const ChatBoxHeader = ({participant,handleActiveChatId}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
+
+	const dispatch = useDispatch();
+	const handleBackClick = () => {
+		dispatch(setChatInfo(null))
+		handleActiveChatId(null)
+	}
 
 
 	return (
@@ -26,7 +37,7 @@ const ChatBoxHeader = ({participant,handleActiveChatId}) =>{
 
 						<div className="flex" >
 
-							<button className="mr-2" onClick={()=>handleActiveChatId(null)}>
+							<button className="mr-2" onClick={handleBackClick}>
 								<FontAwesomeIcon icon={faLeftLong} />
 							</button> &nbsp;
 
