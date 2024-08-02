@@ -62,7 +62,7 @@ const ChatBoxInput = ({participant,activeChatId,handleActiveChatId}) =>{
 				dispatch(fetchChatMessages({userId,token,chatId:activeChatId}))
 			}
 		}
-	},[shareStatus])
+	},[shareStatus,newChatId,activeChatId])
 
 	useEffect(()=>{
 		if(textMessage.length > 0 && disableSend === true){
