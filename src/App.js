@@ -13,7 +13,7 @@ import {useSelector} from 'react-redux';
 import React from 'react';
 import SocketProvider from './store/SocketContext';
 import DialogProvider from './store/DialogContext';
-
+import PeerProvider from './store/PeerContext';
 
 function App() {
 
@@ -31,9 +31,11 @@ function App() {
 					<Route element={<RequiredAuth />}>
 						<Route path="*" element={
 							<SocketProvider>
-								<DialogProvider>
-									<Home />
-								</DialogProvider>
+								<PeerProvider>
+									<DialogProvider>
+										<Home />
+									</DialogProvider>
+								</PeerProvider>
 							</SocketProvider>} 
 						/>
 					</Route>

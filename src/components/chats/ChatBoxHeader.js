@@ -2,26 +2,48 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVideo } from '@fortawesome/free-solid-svg-icons'
 import { faPhone } from '@fortawesome/free-solid-svg-icons'
 import { faLeftLong } from '@fortawesome/free-solid-svg-icons'
+import { faVideoSlash } from '@fortawesome/free-solid-svg-icons'
 
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
 
 import {Link} from 'react-router-dom';
+import {useState} from 'react'
+import { usePeer } from '../../store/PeerContext';
 
-const ChatBoxHeader = ({participant,handleActiveChatId}) =>{
+
+
+const ChatBoxHeader = ({
+	participant,
+	handleActiveChatId,
+}) =>{
 
 	const isMobileOrTablet = useMediaQuery(mobileMediaQuery);
 
+	const {
+		setCaller,
+		setCallConfirmDialog, 
+		setPeerType, 
+		isConnected,
+		disconnectCall
+	} = usePeer()
+	
+	const handleCall = () => {
+		setCaller(participant);
+		setCallConfirmDialog(true)
+		setPeerType("caller")
+	}
 
 	return (
 
 		<>
+			
 			{isMobileOrTablet
 				?
 				<>
 
-					{participant && <div className="w-full flex justify-between px-4 py-1 border-b border-blink-black-2 fixed top-0 bg-blink-black-1 tablet-sm:py-2 tablet-sm:text-[1.6rem]">
+					{participant && <div className="w-full z-20 flex justify-between px-4 py-1 border-b border-blink-black-2 fixed top-0 bg-blink-black-1 tablet-sm:py-2 tablet-sm:text-[1.6rem]">
 
 
 						<div className="flex" >
@@ -56,10 +78,12 @@ const ChatBoxHeader = ({participant,handleActiveChatId}) =>{
 
 						</div>
 
-						<div className="contact-options cursor-pointer flex py-2">
+						{!isConnected 
+						
+						? <div className="contact-options cursor-pointer flex py-2">
 							
 							<span className="px-2 mr-1">
-								<button>
+								<button onClick={handleCall}>
 									<FontAwesomeIcon icon={faVideo} />
 								</button>
 							</span>
@@ -71,6 +95,16 @@ const ChatBoxHeader = ({participant,handleActiveChatId}) =>{
 							</span>
 
 						</div>
+
+						: <div onClick={disconnectCall} className="contact-options cursor-pointer flex py-1">
+							<span className="px-2 mr-1  border-2 border-red-800 rounded-xl bg-red-600">
+								<button>
+									<FontAwesomeIcon icon={faVideoSlash} />
+								</button>
+								<span className='text-[12px] '> End Call</span>
+							</span>
+						</div>
+					}	
 							
 					</div>}
 				</>
@@ -78,7 +112,7 @@ const ChatBoxHeader = ({participant,handleActiveChatId}) =>{
 				:
 
 				<>
-					{participant && <div className="flex justify-between px-4 py-1 border-b border-blink-black-2">
+					{participant && <div className="relative z-20 flex justify-between px-4 py-1 border-b border-blink-black-2">
 
 						<Link to={`/profile/${participant._id}`} >
 
@@ -104,22 +138,34 @@ const ChatBoxHeader = ({participant,handleActiveChatId}) =>{
 
 						</Link >
 
-						<div className="contact-options cursor-pointer flex py-2">
-							
-							<span className="px-2 mr-1">
-								<button>
-									<FontAwesomeIcon icon={faVideo} />
-								</button>
-							</span>
+						{!isConnected 
+						
+							? <div className="contact-options cursor-pointer flex py-2">
+								
+								<span className="px-2 mr-1">
+									<button onClick={handleCall}>
+										<FontAwesomeIcon icon={faVideo} />
+									</button>
+								</span>
 
-							<span className="px-2">
-								<button>
-									<FontAwesomeIcon icon={faPhone} />
-								</button>
-							</span>
+								<span className="px-2">
+									<button>
+										<FontAwesomeIcon icon={faPhone} />
+									</button>
+								</span>
 
-						</div>
-							
+							</div>
+
+							: <div onClick={disconnectCall} className="contact-options cursor-pointer flex py-1">
+								<span className="px-2 mr-1  border-2 border-red-800 rounded-xl bg-red-600">
+									<button>
+										<FontAwesomeIcon icon={faVideoSlash} />
+									</button>
+									<span className='text-[12px] '> End Call</span>
+								</span>
+							</div>
+						}	
+
 					</div>}
 				</>
 

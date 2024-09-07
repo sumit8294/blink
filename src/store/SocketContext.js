@@ -6,7 +6,6 @@ import {useDispatch,useSelector} from 'react-redux';
 import {
 	fetchChatMessages,
 	getActiveChatId,
-	setActiveChatId,
 	getChatsByUserId,
 	fetchUnseenChatsCount
 } from '../reducers/chatSlice';
@@ -84,6 +83,7 @@ const SocketProvider = ({children}) =>{
 		socket.emit('lastMessageSeened',{chatId,sender})
 		
 	}
+
 
     return <SocketContext.Provider value={{socket,onlineUsers,emitLastMessageSeened}}>
         {children}

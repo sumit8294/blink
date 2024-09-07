@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useSocket } from '../../store/SocketContext';
 import useAuth from '../../hooks/useAuth';
+import { usePeer } from '../../store/PeerContext';
 
 const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 	
@@ -20,6 +21,7 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 	const {userId} = useAuth();
 
 	const {onlineUsers} = useSocket();
+	const {caller,isConnected} = usePeer()
 	const [isOnline,setIsOnline] = useState(false);
 	const [seenedChat,setSeenedChat] = useState(true);
 	const messages = useSelector(getChatMessages)
@@ -82,6 +84,8 @@ const ChatItems = ({chat,handleActiveChatId,activeChatId}) => {
 								<span className={seenedChat ? "block tracking-wide font-normal text-white" : "font-bold tracking-wide block text-white"}> 
 									
 									{chat.participants[0].username}
+
+									{(isConnected && caller.userId === chat.participants[0]._id) && <span className='text-red-400 border-2 rounded-xl text-[8px] mx-2 p-1 border-red-400'>Connected</span>}
 
 								</span>
 
