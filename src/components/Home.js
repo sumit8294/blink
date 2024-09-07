@@ -25,6 +25,10 @@ import {mobileMediaQuery} from '../ReactResponsiveQueries';
 
 import './home.css'
 import SettingsMenu from '../layouts/SettingsMenu';
+import CallConfirmation from './chats/dialogs/CallConfirmation';
+import MovableVideoCall from './chats/MovableVideoCall';
+import { usePeer } from '../store/PeerContext';
+import SimpleOkAlert from './elements/SimpleOkAlert';
 
 const Home = () =>{
 
@@ -35,6 +39,21 @@ const Home = () =>{
 	const [isNoNavigationMobilePages,setNoNavigationMobilePages] = useState(false);
 
 	const params = useParams();
+
+	const {
+		callConfirmDialog,
+		caller,
+		eventOnCallAccept,
+		eventOnCallDecline,
+		eventOnDeclineCreateCall,
+		eventOnConfirmCreateCall,
+		eventOnCallDisconnect,
+		peerType,
+		isMovable,
+		isConnected,
+		disconnected
+	} = usePeer()
+
 	
 	useEffect(()=>{
 		if(
@@ -58,6 +77,26 @@ const Home = () =>{
 			{isMobileOrTablet 
 				? 
 				<>
+					{(callConfirmDialog && peerType === 'receiver') &&
+					<CallConfirmation 
+						type={peerType}
+						participant={caller}
+						eventOnConfirm={eventOnCallAccept}
+						eventOnDecline={eventOnCallDecline}
+					/>}
+
+					{(callConfirmDialog && peerType === 'caller') &&
+					<CallConfirmation 
+						type={peerType}
+						participant={caller}
+						eventOnConfirm={eventOnConfirmCreateCall}
+						eventOnDecline={eventOnDeclineCreateCall}
+					/>}
+
+					{disconnected && <SimpleOkAlert message={"Call Disconnected"} eventOnConfirm={eventOnCallDisconnect}/>}
+
+					{(isMovable && isConnected) && <MovableVideoCall />}
+					
 					{!isNoHeaderMobilePages && <Header />}
 
 					<div className="h-full min-h-screen bg-blink-black-1">
@@ -82,6 +121,27 @@ const Home = () =>{
 				</>
 				:
 				<>
+					{(callConfirmDialog && peerType === 'receiver') &&
+					<CallConfirmation 
+						type={peerType}
+						participant={caller}
+						eventOnConfirm={eventOnCallAccept}
+						eventOnDecline={eventOnCallDecline}
+					/>}
+
+					{(callConfirmDialog && peerType === 'caller') &&
+					<CallConfirmation 
+						type={peerType}
+						participant={caller}
+						eventOnConfirm={eventOnConfirmCreateCall}
+						eventOnDecline={eventOnDeclineCreateCall}
+					/>}
+
+					{disconnected && <SimpleOkAlert message={"Call Disconnected"} eventOnConfirm={eventOnCallDisconnect}/>}
+
+					{(isMovable && isConnected) && <MovableVideoCall />}
+					
+
 					<Header />
 					
 						<div className="laptop-lg:flex max-w-[100rem] mx-auto h-full min-h-screen bg-blink-black-1">

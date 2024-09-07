@@ -22,7 +22,12 @@ const Messages = () =>{
 	
 	const dispatch = useDispatch();
 	  
-	const handleActiveChatId = (messager) => dispatch(setActiveChatId(messager));
+	const handleActiveChatId = (messager) => {
+		if(messager) dispatch(setActiveChatId(String(messager)));
+		else dispatch(setActiveChatId(null))
+	}
+
+	
 
 	return (
 

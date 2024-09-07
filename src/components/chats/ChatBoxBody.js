@@ -1,12 +1,15 @@
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
-import {useEffect,useRef} from 'react';
+import {useContext, useEffect,useRef, useState} from 'react';
 
 import './chatboxbody.css';
 
+
 import PostsChats from './PostsChats';
 import useAuth from '../../hooks/useAuth';
+import { useSocket } from '../../store/SocketContext';
+import PeerContext from '../../store/PeerContext';
 
 
 
@@ -17,7 +20,7 @@ const ChatBoxBody = ({messages,participant,seen}) =>{
 
 	const {userId} = useAuth(); 
 
-	const divRef = useRef(null);
+	const divRef = useRef();
 
 	// Use useEffect to scroll to the bottom after rendering
 	useEffect(() => {
@@ -27,6 +30,7 @@ const ChatBoxBody = ({messages,participant,seen}) =>{
 	  divRef.current.scrollTop = divRef.current.scrollHeight;
 	}
 	}, [messages]);
+
 
 	return (
 
@@ -117,7 +121,7 @@ const ChatBoxBody = ({messages,participant,seen}) =>{
 
 				<>
 
-					<div ref={divRef} className=" chatbox w-full h-[500px] overflow-y-auto text-[1rem]">
+					<div ref={divRef} className="chatbox w-full h-[500px] overflow-y-auto text-[1rem]">
 
 						{messages && messages.map((messageItem,index)=>{
 							
@@ -125,7 +129,7 @@ const ChatBoxBody = ({messages,participant,seen}) =>{
 
 								return (
 
-									<>
+									<div key={index}>
 										{messageItem.contentType === 'post' || messageItem.contentType === 'reel' ? (
 											
 											<PostsChats key={index} message={messageItem} userId={userId} />
@@ -145,7 +149,7 @@ const ChatBoxBody = ({messages,participant,seen}) =>{
 										</>
 
 										)}
-        							</>
+        							</div>
 
 									
 
@@ -155,7 +159,7 @@ const ChatBoxBody = ({messages,participant,seen}) =>{
 
 								return (
 
-									<>
+									<div key={index}>
 										{messageItem.contentType === 'post' || messageItem.contentType === 'reel' ? (
 
 											<PostsChats key={index} message={messageItem} userId={userId} />
@@ -180,7 +184,7 @@ const ChatBoxBody = ({messages,participant,seen}) =>{
 										</>
 										)}
 
-									</>
+									</div>
 
 									
 

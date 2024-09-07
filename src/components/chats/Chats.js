@@ -21,6 +21,7 @@ import { getChatInfo, getChatMessages, getChatsByUserId,
 } from '../../reducers/chatSlice'
 
 import './chats.css'
+import { usePeer } from '../../store/PeerContext';
 
 const Chats = ({activeChatId, handleActiveChatId}) =>{
 

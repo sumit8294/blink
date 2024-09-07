@@ -93,18 +93,20 @@ export const sendMessage = createAsyncThunk('chats/sendMessage', async ({body,to
 export const fetchChatMessages = createAsyncThunk('chats/fetchChatMessages', async ({chatId,userId,token}) =>{
 
 	try {
-
-		const response = await axios.get(
-			`${baseApi}/chats/${userId}/${chatId}`,
-			{
-				withCredentials: true,
-				headers:{
-					'Authorization': `Bearer ${token}`
+		
+		if(chatId !== null && chatId !== 'null') {
+			const response = await axios.get(
+				`${baseApi}/chats/${userId}/${chatId}`,
+				{
+					withCredentials: true,
+					headers:{
+						'Authorization': `Bearer ${token}`
+					}
 				}
-			}
-		)
-
-		return response.data;
+			)
+			return response.data;
+		}
+		
 	}
 	catch(error) {
 		const errorMessage = error.response ? error.response.data.message : 'Unknown error occurred';
