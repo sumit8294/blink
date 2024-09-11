@@ -32,6 +32,21 @@ export const getUserDetails = createAsyncThunk('users/getUsersDetails', async ({
 
 })
 
+export const searchUsers = createAsyncThunk('users/searchUsers', async ({queryName,token})=> {
+
+	const response = await axios.get(
+		`${baseApi}/users/search/${queryName}`,
+		{
+			withCredentials:true,
+			headers:{
+				'Authorization': `Bearer ${token}`
+			}
+		}
+	)
+
+	return response.data;
+})
+
 const initialState = {
 	users: [],
 	userDetails: null,
@@ -64,6 +79,9 @@ const userSlice = createSlice({
 			state.suggestions= []
 			state.status= 'idle'
 			state.error= null
+		},
+		setUsers: (state,action)=>{
+			state.users = action.payload
 		}
 	},
 	extraReducers:(builder)=>{
@@ -88,6 +106,12 @@ const userSlice = createSlice({
 		.addCase(getUserDetails.rejected, (state,action)=>{
 			console.log(action);
 		})
+		.addCase(searchUsers.fulfilled, (state,action)=>{
+			state.users = action.payload;
+		})
+		.addCase(searchUsers.rejected, (state,action)=> {
+			console.log("error in userSlice searchUsers")
+		})
 	}
 })
 
@@ -95,6 +119,7 @@ export const selectAllSuggestions = state => state.users.suggestions
 export const selectUsersStatus = state => state.users.status
 export const selectUserDetails = state => state.users.userDetails
 export const selectUserSuggestionCount = state => state.users.suggestions.length
+export const selectAllUsers = state => state.users.users
 
-export const { setIsFollowing, setIsFollowingSuggesstions, resetUser } = userSlice.actions
+export const { setIsFollowing, setIsFollowingSuggesstions, resetUser, setUsers } = userSlice.actions
 export default userSlice.reducer;

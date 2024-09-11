@@ -3,11 +3,13 @@ import ExplorePosts from './ExplorePosts';
 
 import { useMediaQuery } from 'react-responsive';
 import {mobileMediaQuery} from '../../ReactResponsiveQueries';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { getPosts, getPostStatus } from  '../../reducers/posts/postSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../../hooks/useAuth';
+import { searchUsers, selectAllUsers, setUsers } from '../../reducers/userSlice';
+import UsersList from '../others/UsersList';
 
 
 const Explore = () =>{
@@ -19,18 +21,36 @@ const Explore = () =>{
 	const { userId, token } = useAuth();
 
 	const postStatus = useSelector(getPostStatus)
+	const users = useSelector(selectAllUsers)
+
+	const [queryName,setQueryName] = useState("");
 
 	const handleScroll = useCallback((event) => {
-    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
 
-    if (scrollHeight - scrollTop <= clientHeight + 800) { // Added buffer for preloading
-      if (postStatus !== 'loading' ) {
-        
-        dispatch(getPosts({ token, userId, count: 10 }))
-          
-      }
-    }
-  }, [dispatch, token, userId, postStatus]);
+    	const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+
+		if (scrollHeight - scrollTop <= clientHeight + 800) { // Added buffer for preloading
+			if (postStatus !== 'loading' ) {
+				
+				dispatch(getPosts({ token, userId, count: 10 }))
+				
+			}
+		}
+
+	}, [dispatch, token, userId, postStatus]);
+
+
+	const dynamicExploreSearch = () => {
+		dispatch(searchUsers({queryName,token}))
+	}
+
+	useEffect(()=>{
+		if(queryName !== ""){
+			dynamicExploreSearch();
+		}else{
+			dispatch(setUsers([]))
+		}
+	},[queryName])
 
 	return (
 		<>
@@ -40,9 +60,13 @@ const Explore = () =>{
 
 						<div onScroll={handleScroll} className="text-white h-screen overflow-y-auto justify-center bg-blink-black-1   ">
 
-							{/* <Search /> */}
+							<Search queryName={queryName} setQueryName={setQueryName}/>
 
-							<ExplorePosts />
+							{users.length > 0
+							
+							? <UsersList users={users}/>
+							
+							: <ExplorePosts /> }
 
 						</div>
 
@@ -56,9 +80,13 @@ const Explore = () =>{
 
 								<div onScroll={handleScroll} className="custom-scroll h-screen overflow-y-auto laptop-lg:px-4">
 
-									{/* <Search /> */}
+									<Search queryName={queryName} setQueryName={setQueryName}/>
 
-									<ExplorePosts />
+									{users.length > 0
+										
+										? <UsersList users={users}/>
+										
+										: <ExplorePosts /> }
 
 								</div>
 

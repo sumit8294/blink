@@ -19,7 +19,7 @@ const Search = ({setQueryName,queryName}) =>{
 
 							<div className="w-[14rem] drop-shadow-2xl rounded-2xl flex my-auto bg-blink-black-2">
 								
-								<input className="px-5 py-1 mobile-md:py-2 w-10/12 rounded-l-2xl bg-blink-black-2 focus:outline-none focus:border-blink-blue-1 " 
+								<input className="px-5 py-1 mobile-md:py-2 w-10/12 rounded-2xl bg-blink-black-2 focus:outline-none focus:border-blink-blue-1 " 
 								type="text" 
 								placeholder="Search"
 								value={queryName}
@@ -44,7 +44,7 @@ const Search = ({setQueryName,queryName}) =>{
 
 							<div className=" w-5/6 drop-shadow-2xl rounded-3xl flex my-auto overflow-x-auto ">
 								
-								<input className="px-6 py-2 w-11/12 rounded-l-3xl bg-blink-black-2 focus:outline-none focus:border-blink-blue-1 laptop-lg:bg-blink-black-1" 
+								<input className="px-6 py-2 w-11/12 rounded-3xl bg-blink-black-2 focus:outline-none focus:border-blink-blue-1 laptop-lg:bg-blink-black-1" 
 								type="text" 
 								placeholder="Search"
 								value={queryName}
