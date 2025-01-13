@@ -3,6 +3,7 @@ const Spinner = () =>{
 
 	return(
                <>
+		<div className="text-[12px] text-center"> {"This site is hosted on a free server and may take some time to start. Please be patient as this is a testing environment." }</div>
 		<span className="spinner-container">
 			<svg role="img" aria-label="Mouth and eyes come from 9:00 and rotate clockwise into position, right eye blinks, then all parts rotate and merge into 3:00" className="smiley" viewBox="0 0 128 128" width="128px" height="128px">
 				<defs>
@@ -37,7 +38,7 @@ const Spinner = () =>{
 			</svg>
 		</span>
 		<br />
-		<span className="text-[12px] text-center"> {"This site is hosted on a free server and may take some time to start. Please be patient as this is a testing environment." }</span>
+		
 		</>
 	)
 }
