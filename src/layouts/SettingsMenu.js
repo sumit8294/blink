@@ -19,12 +19,22 @@ const SettingsMenu = () => {
 
     const {setSettingMenuVisibility} = useContext(DialogContext)
 
-    const handleLogout = () =>{
+    /*const handleLogout = () =>{
        
         dispatch(userLogout())
         window.location.reload()
             
     }
+    */
+
+    const handleLogout = async () =>{
+
+		await dispatch(userLogout());
+		resetStore(dispatch)
+		window.location.reload();
+
+    }
+    
 
     return (
         <>
