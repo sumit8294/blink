@@ -72,7 +72,7 @@ const ChatBox = ({handleActiveChatId,activeChatId}) =>{
 		
 	}, [activeChatId]);
 
-	console.log(isMovable,isMaximize)
+
 
 	return (
 		<>

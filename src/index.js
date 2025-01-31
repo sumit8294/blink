@@ -8,6 +8,21 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import {store} from './store/index.js';
 import {Provider} from 'react-redux';
 
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .then((registration) => {
+        console.log("Service Worker Registered", registration);
+      })
+      .catch((err) => console.log("Service Worker Registration Failed", err));
+  });
+}
+
+
+
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<Router>

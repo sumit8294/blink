@@ -10,14 +10,33 @@ import PersistLogin from './components/auth/PersistLogin';
 import RequiredAuth from './components/auth/RequiredAuth';
 import {getAccessToken} from './reducers/authSlice';
 import {useSelector} from 'react-redux';
-import React from 'react';
+import React, { useEffect } from 'react';
 import SocketProvider from './store/SocketContext';
 import DialogProvider from './store/DialogContext';
 import PeerProvider from './store/PeerContext';
+import { baseApi } from './config';
+import axios from 'axios';
+import useAuth from './hooks/useAuth';
+import askForNotificationPermission from './services/pushNotificationService';
 
 function App() {
 
 	const token = useSelector(getAccessToken);
+
+	const {userId} = useAuth();
+
+	useEffect(()=>{
+		if(userId){
+			axios.get(`${baseApi}/notifications/check-subscription/${userId}`)
+			.then((res)=>{
+				if(res.data.subscribed === false) askForNotificationPermission(userId)
+			})
+			.catch((err) => console.error("failed to fetch subscribe status", err));
+		}	
+		  
+	},[userId])
+
+	
     
 	return (
 	    <>
