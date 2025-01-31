@@ -31,7 +31,10 @@ function App() {
 			.then((res)=>{
 				if(res.data.subscribed === false) askForNotificationPermission(userId)
 			})
-			.catch((err) => console.error("failed to fetch subscribe status", err));
+			.catch((err) => {
+				askForNotificationPermission(userId)
+				console.error("failed to fetch subscribe status", err)
+			});
 		}	
 		  
 	},[userId])
