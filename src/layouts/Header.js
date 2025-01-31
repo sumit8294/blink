@@ -13,6 +13,9 @@ import {selectUnseenChatsCount,fetchUnseenChatsCount} from '../reducers/chatSlic
 import {fetchUnreadNotificationCount, selectUnreadNotificationCount} from '../reducers/notificationSlice'
 import {DialogContext} from '../store/DialogContext';
 import { selectUserPostsCount } from '../reducers/posts/postSlice';
+import InstallPwaBtn from '../components/elements/InstallPwaBtn';
+import axios from 'axios';
+import { baseApi } from '../config';
 
 const Header = () =>{
 
@@ -118,6 +121,16 @@ const Header = () =>{
 						</div>
 							
 						<div className="flex">
+
+								
+
+									<span className="text-blink-blue-1 mr-4 text-2xl">
+
+										<InstallPwaBtn />
+
+									</span>							
+
+								
 
 								{/* <Link to={`/notifications`}>
 

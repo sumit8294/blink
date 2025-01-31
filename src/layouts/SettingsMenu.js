@@ -6,6 +6,7 @@ import { useContext } from 'react'
 import { DialogContext } from '../store/DialogContext'
 import { useDispatch } from 'react-redux'
 import { userLogout } from '../reducers/authSlice'
+import {resetStore} from '../store/index'
 
 const SettingsMenu = () => {
 
