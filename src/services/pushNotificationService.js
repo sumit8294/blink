@@ -1,5 +1,6 @@
 import {baseApi} from '../config';
 import axios from 'axios';
+import Cookies from "js-cookie"
 
 const askForNotificationPermission = async (userId) => {
 
