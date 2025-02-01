@@ -1,4 +1,4 @@
-import { baseApi } from "../src/config";
+importScripts("/config.js");
 self.addEventListener("install", (event) => {
     console.log("[Service Worker] Installed");
     event.waitUntil(self.skipWaiting()); // Activate the service worker immediately
@@ -34,11 +34,11 @@ self.addEventListener("install", (event) => {
     event.waitUntil(
       
       clients.matchAll({ type: "window" }).then((clientList) => {
-        console.log(`${baseApi}/${event.notification.data.url}`)
+        console.log(`${self.baseApi}/${event.notification.data.url}`)
         if (clientList.length > 0) {
           clientList[0].focus();
         } else {
-          clients.openWindow(`${baseApi}/${event.notification.data.url}` || "/");
+          clients.openWindow(`${self.baseApi}/${event.notification.data.url}` || "/");
         }
       })
     );
