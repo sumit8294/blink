@@ -17,6 +17,7 @@ import PeerProvider from './store/PeerContext';
 import { baseApi } from './config';
 import axios from 'axios';
 import useAuth from './hooks/useAuth';
+import Cookies from "js-cookie";
 import askForNotificationPermission from './services/pushNotificationService';
 
 function App() {
