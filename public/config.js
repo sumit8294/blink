@@ -1,1 +1,1 @@
-self.baseApi = "https://blink-backend.onrender.com"; // Change this to your API URL
+self.baseApi = "https://blink-app.netlify.app"; // Change this to your API URL

@@ -34,7 +34,7 @@ self.addEventListener("install", (event) => {
     event.waitUntil(
       
       clients.matchAll({ type: "window" }).then((clientList) => {
-        console.log(`${self.baseApi}/${event.notification.data.url}`)
+        
         if (clientList.length > 0) {
           clientList[0].focus();
         } else {
