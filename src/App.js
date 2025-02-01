@@ -25,19 +25,29 @@ function App() {
 
 	const {userId} = useAuth();
 
-	useEffect(()=>{
-		if(userId){
-			axios.get(`${baseApi}/notifications/check-subscription/${userId}`)
-			.then((res)=>{
-				if(res.data.subscribed === false) askForNotificationPermission(userId)
-			})
-			.catch((err) => {
-				askForNotificationPermission(userId)
-				console.error("failed to fetch subscribe status", err)
-			});
-		}	
+	// useEffect(()=>{
+	// 	if(userId){
+	// 		axios.get(`${baseApi}/notifications/check-subscription/${userId}`)
+	// 		.then((res)=>{
+	// 			if(res.data.subscribed === false) askForNotificationPermission(userId)
+	// 		})
+	// 		.catch((err) => {
+	// 			askForNotificationPermission(userId)
+	// 			console.error("failed to fetch subscribe status", err)
+	// 		});
+	// 	}	
 		  
-	},[userId])
+	// },[userId])
+
+	useEffect(() => {
+        if (userId) {
+            const subscribed = Cookies.get("pushSubscribed");
+
+            if (!subscribed || subscribed === "false") {
+                askForNotificationPermission(userId);
+            }
+        }
+    }, [userId]);
 
 	
     

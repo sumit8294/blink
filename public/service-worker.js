@@ -38,7 +38,7 @@ self.addEventListener("install", (event) => {
         if (clientList.length > 0) {
           clientList[0].focus();
         } else {
-          clients.openWindow(`${self.baseApi}/${event.notification.data.url}` || "/");
+          clients.openWindow(`https://blink-app.netlify.app/${event.notification.data.url}` || "/");
         }
       })
     );

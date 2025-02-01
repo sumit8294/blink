@@ -16,7 +16,7 @@ const askForNotificationPermission = async (userId) => {
           });
           
           axios.post(`${baseApi}/notifications/subscribe`, {userId,subscription})
-          .then((res) => console.log(res.data.message))
+          .then((res) =>Cookies.set("pushSubscribed", "true", { expires: 7 }))
           .catch((err) => console.error("Subscription failed", err));
         
         
@@ -26,6 +26,8 @@ const askForNotificationPermission = async (userId) => {
     } else {
       console.log("Notification permission denied.");
     }
+
+    
 };
 
 export default askForNotificationPermission;
