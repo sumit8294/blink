@@ -13,11 +13,11 @@ const askForNotificationPermission = async (userId) => {
         navigator.serviceWorker.ready.then(async (sw) => {
           const subscription = await sw.pushManager.subscribe({
             userVisibleOnly: true,
-            applicationServerKey: process.env.REACT_APP_VAPID_PUBLIC_KEY,
+            applicationServerKey: urlBase64ToUint8Array(process.env.REACT_APP_VAPID_PUBLIC_KEY),
           });
           
           axios.post(`${baseApi}/notifications/subscribe`, {userId,subscription})
-          .then((res) =>Cookies.set("pushSubscribed", "true", { expires: 7 }))
+          .then((res) =>Cookies.set("pushSubscribed", "true", { expires: 365 }))
           .catch((err) => console.error("Subscription failed", err));
         
         
@@ -29,6 +29,13 @@ const askForNotificationPermission = async (userId) => {
     }
 
     
-};
+}
+
+const urlBase64ToUint8Array = (base64String) => {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/\-/g, "+").replace(/_/g, "/");
+  const rawData = window.atob(base64);
+  return new Uint8Array([...rawData].map(char => char.charCodeAt(0)));
+}
 
 export default askForNotificationPermission;
